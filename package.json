@@ -9,8 +9,12 @@
   "author": "Robert Chen",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.19.2",
     "discord.js": "^12.2.0",
     "humanize-duration": "^3.23.1",
+    "mongoose": "^5.9.25",
+    "node-fetch": "^2.6.0",
+    "request": "^2.88.2",
     "tatsumaki.js": "0.0.1"
   }
 }
