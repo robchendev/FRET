@@ -49,7 +49,9 @@ bot.on('message', async msg => {
         //    return;
         //}
     }
-    
+    if (command === 'rankup') {
+        //Checks if user has enough points
+    }
 });
 
 //Returns true if a name is mentioned more than once in the command
@@ -89,9 +91,9 @@ function isAllMentions(arr){
     return true;
 }
 
-function idToName(arr){
+function idToName(numUsers, arr){
     const result = [];
-    for (var i = 0; i < arr.length; i++) {
+    for (var i = 0; i < numUsers; i++) {
         result[i] = arr[i].username;
     }
     return result;
@@ -99,20 +101,51 @@ function idToName(arr){
 
 async function thank (msg, usersID, usersName, score) {
     
-    const addPoints = new pointsAdd({
-        username: usersName,
-        userID: usersID,
-        points: score
-    });
-
-    addPoints.save()
-    .then(result => console.log(result))
-    .catch(err => console.log(err));
-
-    msg.channel.send("Database updated");
+    console.log(score);
+    pointsAdd.findOne({userid: usersID}, (err, pointdata) => {
+        if(err) console.log(err);
+        if(!pointdata){
+            const addPoints = new pointsAdd({
+                userid: usersID,
+                username: usersName,
+                points: score
+            })
+            addPoints.save().catch(err => console.log(err));
+        } else {
+            pointdata.points = pointdata.points + score;
+            pointdata.save().catch(err => console.log(err));
+        }
+    })
 }
 
-async function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
+function howManyPoints (msg, numUsers, allUsersID) {
+
+    const result = [];
+    
+    for (var i = 0; i < numUsers; i++){
+        pointsAdd.findOne({userid: allUsersID[i]}, (err, pointdata) => {
+            if(err) console.log(err);
+            if(pointdata){
+                result[i] = parseInt(pointdata.points);
+            }
+        })
+    }
+    return result;
+}
+
+function readyData(msg, numUsers, allUsersName, allUsersPoints, score) {
+
+    const result = [];
+    var point = 0;
+    for (var i = 0; i < numUsers; i++){
+        msg.channel.send(allUsersPoints[i]);
+        result[i] = `${allUsersName[i]}` + " [Total: " + `${parseInt(allUsersPoints[i]) + score}` + "]";
+    }
+
+    return result;
+}
+
+async function thankMoreThanOne(msg, infoArg, numUsers, allUsersID, allUsersName, score) {
 
     //Add score to different users
     for (var i = 0; i < numUsers; i++){
@@ -125,11 +158,11 @@ async function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) 
     const embedMsg = new Discord.MessageEmbed()
     .setColor('#ed5555')
     .setDescription(`${`${msg.author}`} has thanked ${`${numUsers}`} users!`)
-    .addField(`${score}` + " score added to:", `${args.join("\n")}`, false);
+    .addField(`${score}` + " score added to:", `${infoArg.join("\n")}`, false);
     msg.channel.send(embedMsg);
 }
 
-async function thankOnlyOne(msg, usersID, usersName, score) {
+async function thankOnlyOne(msg, infoArg, usersID, usersName, score) {
 
     //Add score to user
 
@@ -139,7 +172,7 @@ async function thankOnlyOne(msg, usersID, usersName, score) {
     const embedMsg = new Discord.MessageEmbed()
     .setColor('#ed5555')
     .setDescription(`${msg.author}` + ' has thanked 1 user!')
-    .addField(`${score}` + " score added to each:", `${args[0]}`, false);
+    .addField(`${score}` + " score added to each:", `${infoArg[0]}`, false);
     msg.channel.send(embedMsg);
     
 }
@@ -172,7 +205,14 @@ async function execute(msg, args){
         const allUsersID = msg.mentions.users.array();    
 
         //An array of user names (ie chendumpling)
-        const allUsersName = idToName(allUsersID);
+        const allUsersName = idToName(numUsers, allUsersID);
+
+        //An array of current points each person has (sorted by index)
+        const allUsersPoints = howManyPoints(numUsers, allUsersID);
+
+        //An array storing strings of all the data.
+        //In the form of: "username [Total: 307]"
+        const infoArg = readyData(msg, numUsers, allUsersName, allUsersPoints, score);
 
         //More than one user being thanked
         if (numUsers > 1){
@@ -182,13 +222,13 @@ async function execute(msg, args){
                 msg.channel.send('Please do not thank the same person twice');
             }
             else {
-                await thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score);
+                await thankMoreThanOne(msg, infoArg, numUsers, allUsersID, allUsersName, score);
             }
         }
 
         //Only one user being thanked
         else {
-           await thankOnlyOne(msg, allUsersID[0], allUsersName[0], score);
+           await thankOnlyOne(msg, infoArg, allUsersID[0], allUsersName[0], score);
         }
     }
 }
