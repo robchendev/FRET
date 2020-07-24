@@ -10,8 +10,13 @@ mongoose.connect(secrets.Mongo, {
     useNewUrlParser: true,
 });
 
-//Returns true if a name is mentioned more than once in the command
+/**
+ * Checks command arguments for duplicates.
+ * @param {Array} arr - array of command arguments (after -thanks command)
+ * @return {Boolean} true if array has at least one duplicate, false otherwise
+ */
 function getDuplicateArrayElements(arr){
+
     var sorted_arr = arr.slice().sort();
     for (var i = 0; i < sorted_arr.length - 1; i++) {
         if (sorted_arr[i + 1] === sorted_arr[i]) {
@@ -21,33 +26,31 @@ function getDuplicateArrayElements(arr){
     return false;
 }
 
-function getUserFromMention(mention) {
-    if (!mention) return;
-    
-    if (mention.startsWith('<@') && mention.endsWith('>')) {
-        mention = mention.slice(2, -1);
-
-        if (mention.startsWith('!')) {
-            mention = mention.slice(1);
-        }
-        return mention;
-    }
-    return false;
-}
-
-//Returns false if there is at least one command that isn't a mention
+/**
+ * Checks if command arguments are all mentions
+ * @param {Array} arr - array of command arguments (after -thanks command)
+ * @return {Boolean} false if array has at least one mention, true otherwise.
+ */
 function isAllMentions(arr){
-    
+
     for (var i = 0; i < arr.length; i++) {
-        
-        if (!getUserFromMention(arr[i])) {
+        if (!(arr[i].startsWith('<@') && arr[i].endsWith('>'))) {
+            if (arr[i].startsWith('!')) {
+                arr[i] = arr[i].slice(1);
+            }
             return false;
         }
     }
     return true;
 }
 
+/**
+ * Converts user IDs to usernames
+ * @param {Array} arr - array of user IDs
+ * @return {Array} array of usernames
+ */
 function idToName(arr){
+
     const result = [];
     for (var i = 0; i < arr.length; i++) {
         result[i] = arr[i].username;
@@ -55,6 +58,14 @@ function idToName(arr){
     return result;
 }
 
+/**
+ * Adds points to the user's data in the database
+ * by updating the usernames and points of the user
+ * If their data doesn't exist, it is made.
+ * @param {string} usersID - a single user's ID
+ * @param {string} usersName - a single user's username
+ * @param {number} score - the amount of points to be added
+ */
 function thank (usersID, usersName, score) {
     
     pointsAdd.findOne({userid: usersID}, (err, pointdata) => {
@@ -74,8 +85,11 @@ function thank (usersID, usersName, score) {
     })
 }
 
-//return cb function withf irst parameter as error if occured
-//and second parameters is points
+/** PUT THIS IN ANOTHER COMMAND
+ * Checks how many points a user has
+ * @param {string} usersID - a single user's ID
+ * @param {none} cb - callback
+ */
 function howManyPoints(usersID, cb) {
 
     pointsAdd.findOne({userid: usersID}, (err, pointdata) => {
@@ -91,45 +105,61 @@ function howManyPoints(usersID, cb) {
 //call this function  whenever you need to access values for pointdata.points
 /*
 howManyPoints(usersID, (err, points) => {
-        if(err)
-            console.log(err);
-        else if(points)
-            return points;
-        else
-            console.log("No data found with the given id");  
+    if(err)
+        console.log(err);
+    else if(points){
+        //Do stuff here
+        return points;
+    }
+    else
+        console.log("No data found with the given id");  
 })
-
 */     
 
-function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
+/**
+ * Sends embed message and awards points to all users mentioned
+ * @param {Object} msg - the original command message
+ * @param {array} allUsersID - array of user IDs
+ * @param {array} allUsersName - array of usernames
+ * @param {number} score - the amount of points to be added
+ */
+function thankMoreThanOne(msg, allUsersID, allUsersName, score) {
 
-    //Send embed message
     const embedMsg = new Discord.MessageEmbed()
     .setColor('#ed5555')
     .setDescription(`${`${msg.author}`} has thanked ${`${numUsers}`} users!`);
-
-    //Add score to different users
-    for (var i = 0; i < numUsers; i++){
+    
+    for (var i = 0; i < allUsersName.length; i++){
         embedMsg.addField(`${allUsersName[i]}`, "+" + `${score}`, true);
         thank(allUsersID[i], allUsersName[i], score);
     }
     msg.channel.send(embedMsg);
 }
 
+/**
+ * Sends embed message and awards points to the user mentioned
+ * @param {Object} msg - the original command message
+ * @param {string} usersID - a single user's ID
+ * @param {string} usersName - a single user's username
+ * @param {number} score - the amount of points to be added
+ */
 function thankOnlyOne(msg, usersID, usersName, score) {
 
-    //Send embed message
     const embedMsg = new Discord.MessageEmbed()
     .setColor('#ed5555')
     .setDescription(`${msg.author}` + ' has thanked 1 user!')
     .addField(`${usersName}`, "+" + `${score}`, true);
+
     thank(usersID, usersName, score);
     msg.channel.send(embedMsg);
 }
 
+/**
+ * Sends embed message on how to use the command properly
+ * @param {Object} msg - the original command message
+ */
 function incorrectUsage(msg) {
 
-    //Send embed message
     const embedMsg1 = new Discord.MessageEmbed()
     .setColor('#ed5555')
     .addField('Thank one person', '\`-thanks <user>\`', false)
@@ -145,17 +175,16 @@ module.exports = {
 
         //When argument doesnt exist, or not all command arguments are mentions
         if (!args.length || !isAllMentions(args)) {
-
             incorrectUsage(msg);
         }
         else {
-
-            //message.delete(); //Uncomment this if you want the user's comment to be deleted
+            //Uncomment this if you want the user's comment to be deleted
+            //message.delete(); 
 
             const numUsers = args.length;
             const score = Math.floor(500/(Math.pow(numUsers, 0.7)));
                 
-            //An array of user IDs (ie 189549341642326018)
+            //An array of user IDs (ie <@189549341642326018>)
             const allUsersID = msg.mentions.users.array();    
 
             //An array of user names (ie chendumpling)
@@ -164,12 +193,12 @@ module.exports = {
             //More than one user being thanked
             if (numUsers > 1){
 
-                //Make sure there are no duplicates 
+                //Make sure there are no duplicated mentions
                 if (getDuplicateArrayElements(args)) {
-                    msg.channel.send('Please do not thank the same person twice');
+                    msg.channel.send('Please thank each user only once');
                 }
                 else {
-                    thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score);
+                    thankMoreThanOne(msg, allUsersID, allUsersName, score);
                 }
             }
 
