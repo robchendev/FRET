@@ -123,7 +123,7 @@ howManyPoints(usersID, (err, points) => {
  * @param {array} allUsersName - array of usernames
  * @param {number} score - the amount of points to be added
  */
-function thankMoreThanOne(msg, allUsersID, allUsersName, score) {
+function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
 
     const embedMsg = new Discord.MessageEmbed()
     .setColor('#ed5555')
@@ -198,7 +198,7 @@ module.exports = {
                     msg.channel.send('Please thank each user only once');
                 }
                 else {
-                    thankMoreThanOne(msg, allUsersID, allUsersName, score);
+                    thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score);
                 }
             }
 
