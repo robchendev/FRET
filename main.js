@@ -30,26 +30,27 @@ bot.on('message', async msg => {
 	const args = split.slice(1);
 
     //Reads commands
-    switch(command === x) {
+    var x = command
+    switch(x) {
 
-        case 'thanks':
+        case x = 'thanks':
             bot.commands.get('thanks').execute(msg, args);
             break;
-        case 'thank':
+        case x = 'thank':
             bot.commands.get('thanks').execute(msg, args);
             break;
-        case 'rankup':
+        case x = 'rankup':
             //Checks if user has enough points to rankup
             //Could also put this as a conditional to 
             //auto level in the thanks command module.
             //Decide later
             break;
-        case 'points':
+        case x = 'points':
             //Can ping yourself or someone else
             //Will display an embed message of how many points a user has,
             //And how much they need to rank up
             break;
-        case 'report':
+        case x = 'report':
             //Receives user input arguments as a message.
             //Sends an embed message to the current channel saying a user has been reported
             //Sends an embed message to the a mod-only channel about an abuse of points saying "needs attention"
@@ -58,7 +59,7 @@ bot.on('message', async msg => {
             //Has a reaction emoji attached to it. 
             //If reaction is clicked, reactions are all removed and prompt becomes "resolved"
             break;
-        case 'help':
+        case x = 'help':
             //Sends an embed message of all commands and what they do
             break;
     }
