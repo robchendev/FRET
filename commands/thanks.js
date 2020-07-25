@@ -22,6 +22,7 @@ function checkIfThankThemself(msg, arr) {
     for (var i = 0; i < arr.length; i++) {
         if (arr[i] == msg.author) {
             return true;
+        }
     }
     return false;
 }
