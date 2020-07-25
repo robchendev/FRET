@@ -4,7 +4,6 @@ const pointsAdd = require("../models/addPoints.js");
 const secrets = require(`../secrets.json`);
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
-var hasThanked = Boolean(false);
 mongoose.connect(secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
@@ -188,7 +187,8 @@ module.exports = {
     name: 'thanks',
     description: "this command stores awards points",
     execute (msg, args){
-
+        
+        var hasThanked = Boolean(false);
         //When argument doesnt exist, or not all command arguments are mentions
         if (!args.length || !isAllMentions(args)) {
             incorrectUsage(msg);
