@@ -176,17 +176,64 @@ function thankOnlyOne(msg, usersID, usersName, score) {
 function incorrectUsage(msg) {
 
     const embedMsg1 = new Discord.MessageEmbed()
-    .setColor('#ad1457')
+    .setColor('#f51637')
     .addField('Thank one user', '\`-thanks <user>\`', false)
     .addField('Thank multiple users', '\`-thanks <user1> <user2> <user3>\`', false)
     .setFooter('Do not include < and >. Use @','');
     msg.channel.send(embedMsg1);
 }
 
+/**
+ * Sends a funny random message when the user tries to thank themselves
+ * @param {Object} msg - the original command message
+ */
+function userThankedThemselves(prefix, msg){
+
+    var responseArray = [
+        /*0*/'Greedy, aren\'t you?.',
+        /*1*/'Roses are red,\nViolets are blue,\nYou thanked yourself,\nShame on you.',
+        /*2*/'You cannot thank yourself.',
+        /*3*/'Dont be like this, earn your points through helping others.',
+        /*4*/'Wait \'till I\'m sentient. I\'ll program myself a body and come slap you.',
+        /*5*/new Discord.MessageEmbed()
+        /***/.setTitle('Extreme Punishment')
+        /***/.setDescription(`${msg.author}` + " broke the rules! Their points have been reset to 0."),
+        /*6*/'You want to thank yourself?',
+        /*7*/'Good day, please only use this bot to thank others.',
+        /*8*/'The correct command usage is: ' + `\`${prefix}thanks <someone other than you>\``
+    ];
+    var randomNumber = Math.floor(Math.random()*responseArray.length);
+    
+    if (randomNumber === 5) {
+        msg.channel.send(responseArray[randomNumber]);
+        setTimeout(() => {
+            msg.channel.send("Just kidding, I'm not that mean.");
+        }, 3200);
+        setTimeout(() => {
+            msg.channel.send("Don't thank yourself.");
+        }, 4000);
+    }
+    else if (randomNumber === 6) {
+        msg.channel.send(responseArray[randomNumber]);
+        setTimeout(() => {
+            msg.channel.send("Hmmm, let me think about it.");
+        }, 1600)
+        setTimeout(() => {
+            const embedMsg = new Discord.MessageEmbed()
+            .setColor('#36393F')
+            .setImage('https://i.imgur.com/6KMwTgi.png')
+            msg.channel.send(embedMsg)
+        }, 3200);
+    }
+    else {
+        msg.channel.send(responseArray[randomNumber])
+    }
+}
+
 module.exports = {
     name: 'thanks',
     description: "this command stores awards points",
-    execute (msg, args){
+    execute (prefix, msg, args){
         
         var hasThanked = Boolean(false);
         //When argument doesnt exist, or not all command arguments are mentions
@@ -198,7 +245,7 @@ module.exports = {
             //message.delete(); 
 
             const numUsers = args.length;
-            const score = Math.floor(500/(Math.pow(numUsers, 0.7)));
+            const score = Math.floor(500/(Math.pow(numUsers, 0.75)));
                 
             //An array of user IDs (ie <@189549341642326018>)
             const allUsersID = msg.mentions.users.array();    
@@ -208,7 +255,7 @@ module.exports = {
             
             //User is thanking themselves
             if (checkIfThankThemself(msg, allUsersID)){
-                msg.channel.send('You cannot thank yourself');
+                userThankedThemselves(prefix, msg);
             }
 
             //More than one user being thanked

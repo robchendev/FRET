@@ -43,7 +43,7 @@ bot.on('message', async msg => {
                 }).catch(console.error);
             }
             else {
-                if(bot.commands.get('thanks').execute(msg, args)){
+                if(bot.commands.get('thanks').execute(prefix, msg, args)){
                     setCooldown(2, msg);
                 } 
             }
@@ -85,7 +85,7 @@ bot.on('message', async msg => {
 function setCooldown(cd, msg) {
     usedCommandRecently.add(msg.author.id);
     setTimeout(() => {
-        usedCommandRecently.delete(user);
+        usedCommandRecently.delete(msg.author.id);
     }, (Math.floor((60000)*cd))); //one minute
 }
 
