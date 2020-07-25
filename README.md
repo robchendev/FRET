@@ -29,12 +29,12 @@ Can take any number of mentions. The math to divide the points between each user
     -thanks @user1 @user2 @user3
     -thank @user1 @user2 @user3
 
-Displays the number of points a user has, and how many they need to reach the next rank
+Displays the number of points a user has, and how many they need to reach the next rank. Also mentions the next rank role in an embedded message because embeds dont notify users.
 
     -points
     -points @user
 
-Explanation
+Ranks up the user if they reach a certain threshold. Otherwise, show how many more points needed
 
     -rankup
 
@@ -54,7 +54,7 @@ Explanation
 
 I'm self-hosting this bot, so the method of deployment is up to you.
 
-Since this was a personal project, a lot of my variables will be different from what you would want. I might make a setup module to let others adjust the numbers so you'd just need to download the bot and change them within the code... but not anytime soon.
+Since this was a personal project, a lot of my variables will be different from what you would want. I might make a setup module to let others adjust the numbers... but not anytime soon, so you'd just need to download the bot and change them within the code yourself.
 
 ## Contributing
 
