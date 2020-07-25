@@ -39,7 +39,7 @@ bot.on('message', async msg => {
             if(usedCommandRecently.has(msg.author.id)){
                 msg.channel.send(`**${msg.author.username}**` + ", you can only thank once every 2 minutes.")
                 .then(sentMsg => {
-                    sentMsg.delete({ timeout: 5000 });
+                    sentMsg.delete({ timeout: 10000 });
                 }).catch(console.error);
             }
             else {
