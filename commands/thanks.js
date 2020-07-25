@@ -4,12 +4,28 @@ const pointsAdd = require("../models/addPoints.js");
 const secrets = require(`../secrets.json`);
 const bot = new Discord.Client();
 bot.commands = new Discord.Collection();
-
+var hasThanked = Boolean(false);
 mongoose.connect(secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 });
 
+
+
+/**
+ * Checks if user is thanking themselves
+ * @param {Array} arr - array of command arguments user IDs
+ * @return {Boolean} true if array has one mention matching the sending user's ID
+ */
+function checkIfThankThemself(msg, arr) {
+
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i] == msg.author) {
+            return true;
+        }
+    }
+    return false;
+}
 /**
  * Checks command arguments for duplicates.
  * @param {Array} arr - array of command arguments (after -thanks command)
@@ -189,9 +205,14 @@ module.exports = {
 
             //An array of user names (ie chendumpling)
             const allUsersName = idToName(allUsersID);
+            
+            //User is thanking themselves
+            if (checkIfThankThemself(msg, allUsersID)){
+                msg.channel.send('You cannot thank yourself');
+            }
 
             //More than one user being thanked
-            if (numUsers > 1){
+            else if (numUsers > 1){
 
                 //Make sure there are no duplicated mentions
                 if (getDuplicateArrayElements(args)) {
@@ -199,13 +220,16 @@ module.exports = {
                 }
                 else {
                     thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score);
+                    hasThanked = true;
                 }
             }
 
             //Only one user being thanked
             else {
                 thankOnlyOne(msg, allUsersID[0], allUsersName[0], score);
+                hasThanked = true;
             }
         }
+        return hasThanked;
     }
 }

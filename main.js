@@ -10,6 +10,7 @@ for(const file of commandFiles){
     const command = require(`./commands/${file}`);
     bot.commands.set(command.name, command);
 }
+const usedCommandRecently = new Set();
 
 bot.once('ready', () => {
     console.log('ThanksBot is online!');
@@ -33,11 +34,19 @@ bot.on('message', async msg => {
     var x = command
     switch(x) {
 
-        case x = 'thanks':
-            bot.commands.get('thanks').execute(msg, args);
-            break;
         case x = 'thank':
-            bot.commands.get('thanks').execute(msg, args);
+        case x = 'thanks':
+            if(usedCommandRecently.has(msg.author.id)){
+                msg.channel.send(`**${msg.author.username}**` + ", you can only thank once every 2 minutes.")
+                .then(sentMsg => {
+                    sentMsg.delete({ timeout: 5000 });
+                }).catch(console.error);
+            }
+            else {
+                if(bot.commands.get('thanks').execute(msg, args)){
+                    setCooldown(2, msg);
+                } 
+            }
             break;
         case x = 'rankup':
             //Checks if user has enough points to rankup
@@ -64,6 +73,18 @@ bot.on('message', async msg => {
             break;
     }
 });
+
+/**
+ * sets the cooldown of a command for a certain user
+ * @param {number} cd - number of minutes to cooldown for
+ * @param {Object} msg - original message sent to the channel
+ */
+function setCooldown(cd, msg) {
+    usedCommandRecently.add(msg.author.id);
+    setTimeout(() => {
+        usedCommandRecently.delete(msg.author.id);
+    }, (Math.floor((60000)*cd))); //one minute
+}
 
 //keep this at the last line of the file
 bot.login(secrets.Token);
