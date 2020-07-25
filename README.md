@@ -13,6 +13,7 @@ ThanksBot is a simple Javascript Discord bot that stores user-awarded points in 
   - [Deployment](#deployment)
   - [Contributing](#contributing)
   - [Authors](#authors)
+  - [License](#license)
 
 ## Getting Started
 
@@ -70,6 +71,10 @@ You can request for a feature by creating an issue [here](https://github.com/che
 If you improved the bot yourself and would like to contribute to this project, I really appreciate it!
 
 > If you are new to open-source, make sure to check read more about it [here](https://www.digitalocean.com/community/tutorial_series/an-introduction-to-open-source) and learn more about creating a pull request [here](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github).
+
+## License
+
+See the [LICENSE](https://github.com/chendumpling99/ThanksBot/blob/master/LICENSE) file for details
 
 ## Authors
 
