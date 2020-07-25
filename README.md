@@ -73,7 +73,7 @@ If you improved the bot yourself and would like to contribute to this project, I
 
 ## Authors
 
-  - **Robert Chen** - *Provided README Template* -
+  - **Robert Chen** -
     [chendumpling99](https://github.com/chendumpling99)
 
 See also the list of
