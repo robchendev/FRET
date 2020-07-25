@@ -141,7 +141,7 @@ howManyPoints(usersID, (err, points) => {
 function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
 
     const embedMsg = new Discord.MessageEmbed()
-    .setColor('#ed5555')
+    .setColor('#2ecc71')
     .setDescription(`${`${msg.author}`} has thanked ${`${numUsers}`} users!`);
     
     for (var i = 0; i < allUsersName.length; i++){
@@ -161,7 +161,7 @@ function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
 function thankOnlyOne(msg, usersID, usersName, score) {
 
     const embedMsg = new Discord.MessageEmbed()
-    .setColor('#ed5555')
+    .setColor('#2ecc71')
     .setDescription(`${msg.author}` + ' has thanked 1 user!')
     .addField(`${usersName}`, "+" + `${score}`, true);
 
@@ -176,9 +176,9 @@ function thankOnlyOne(msg, usersID, usersName, score) {
 function incorrectUsage(msg) {
 
     const embedMsg1 = new Discord.MessageEmbed()
-    .setColor('#ed5555')
-    .addField('Thank one person', '\`-thanks <user>\`', false)
-    .addField('Thank more than one person', '\`-thanks <user1> <user2> <user3>\`', false)
+    .setColor('#ad1457')
+    .addField('Thank one user', '\`-thanks <user>\`', false)
+    .addField('Thank multiple users', '\`-thanks <user1> <user2> <user3>\`', false)
     .setFooter('Do not include < and >. Use @','');
     msg.channel.send(embedMsg1);
 }
@@ -229,6 +229,8 @@ module.exports = {
                 thankOnlyOne(msg, allUsersID[0], allUsersName[0], score);
                 hasThanked = true;
             }
+
+            //Check if user(s) score is more than rank threshold
         }
         return hasThanked;
     }

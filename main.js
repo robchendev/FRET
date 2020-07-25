@@ -69,7 +69,10 @@ bot.on('message', async msg => {
             //If reaction is clicked, reactions are all removed and prompt becomes "resolved"
             break;
         case x = 'help':
-            //Sends an embed message of all commands and what they do
+            bot.commands.get('help').execute(prefix, msg);
+            break;
+        case x = 'about':
+            //bot.commands.get('about').execute(msg);
             break;
     }
 });
@@ -82,7 +85,7 @@ bot.on('message', async msg => {
 function setCooldown(cd, msg) {
     usedCommandRecently.add(msg.author.id);
     setTimeout(() => {
-        usedCommandRecently.delete(msg.author.id);
+        usedCommandRecently.delete(user);
     }, (Math.floor((60000)*cd))); //one minute
 }
 
