@@ -1,6 +1,6 @@
 ### Under Development
 
-This bot is still under development. Only the thanks command works as intended, and all the commands shown with this readme will be updated with explanations later. Cooldowns, reporting systems, and an initial setup system will be added in the near future.
+This bot is still under development. Only the thanks command works as intended, and all the commands shown with this readme will be updated with explanations later.
 
 # ThanksBot
 
@@ -22,14 +22,14 @@ For personal development purposes, clone this repository to your system, and run
 
 ### Commands
 
-Explanation
+Can take any number of mentions. The math to divide the points between each user works exponentially (500/(users^0.75)). The person who uses this command gets placed on a 2 minute cooldown before they can use it again. If the user tries to thank themselves, they will receive a random cheesy response back.
 
     -thanks @user
     -thank @user
     -thanks @user1 @user2 @user3
     -thank @user1 @user2 @user3
 
-Explanation
+Displays the number of points a user has, and how many they need to reach the next rank
 
     -points
     -points @user
@@ -42,13 +42,19 @@ Explanation
 
     -report
 
-Explanation
+Will display all the commands listed here (except -help) and their intended use.
 
     -help
 
+Explanation
+
+    -about
+
 ## Deployment
 
-Instructions on how to run this bot on a server will be written here once I figure out how to do it myself.
+I'm self-hosting this bot, so the method of deployment is up to you.
+
+Since this was a personal project, a lot of my variables will be different from what you would want. I might make a setup module to let others adjust the numbers so you'd just need to download the bot and change them within the code... but not anytime soon.
 
 ## Contributing
 

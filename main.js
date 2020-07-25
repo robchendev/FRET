@@ -43,7 +43,7 @@ bot.on('message', async msg => {
                 }).catch(console.error);
             }
             else {
-                if(bot.commands.get('thanks').execute(msg, args)){
+                if(bot.commands.get('thanks').execute(prefix, msg, args)){
                     setCooldown(2, msg);
                 } 
             }
@@ -69,7 +69,10 @@ bot.on('message', async msg => {
             //If reaction is clicked, reactions are all removed and prompt becomes "resolved"
             break;
         case x = 'help':
-            //Sends an embed message of all commands and what they do
+            bot.commands.get('help').execute(prefix, msg);
+            break;
+        case x = 'about':
+            //bot.commands.get('about').execute(msg);
             break;
     }
 });
