@@ -53,7 +53,7 @@ Explanation
 
 ## Deployment
 
-I'm self-hosting this bot, so the method of deployment is up to you.
+I'm self-hosting this bot, so the method of deployment is up to you. Do note: If you plan on using the -rankup command, make sure this bot's role is higher than the roles you are trying to give via rankup.
 
 Since this was a personal project, a lot of my variables will be different from what you would want. I might make a setup module to let others adjust the numbers... but not anytime soon, so you'd just need to download the bot and change them within the code yourself.
 

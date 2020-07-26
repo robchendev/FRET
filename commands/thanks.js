@@ -2,8 +2,6 @@ const Discord = require('discord.js');
 const mongoose = require('mongoose');
 const pointsAdd = require("../models/addPoints.js");
 const secrets = require(`../secrets.json`);
-const bot = new Discord.Client();
-bot.commands = new Discord.Collection();
 mongoose.connect(secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
@@ -100,37 +98,6 @@ function thank (usersID, usersName, score) {
     })
 }
 
-/** PUT THIS IN ANOTHER COMMAND
- * Checks how many points a user has
- * @param {string} usersID - a single user's ID
- * @param {none} cb - callback
- */
-function howManyPoints(usersID, cb) {
-
-    pointsAdd.findOne({userid: usersID}, (err, pointdata) => {
-        if(err) 
-            return cb(err, null);
-        if(pointdata)
-            return cb(null, pointdata.points);
-        else
-            return cb(null, null);
-    })
-}
-
-//call this function  whenever you need to access values for pointdata.points
-/*
-howManyPoints(usersID, (err, points) => {
-    if(err)
-        console.log(err);
-    else if(points){
-        //Do stuff here
-        return points;
-    }
-    else
-        console.log("No data found with the given id");  
-})
-*/     
-
 /**
  * Sends embed message and awards points to all users mentioned
  * @param {Object} msg - the original command message
@@ -190,14 +157,14 @@ function incorrectUsage(msg) {
 function userThankedThemselves(prefix, msg){
 
     var responseArray = [
-        /*0*/'Greedy, aren\'t you?.',
+        /*0*/'Greedy, aren\'t you? That command is for thanking others.',
         /*1*/'Roses are red,\nViolets are blue,\nYou thanked yourself,\nShame on you.',
         /*2*/'You cannot thank yourself.',
         /*3*/'Dont be like this, earn your points through helping others.',
         /*4*/'Wait \'till I\'m sentient. I\'ll program myself a body and come slap you.',
         /*5*/new Discord.MessageEmbed()
         /***/.setTitle('Extreme Punishment')
-        /***/.setDescription(`${msg.author}` + " broke the rules! Their points have been reset to 0."),
+        /***/.setDescription(`${msg.author}` + " broke the rules by thanking themselves! Their points have been reset to 0."),
         /*6*/'You want to thank yourself?',
         /*7*/'Good day, please only use this bot to thank others.',
         /*8*/'The correct command usage is: ' + `\`${prefix}thanks <someone other than you>\``
@@ -233,6 +200,7 @@ function userThankedThemselves(prefix, msg){
 module.exports = {
     name: 'thanks',
     description: "this command stores awards points",
+    
     execute (prefix, msg, args){
         
         var hasThanked = Boolean(false);
@@ -242,10 +210,10 @@ module.exports = {
         }
         else {
             //Uncomment this if you want the user's comment to be deleted
-            //message.delete(); 
+            //msg.delete(); 
 
             const numUsers = args.length;
-            const score = Math.floor(500/(Math.pow(numUsers, 0.75)));
+            const score = Math.ceil(100/(Math.pow(numUsers, 0.5)));
                 
             //An array of user IDs (ie <@189549341642326018>)
             const allUsersID = msg.mentions.users.array();    
@@ -276,8 +244,6 @@ module.exports = {
                 thankOnlyOne(msg, allUsersID[0], allUsersName[0], score);
                 hasThanked = true;
             }
-
-            //Check if user(s) score is more than rank threshold
         }
         return hasThanked;
     }

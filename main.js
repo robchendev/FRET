@@ -31,11 +31,10 @@ bot.on('message', async msg => {
 	const args = split.slice(1);
 
     //Reads commands
-    var x = command
-    switch(x) {
+    switch(command) {
 
-        case x = 'thank':
-        case x = 'thanks':
+        case 'thank':
+        case 'thanks':
             if(usedCommandRecently.has(msg.author.id)){
                 msg.channel.send(`**${msg.author.username}**` + ", you can only thank once every 2 minutes.")
                 .then(sentMsg => {
@@ -48,18 +47,20 @@ bot.on('message', async msg => {
                 } 
             }
             break;
-        case x = 'rankup':
+        case 'rankup':
             //Checks if user has enough points to rankup
             //Could also put this as a conditional to 
             //auto level in the thanks command module.
             //Decide later
+            bot.commands.get('rankup').execute(msg);
             break;
-        case x = 'points':
+        case 'points':
             //Can ping yourself or someone else
             //Will display an embed message of how many points a user has,
             //And how much they need to rank up
+            bot.commands.get('points').execute(msg);
             break;
-        case x = 'report':
+        case 'report':
             //Receives user input arguments as a message.
             //Sends an embed message to the current channel saying a user has been reported
             //Sends an embed message to the a mod-only channel about an abuse of points saying "needs attention"
@@ -68,11 +69,11 @@ bot.on('message', async msg => {
             //Has a reaction emoji attached to it. 
             //If reaction is clicked, reactions are all removed and prompt becomes "resolved"
             break;
-        case x = 'help':
+        case 'help':
             bot.commands.get('help').execute(prefix, msg);
             break;
-        case x = 'about':
-            //bot.commands.get('about').execute(msg);
+        case 'about':
+            bot.commands.get('about').execute(msg);
             break;
     }
 });
