@@ -14,8 +14,7 @@ module.exports = {
     .addField(`\`${prefix}points\``, 'Shows how many points you have.', false)
     .addField(`\`${prefix}points <user>\``, 'Shows a user\'s points and amount needed for the next rank', false)
     .addField(`\`${prefix}about\``, 'Shows useless info about this bot', false);
-
+    
     msg.channel.send(embedMsg);
-
     }
 }
