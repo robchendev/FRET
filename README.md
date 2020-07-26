@@ -24,7 +24,7 @@ This bot uses MongoDB to store it's data. The data is stored in the form of a JS
 
 This code uses two tokens, "Token" and "Mongo", as described in secrets-example.json. Rename this file secrets.json and replace the "Token" value in that file with your bot's token - it is what the bot will use to sign into Discord. Replace the "Mongo" value with your MongoDB's database connection string. If you are to use this code in your public github repositories, do not share your secrets.json file. Doing so will give someone else access to your Discord bot and your database.
 
-run the bot using shell by using the command
+Run the bot using shell by using the command
 
     node .
 
@@ -42,35 +42,27 @@ Displays the number of points a user has, and how many they need to reach the ne
     -points
     -points @user
 
-Ranks up the user if they reach a certain threshold. Otherwise, show how many more points needed
+Ranks up the user if they have enough points for a role. Otherwise, show how many more points needed. Also repairs the roles if any roles are added by a moderator on accident.
 
     -rankup
-
-Explanation
-
-    -report
 
 Will display all the commands listed here (except -help) and their intended use.
 
     -help
 
-Explanation
+Shows information about this bot. Gives a description, the github repository link, and the math expression used to calculate how many points are to be awarded to each user being thanked.
 
     -about
-
---This section is not done
 
 ## Deployment
 
 I'm self-hosting this bot, so the method of deployment is up to you. Do note: If you plan on using the -rankup command, make sure this bot's role is higher than the roles you are trying to give via rankup.
 
-Since this was a personal project, a lot of my variables will be different from what you would want. I might make a setup module to let others adjust the numbers... but not anytime soon, so you'd just need to download the bot and change them within the code yourself.
-
---This section is not done
+Since this was a personal project, a lot of my variables will be different from what you would want. I might make a setup command or a webpage backend to let others adjust the numbers... but not anytime soon (see [Future Plans](future-plans)), so you'd just need to download the bot and change them within the code yourself.
 
 ## Future Plans
 
-I do hope to implement a backend for this bot, so people can invite this bot onto their servers and use it with the ease of having customizable options right at their fingertips.
+I do hope to eventually implement a backend for this bot, so people can invite this bot onto their servers and use it with the ease of having customizable options right at their fingertips. This is a long term goal and not one I'm certain I'll work towards. If you want to tell me your interest in a customizable option for this bot, please contact me via the email shown on [my Github profile](https://github.com/chendumpling99)
 
 ## Contributing
 
