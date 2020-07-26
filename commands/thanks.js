@@ -7,8 +7,6 @@ mongoose.connect(secrets.Mongo, {
     useNewUrlParser: true,
 });
 
-
-
 /**
  * Checks if user is thanking themselves
  * @param {Array} arr - array of command arguments user IDs
@@ -93,7 +91,6 @@ function thank (usersID, usersName, score) {
         } else {
             pointdata.points = pointdata.points + score;
             pointdata.save().catch(err => console.log(err));
-            
         }
     })
 }
