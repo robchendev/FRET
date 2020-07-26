@@ -1,24 +1,13 @@
-### Under Development
-
-This bot is still under development. All commands work as intended, and all the commands shown with this readme will be updated with explanations later. A little more quality checking is to be done before I finish this bot, including:
-
-1. Making sure the bot's code is as efficient as I can make it.
-2. Line comments and function comments are written so I can understand wtf it does when I come back to it later.
-3. Rewrite some variable names to be relevant and easy to understand, and have a consistent pattern across all files.
-
-Future plans: I do hope to implement a backend for this bot, so people can invite this bot onto their servers and use it with the ease of having customizable options right at their fingertips.
-
-This README.md will also be updated to be more thorough.
-
 # ThanksBot
 
-ThanksBot is a simple Javascript Discord bot that stores user-awarded points in a database (specifically Mongoose). The idea is to encourage users to ask and answer questions. With each question answered, other users can choose to thank the user who answered the question by giving them points, leveling them up through roles.
+ThanksBot is a simple Javascript Discord bot that stores user-awarded points in a database (specifically Mongoose). The idea is to encourage users to ask and answer questions. With each question answered, other users can choose to thank the user who answered the question by giving them points, leveling them up through roles. This bot is currently self-hosted and used in Eddie van der Meer's [Discord server](https://discord.com/invite/ZXKrfB2).
 
 ## Summary
 
   - [Getting Started](#getting-started)
   - [Commands](#commands)
   - [Deployment](#deployment)
+  - [Future Plans](#future-plans)
   - [Contributing](#contributing)
   - [Authors](#authors)
   - [License](#license)
@@ -29,13 +18,15 @@ For personal development purposes, clone this repository to your system, install
 
     npm install discord.js
     
-Because this is a Discord bot, you to create your Discord application [here](https://discord.com/developers/applications)
+Because this is a Discord bot, you need to create your Discord application [here](https://discord.com/developers/applications)
+
+This bot uses MongoDB to store it's data. The data is stored in the form of a JSON object called a Schema, with it's contents described in models/addPoints.js. You only need to provide a secrets.json (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
+
+This code uses two tokens, "Token" and "Mongo", as described in secrets-example.json. Rename this file secrets.json and replace the "Token" value in that file with your bot's token - it is what the bot will use to sign into Discord. Replace the "Mongo" value with your MongoDB's database connection string. If you are to use this code in your public github repositories, do not share your secrets.json file. Doing so will give someone else access to your Discord bot and your database.
 
 run the bot using shell by using the command
 
     node .
-
---This section is DEFINITELY not done
 
 ### Commands
 
@@ -76,6 +67,10 @@ I'm self-hosting this bot, so the method of deployment is up to you. Do note: If
 Since this was a personal project, a lot of my variables will be different from what you would want. I might make a setup module to let others adjust the numbers... but not anytime soon, so you'd just need to download the bot and change them within the code yourself.
 
 --This section is not done
+
+## Future Plans
+
+I do hope to implement a backend for this bot, so people can invite this bot onto their servers and use it with the ease of having customizable options right at their fingertips.
 
 ## Contributing
 
