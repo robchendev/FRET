@@ -6,7 +6,7 @@ module.exports = {
     execute (prefix, msg){
 
     const embedMsg = new Discord.MessageEmbed()
-	.setColor('#36393F') //same color as embed background
+	.setColor('#36393F') 
 	.setTitle('Commands')
     .addField(`\`${prefix}thanks <user>\``, 'Thanks a single user and gives them points', false)
     .addField(`\`${prefix}thanks <user1> <user2> <user3>\``, 'Thanks multiple users and gives them points', false)
