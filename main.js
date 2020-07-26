@@ -10,7 +10,7 @@ for(const file of commandFiles){
     const command = require(`./commands/${file}`);
     bot.commands.set(command.name, command);
 }
-const usedCommandRecently = new Set();
+const usedCommandRecently = new Set(); //Tracks cooldowns
 
 bot.once('ready', () => {
     console.log('ThanksBot is online!');
@@ -30,7 +30,7 @@ bot.on('message', async msg => {
 	const command = split[0];
 	const args = split.slice(1);
 
-    //Reads commands
+    //Reads commands and does stuff
     switch(command) {
 
         case 'thank':
@@ -48,26 +48,10 @@ bot.on('message', async msg => {
             }
             break;
         case 'rankup':
-            //Checks if user has enough points to rankup
-            //Could also put this as a conditional to 
-            //auto level in the thanks command module.
-            //Decide later
             bot.commands.get('rankup').execute(msg);
             break;
         case 'points':
-            //Can ping yourself or someone else
-            //Will display an embed message of how many points a user has,
-            //And how much they need to rank up
-            bot.commands.get('points').execute(msg, args);
-            break;
-        case 'report':
-            //Receives user input arguments as a message.
-            //Sends an embed message to the current channel saying a user has been reported
-            //Sends an embed message to the a mod-only channel about an abuse of points saying "needs attention"
-            //Displays reporting user's ID
-            //Displays reported user's ID <@!useridhere>, date and time, and report contents
-            //Has a reaction emoji attached to it. 
-            //If reaction is clicked, reactions are all removed and prompt becomes "resolved"
+            bot.commands.get('points').execute(prefix, msg, args);
             break;
         case 'help':
             bot.commands.get('help').execute(prefix, msg);
@@ -84,6 +68,7 @@ bot.on('message', async msg => {
  * @param {Object} msg - original message sent to the channel
  */
 function setCooldown(cd, msg) {
+    
     usedCommandRecently.add(msg.author.id);
     setTimeout(() => {
         usedCommandRecently.delete(msg.author.id);

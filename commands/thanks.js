@@ -201,7 +201,7 @@ function userThankedThemselves(prefix, msg){
 
 module.exports = {
     name: 'thanks',
-    description: "this command stores awards points",
+    description: "this command stores awards points for one or multiple users",
     
     execute (prefix, msg, args){
         
