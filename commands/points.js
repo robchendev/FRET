@@ -7,6 +7,11 @@ mongoose.connect(secrets.Mongo, {
     useNewUrlParser: true,
 });
 
+/**
+ * 
+ * @param {string} thisUser - 
+ * @param {none} cb - callback
+ */
 function howManyPoints(thisUser, cb) {
 
     pointsAdd.findOne({userid: thisUser}, (err, pointdata) => {
@@ -24,20 +29,21 @@ module.exports = {
     description: "this command shows how many points a user has",
     execute (msg){
 
+        let thisUser = msg.author;
+
         //if command doesnt have any arguments "-points"
-        howManyPoints(msg.author, (err, points) => {
+        howManyPoints(thisUser, (err, points) => {
             if(err)
                 console.log(err);
             else if(points){
                 const embedMsg = new Discord.MessageEmbed()
                 .setColor('#36393F')
-                .setDescription(`${msg.author}, you have **${(points)}** points.`);
+                .setDescription(`${thisUser}, you have **${(points)}** points.`);
                 msg.channel.send(embedMsg);
             }
             else
-                msg.channel.send(`${msg.author}, you do not have any points! Please contribute by answering questions to get started.`);
-        })
-
+                msg.channel.send(`${thisUser}, you do not have any points! Please contribute by answering questions to get started.`);
+        });
 
         //if command has arguments "-points @user"
 
