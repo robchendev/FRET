@@ -58,7 +58,7 @@ bot.on('message', async msg => {
             //Can ping yourself or someone else
             //Will display an embed message of how many points a user has,
             //And how much they need to rank up
-            bot.commands.get('points').execute(msg);
+            bot.commands.get('points').execute(msg, args);
             break;
         case 'report':
             //Receives user input arguments as a message.

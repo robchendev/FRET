@@ -138,20 +138,22 @@ function thankOnlyOne(msg, usersID, usersName, score) {
 
 /**
  * Sends embed message on how to use the command properly
+ * @param {string} prefix - the prefix of the command
  * @param {Object} msg - the original command message
  */
-function incorrectUsage(msg) {
+function incorrectUsage(prefix, msg) {
 
     const embedMsg1 = new Discord.MessageEmbed()
     .setColor('#f51637')
-    .addField('Thank one user', '\`-thanks <user>\`', false)
-    .addField('Thank multiple users', '\`-thanks <user1> <user2> <user3>\`', false)
+    .addField('Thank one user', `\`${prefix}thanks <user>\``, false)
+    .addField('Thank multiple users', `\`${prefix}thanks <user1> <user2> <user3>\``, false)
     .setFooter('Do not include < and >. Use @','');
     msg.channel.send(embedMsg1);
 }
 
 /**
  * Sends a funny random message when the user tries to thank themselves
+ * @param {string} prefix - the prefix of the command
  * @param {Object} msg - the original command message
  */
 function userThankedThemselves(prefix, msg){
@@ -204,7 +206,8 @@ module.exports = {
     execute (prefix, msg, args){
         
         var hasThanked = Boolean(false);
-        //When argument doesnt exist, or not all command arguments are mentions
+        //When argument command doesnt have any arguments, 
+        //or not all command arguments are mentions
         if (!args.length || !isAllMentions(args)) {
             incorrectUsage(msg);
         }
