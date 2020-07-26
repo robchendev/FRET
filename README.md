@@ -1,6 +1,12 @@
 ### Under Development
 
-This bot is still under development. Only the thanks command works as intended, and all the commands shown with this readme will be updated with explanations later.
+This bot is still under development. All commands work as intended, and all the commands shown with this readme will be updated with explanations later. A little more quality checking is to be done before I finish this bot, including:
+
+1. Making sure the bot's code is as efficient as I can make it.
+2. Line comments and function comments are written so I can understand wtf it does when I come back to it later.
+3. Rewrite some variable names to be relevant and easy to understand, and have a consistent pattern across all files.
+
+The README.md will also be updated to be more thorough.
 
 # ThanksBot
 
@@ -17,9 +23,17 @@ ThanksBot is a simple Javascript Discord bot that stores user-awarded points in 
 
 ## Getting Started
 
-For personal development purposes, clone this repository to your system, and run it using shell by using the command
+For personal development purposes, clone this repository to your system, install Node.js, then install the package:
+
+    npm install discord.js
+    
+Because this is a Discord bot, you to create your Discord application [here](https://discord.com/developers/applications)
+
+run the bot using shell by using the command
 
     node .
+
+--This section is DEFINITELY not done
 
 ### Commands
 
@@ -51,11 +65,15 @@ Explanation
 
     -about
 
+--This section is not done
+
 ## Deployment
 
 I'm self-hosting this bot, so the method of deployment is up to you. Do note: If you plan on using the -rankup command, make sure this bot's role is higher than the roles you are trying to give via rankup.
 
 Since this was a personal project, a lot of my variables will be different from what you would want. I might make a setup module to let others adjust the numbers... but not anytime soon, so you'd just need to download the bot and change them within the code yourself.
+
+--This section is not done
 
 ## Contributing
 
@@ -74,7 +92,7 @@ If you improved the bot yourself and would like to contribute to this project, I
 
 ## License
 
-See the [LICENSE](https://github.com/chendumpling99/ThanksBot/blob/master/LICENSE) file for details
+See the [LICENSE](https://github.com/chendumpling99/ThanksBot/blob/master/LICENSE) file for details.
 
 ## Authors
 
