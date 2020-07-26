@@ -14,9 +14,7 @@ ThanksBot is a simple Javascript Discord bot that stores user-awarded points in 
 
 ## Getting Started
 
-For personal development purposes, clone this repository to your system, install Node.js, then install the package:
-
-    npm install discord.js
+For personal development purposes, clone this repository to your system, install Node.js, npm, and Discord.js
     
 Because this is a Discord bot, you need to create your Discord application [here](https://discord.com/developers/applications)
 
