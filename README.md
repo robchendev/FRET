@@ -6,7 +6,9 @@ This bot is still under development. All commands work as intended, and all the 
 2. Line comments and function comments are written so I can understand wtf it does when I come back to it later.
 3. Rewrite some variable names to be relevant and easy to understand, and have a consistent pattern across all files.
 
-The README.md will also be updated to be more thorough.
+Future plans: I do hope to implement a backend for this bot, so people can invite this bot onto their servers and use it with the ease of having customizable options right at their fingertips.
+
+This README.md will also be updated to be more thorough.
 
 # ThanksBot
 
@@ -37,7 +39,7 @@ run the bot using shell by using the command
 
 ### Commands
 
-Can take any number of mentions. The math to divide the points between each user works exponentially (500/(users^0.75)). The person who uses this command gets placed on a 2 minute cooldown before they can use it again. If the user tries to thank themselves, they will receive a random cheesy response back.
+Can take any number of mentions. The math to divide the points between each user works exponentially (100/(users^0.5)). The person who uses this command gets placed on a 2 minute cooldown before they can use it again. If the user tries to thank themselves, they will receive a random cheesy response back.
 
     -thanks @user
     -thank @user
