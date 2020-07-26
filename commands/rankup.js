@@ -7,6 +7,12 @@ mongoose.connect(secrets.Mongo, {
     useNewUrlParser: true,
 });
 
+/**
+ * Removes all roles in roleNames from the user
+ * @param {string} thisUser - id of the user to adjust the roles of
+ * @param {Array} roleNames - array of roles to be given
+ * @param {Array} rolePoints - array of point thresholds for each corresponding role
+ */
 function repairRoles(thisUser, rolePoints, roleNames){
     for (var i = 0; i < rolePoints.length; i++){
         if (thisUser.roles.cache.has(roleNames[i].id)){
@@ -15,6 +21,11 @@ function repairRoles(thisUser, rolePoints, roleNames){
     }
 }
 
+/**
+ * Pulls the user's points data from the database
+ * @param {string} thisUser - id of the user to find points of
+ * @param {none} cb - callback 
+ */
 function howManyPoints(thisUser, cb) {
 
     pointsAdd.findOne({userid: thisUser}, (err, pointdata) => {
@@ -27,6 +38,17 @@ function howManyPoints(thisUser, cb) {
     })
 }
 
+/**
+ * First checks for incorrect roles (due to manual human assignment),
+ * then gives the user the role they deserve, or tells them how many
+ * points they need before reaching the next rank. If the user already 
+ * has the highest role, tell them they have the highest role.
+ * @param {Object} msg - the original command message 
+ * @param {string} thisUser - id of the user to adjust the roles of
+ * @param {Array} roleNames - array of roles to be given
+ * @param {Array} rolePoints - array of point thresholds for each corresponding role
+ * @param {number} index - the index of the roleNames and rolePoints arrays to pull data from
+ */
 function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
     
     //If user does not have the role
@@ -68,6 +90,14 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
     }
 }
 
+/**
+ * Removes rank if the user has it already, and sends an embed
+ * message about how many points the user needs for the next rank
+ * @param {Object} msg - the original command message 
+ * @param {string} thisUser - id of the user to adjust the roles of
+ * @param {Array} roleNames - array of roles to be given
+ * @param {Array} rolePoints - array of point thresholds for each corresponding role
+ */
 function hasNoRank(msg, thisUser, roleNames, rolePoints,) {
 
     //Check if user somehow has a role already. If they do, remove it.
@@ -87,6 +117,12 @@ function hasNoRank(msg, thisUser, roleNames, rolePoints,) {
     })
 }
 
+/**
+ * Determines what role is to be given to a user, if applicable.
+ * @param {Object} msg - the original command message 
+ * @param {Array} roleNames - array of roles to be given
+ * @param {Array} rolePoints - array of point thresholds for each corresponding role
+ */
 function rankupCheck(msg, roleNames, rolePoints) {
     
     let thisUser = msg.member;
@@ -94,8 +130,6 @@ function rankupCheck(msg, roleNames, rolePoints) {
         if(err)
             console.log(err);
         else if(points){
-
-            //this doesnt work for some reason, it takes points >= rolePoints[5] to true
             switch (true) {
                 case points >= rolePoints[5]:
                     doRankUp(msg, thisUser, roleNames, rolePoints, 5);
@@ -125,16 +159,15 @@ function rankupCheck(msg, roleNames, rolePoints) {
         else
             repairRoles(thisUser, rolePoints, roleNames);
             msg.channel.send(`${thisUser}, you do not have any points! Please contribute by answering questions to get started.`);
-    })
+    });
 }
-
-
 
 module.exports = {
     name: 'rankup',
     description: "this command determines if a user is ready to rank up. If so, they will rank up.",
     execute (msg){
 
+        //the roles in the server that are to be used for this bot
         var roleNames = [
             /*0*/msg.guild.roles.cache.find(r => r.name === "Peer"),
             /*1*/msg.guild.roles.cache.find(r => r.name === "Teacher"),
@@ -143,6 +176,8 @@ module.exports = {
             /*4*/msg.guild.roles.cache.find(r => r.name === "Lecturer"),
             /*5*/msg.guild.roles.cache.find(r => r.name === "Tenure")
         ];
+        
+        //the points that are required to get each role
         var rolePoints = [
             /*0*/200,
             /*1*/500,
@@ -152,8 +187,6 @@ module.exports = {
             /*5*/10000
         ];
 
-
         rankupCheck(msg, roleNames, rolePoints);
-
     }
 }
