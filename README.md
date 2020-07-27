@@ -14,15 +14,18 @@ ThanksBot is a simple Javascript Discord bot that stores user-awarded points in 
 
 ## Getting Started
 
-For personal development purposes, clone this repository to your system, install Node.js, then install the package:
-
-    npm install discord.js
+For personal development purposes, clone this repository to your system, install Node.js, npm, and Discord.js
     
 Because this is a Discord bot, you need to create your Discord application [here](https://discord.com/developers/applications)
 
 This bot uses MongoDB to store it's data. The data is stored in the form of a JSON object called a Schema, with it's contents described in models/addPoints.js. You only need to provide a secrets.json (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
 
-This code uses two tokens, "Token" and "Mongo", as described in secrets-example.json. Rename this file secrets.json and replace the "Token" value in that file with your bot's token - it is what the bot will use to sign into Discord. Replace the "Mongo" value with your MongoDB's database connection string. If you are to use this code in your public github repositories, do not share your secrets.json file. Doing so will give someone else access to your Discord bot and your database.
+This code uses two tokens, "Token" and "Mongo", as described in secrets-example.json. Rename this file secrets.json and edit the following fields:
+
+1. Replace the "Token" value in that file with your bot's token - it is what the bot will use to sign into Discord. 
+2. Replace the "Mongo" value with your MongoDB's database connection string. 
+
+If you are to use this code in your public github repositories, do not share your secrets.json file. Doing so will give someone else access to your Discord bot and your database.
 
 Run the bot using shell by using the command
 
@@ -37,7 +40,7 @@ Can take any number of mentions. The math to divide the points between each user
     -thanks @user1 @user2 @user3
     -thank @user1 @user2 @user3
 
-Displays the number of points a user has, and how many they need to reach the next rank. Also mentions the next rank role in an embedded message because embeds dont notify users.
+Displays the number of points a user has.
 
     -points
     -points @user
@@ -56,7 +59,9 @@ Shows information about this bot. Gives a description, the github repository lin
 
 ## Deployment
 
-I'm self-hosting this bot, so the method of deployment is up to you. Do note: If you plan on using the -rankup command, make sure this bot's role is higher than the roles you are trying to give via rankup.
+The method of deployment is up to you, I'm personally self-hosting this bot on a VPS.
+
+Do note: If you plan on using the -rankup command, make sure this bot's role is higher than the roles you are trying to give via rankup. I haven't yet made any error checking for this so your bot will just terminate if it encounters this error.
 
 Since this was a personal project, a lot of my variables will be different from what you would want. I might make a setup command or a webpage backend to let others adjust the numbers... but not anytime soon (see [Future Plans](future-plans)), so you'd just need to download the bot and change them within the code yourself.
 

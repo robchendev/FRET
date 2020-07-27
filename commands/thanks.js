@@ -206,7 +206,7 @@ module.exports = {
         //When argument command doesnt have any arguments, 
         //or not all command arguments are mentions
         if (!args.length || !isAllMentions(args)) {
-            incorrectUsage(msg);
+            incorrectUsage(prefix, msg);
         }
         else {
             //Uncomment this if you want the user's comment to be deleted

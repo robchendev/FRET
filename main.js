@@ -36,14 +36,14 @@ bot.on('message', async msg => {
         case 'thank':
         case 'thanks':
             if(usedCommandRecently.has(msg.author.id)){
-                msg.channel.send(`**${msg.author.username}**` + ", you can only thank once every 2 minutes.")
+                msg.channel.send(`**${msg.author.username}**` + ", you can only thank once every 5 minutes.")
                 .then(sentMsg => {
                     sentMsg.delete({ timeout: 10000 });
                 }).catch(console.error);
             }
             else {
                 if(bot.commands.get('thanks').execute(prefix, msg, args)){
-                    setCooldown(2, msg);
+                    setCooldown(5, msg);
                 } 
             }
             break;
@@ -72,7 +72,7 @@ function setCooldown(cd, msg) {
     usedCommandRecently.add(msg.author.id);
     setTimeout(() => {
         usedCommandRecently.delete(msg.author.id);
-    }, (Math.floor((60000)*cd))); //one minute
+    }, (Math.floor((60000)*cd))); //1min * cd
 }
 
 //keep this at the last line of the file
