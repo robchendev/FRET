@@ -37,8 +37,8 @@ function findPoints(msg, userID){
         }
         else if(points){
             const embedMsg = new Discord.MessageEmbed()
-            .setColor('#36393F')
-            .setDescription(`${userID}, you have **${(points)}** points.`);
+            .setColor('#2f3136')
+            .setDescription(`${userID} has **${(points)}** points.`);
             msg.channel.send(embedMsg);
         }
         else{
@@ -67,7 +67,6 @@ module.exports = {
     description: "this command shows how many points a user has",
     
     execute (prefix, msg, args){
-
         //if command doesnt have any arguments "-points"
         if(!args.length){
             findPoints(msg, msg.author);

@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const secrets = require(`./secrets.json`);
 const prefix = '-';
+const prefixMod = '+';
 var serverID = '';
 const fs = require('fs');
 bot.commands = new Discord.Collection();
@@ -20,45 +21,76 @@ bot.on('message', async msg => {
     serverID = msg.guild.id;
     
     //When message doesnt start with '-' or author is 'bot, do nothing
-    if(!msg.content.startsWith(prefix) || msg.author.bot) {
+    if((!msg.content.startsWith(prefix) && !msg.content.startsWith(prefixMod)) || msg.author.bot) {
         return;
     }
 
-    //Splices via space (ie "-thanks @robert")
-    const withoutPrefix = msg.content.slice(prefix.length);
-	const split = withoutPrefix.split(/ +/);
-	const command = split[0];
-	const args = split.slice(1);
+    //user commands 
+    if(msg.content.startsWith(prefix)) {
+        
+        //Splices via space (ie "-thanks @robert")
+        const withoutPrefix = msg.content.slice(prefix.length);
+        const split = withoutPrefix.split(/ +/);
+        const command = split[0];
+        const args = split.slice(1);
 
-    //Reads commands and does stuff
-    switch(command) {
+        //Reads commands and does stuff
+        switch(command) {
 
-        case 'thank':
-        case 'thanks':
-            if(usedCommandRecently.has(msg.author.id)){
-                msg.channel.send(`**${msg.author.username}**` + ", you can only thank once every 5 minutes.")
-                .then(sentMsg => {
-                    sentMsg.delete({ timeout: 10000 });
-                }).catch(console.error);
+            case 'thank':
+            case 'thanks':
+                if(usedCommandRecently.has(msg.author.id)){
+                    msg.channel.send(`**${msg.author.username}**` + ", you can only thank once every 5 minutes.")
+                    .then(sentMsg => {
+                        sentMsg.delete({ timeout: 10000 });
+                    }).catch(console.error);
+                }
+                else {
+                    if(bot.commands.get('thanks').execute(prefix, msg, args)){
+                        setCooldown(5, msg);
+                    } 
+                }
+                break;
+            case 'rankup':
+                bot.commands.get('rankup').execute(msg);
+                break;
+            case 'points':
+                bot.commands.get('points').execute(prefix, msg, args);
+                break;
+            case 'help':
+                bot.commands.get('help').execute(prefix, msg);
+                break;
+            case 'about':
+                bot.commands.get('about').execute(msg);
+                break;
+        }
+    }
+    else if(msg.content.startsWith(prefixMod)) {
+        
+        let modRole = msg.guild.roles.cache.find(r => r.name === "DB manager");
+        if (msg.member.roles.cache.has(modRole.id)) {
+            //Splices via space (ie "+thanks @robert")
+            const withoutPrefix = msg.content.slice(prefixMod.length);
+            const split = withoutPrefix.split(/ +/);
+            const command = split[0];
+            const args = split.slice(1);
+
+            //Reads commands and does stuff
+            switch(command) {
+
+                case 'points':
+                    bot.commands.get('pointsMod').execute(prefixMod, msg, args);
+                    break;
+                case 'blacklist':
+                    bot.commands.get('blacklist').execute(msg, args);
+                    break;
+                case 'help':
+                    bot.commands.get('helpMod').execute(prefixMod, msg);
+                    break;
             }
-            else {
-                if(bot.commands.get('thanks').execute(prefix, msg, args)){
-                    setCooldown(5, msg);
-                } 
-            }
-            break;
-        case 'rankup':
-            bot.commands.get('rankup').execute(msg);
-            break;
-        case 'points':
-            bot.commands.get('points').execute(prefix, msg, args);
-            break;
-        case 'help':
-            bot.commands.get('help').execute(prefix, msg);
-            break;
-        case 'about':
-            bot.commands.get('about').execute(msg);
-            break;
+        } else {
+            msg.channel.send("You are not permitted to use that command");
+        }
     }
 });
 

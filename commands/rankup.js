@@ -156,6 +156,7 @@ function rankupCheck(msg, roleNames, rolePoints) {
                     repairRoles(thisUser, rolePoints, roleNames);
                     msg.channel.send(`${thisUser}, you do not have any points! Please contribute by answering questions to get started.`);
                 default:
+                    msg.channel.send(`${thisUser}, you do not have any points! Please contribute by answering questions to get started.`);
                     break;
             }
         }
