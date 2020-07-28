@@ -6,7 +6,7 @@ module.exports = {
     execute (msg){
 
         const embedMsg = new Discord.MessageEmbed()
-        .setColor('#36393F')
+        .setColor('#2f3136')
         .setTitle('Github Repository')
         .setURL('https://github.com/chendumpling99/ThanksBot')
         .setAuthor('About ThanksBot', '', '')

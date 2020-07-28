@@ -1,11 +1,13 @@
 # ThanksBot
 
-ThanksBot is a simple Javascript Discord bot that stores user-awarded points in a database (specifically Mongoose). The idea is to encourage users to ask and answer questions. With each question answered, other users can choose to thank the user who answered the question by giving them points, leveling them up through roles. This bot is currently self-hosted and used in the professional musician Eddie van der Meer's [Discord server](https://discord.com/invite/ZXKrfB2).
+ThanksBot is a simple Javascript Discord bot that stores user-awarded points in a database (specifically Mongoose). The idea is to encourage users to ask and answer questions. With each question answered, other users can choose to thank the user who answered the question by giving them points, leveling them up through roles. Moderator-specific commands to change a user's points on-demand are also included. This bot is currently self-hosted and used in the professional musician Eddie van der Meer's [Discord server](https://discord.com/invite/ZXKrfB2).
 
 ## Summary
 
   - [Getting Started](#getting-started)
   - [Commands](#commands)
+    - [User Commands](#user-commands)
+    - [Moderator Commands](#moderator-commands)
   - [Deployment](#deployment)
   - [Future Plans](#future-plans)
   - [Contributing](#contributing)
@@ -31,31 +33,54 @@ Run the bot using shell by using the command
 
     node .
 
-### Commands
+## Commands
 
-Can take any number of mentions. The math to divide the points between each user works exponentially (100/(users^0.5)). The person who uses this command gets placed on a 2 minute cooldown before they can use it again. If the user tries to thank themselves, they will receive a random cheesy response back.
+### User Commands
 
-    -thanks @user
-    -thank @user
-    -thanks @user1 @user2 @user3
-    -thank @user1 @user2 @user3
+    -thanks <@user>
+    -thank <@user>
+    -thanks <@user1> <@user2> <@user3>
+    -thank <@user1> <@user2> <@user3>
+
+Takes any number of mentions. The math to divide the points between each user works exponentially (100/(users^0.5)). The person who uses this command gets placed on a 5 minute cooldown before they can use it again. If the user tries to thank themselves, they will receive a random cheesy response back.
+
+    -points
+    -points <@user>
 
 Displays the number of points a user has.
 
-    -points
-    -points @user
-
-Ranks up the user if they have enough points for a role. Otherwise, show how many more points needed. Also repairs the roles if any roles are added by a moderator on accident.
-
     -rankup
 
-Will display all the commands listed here (except -help) and their intended use.
+Ranks up the user if they have enough points for a role. Otherwise, show how many more points needed. Also repairs the roles if any roles are added by a moderator on accident. Wont show anything if the user isn't recorded in the database.
 
     -help
 
-Shows information about this bot. Gives a description, the github repository link and the math expression used to calculate how many points are to be awarded to each user being thanked.
+Displays all the user commands listed here (except -help) and their intended use.
 
     -about
+
+Shows information about this bot. Gives a description, the github repository link and the math expression used to calculate how many points are to be awarded to each user being thanked.
+
+### Moderator Commands
+
+    +points <@user> inc <points>
+    +points <@user> dec <points>
+    +points <@user> set <points>
+
+Increases, decreases or sets a user's points by a certain amount.
+
+    +points <@user> pen
+
+Penalizes user for 1000 points.
+
+    +blacklist <@user>
+    +blacklist <@user> remove
+
+Adds or removes user from a blacklist. This blacklist is controlled by a role called "help-blacklist" that prevents the user from sending messages in the channel.
+
+    +help
+
+Displays all the moderator commands listed here (except -help) and their intended use.
 
 ## Deployment
 

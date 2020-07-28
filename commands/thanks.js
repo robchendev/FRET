@@ -74,17 +74,15 @@ function idToName(arr){
  * by updating the usernames and points of the user
  * If their data doesn't exist, it is made.
  * @param {string} usersID - a single user's ID
- * @param {string} usersName - a single user's username
  * @param {number} score - the amount of points to be added
  */
-function thank (usersID, usersName, score) {
+function thank (usersID, score) {
     
     pointsAdd.findOne({userid: usersID}, (err, pointdata) => {
         if(err) console.log(err);
         if(!pointdata){
             const addPoints = new pointsAdd({
                 userid: usersID,
-                username: usersName,
                 points: score
             })
             addPoints.save().catch(err => console.log(err));
@@ -110,7 +108,7 @@ function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
     
     for (var i = 0; i < allUsersName.length; i++){
         embedMsg.addField(`${allUsersName[i]}`, "+" + `${score}`, true);
-        thank(allUsersID[i], allUsersName[i], score);
+        thank(allUsersID[i], score);
     }
     msg.channel.send(embedMsg);
 }
@@ -129,7 +127,7 @@ function thankOnlyOne(msg, usersID, usersName, score) {
     .setDescription(`${msg.author}` + ' has thanked 1 user!')
     .addField(`${usersName}`, "+" + `${score}`, true);
 
-    thank(usersID, usersName, score);
+    thank(usersID, score);
     msg.channel.send(embedMsg);
 }
 
@@ -187,7 +185,7 @@ function userThankedThemselves(prefix, msg){
         setTimeout(() => {
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#36393F')
-            .setImage('https://i.imgur.com/6KMwTgi.png')
+            .setImage('https://i.imgur.com/yguYgQP.png')
             msg.channel.send(embedMsg)
         }, 3200);
     }
