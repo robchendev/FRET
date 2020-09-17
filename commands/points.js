@@ -17,8 +17,10 @@ function howManyPoints(userID, cb) {
     pointsAdd.findOne({userid: userID}, (err, pointdata) => {
         if(err) 
             return cb(err, null);
-        if(pointdata)
+        if(pointdata) {
+            //console.log(pointdata.points);
             return cb(null, pointdata.points);
+        }
         else
             return cb(null, null);
     })
@@ -31,18 +33,18 @@ function howManyPoints(userID, cb) {
  */
 function findPoints(msg, userID){
 
-    howManyPoints(userID, (err, points) => {
+    howManyPoints(userID, (err, pointdata) => {
         if(err){
             console.log(err);
         }
-        else if(points){
+        else if(pointdata){
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#2f3136')
-            .setDescription(`${userID} has **${(points)}** points.`);
+            .setDescription(`${userID} has **${(pointdata)}** points.`);
             msg.channel.send(embedMsg);
         }
         else{
-            msg.channel.send(`${userID}, you do not have any points! Please contribute by answering questions to get started.`);
+            msg.channel.send(`User does not have any points!`);
         }
     });
 }
@@ -69,13 +71,16 @@ module.exports = {
     execute (prefix, msg, args){
         //if command doesnt have any arguments "-points"
         if(!args.length){
-            findPoints(msg, msg.author);
+            // Removes nickname ! in ID
+            let thisUser = String(msg.member).replace('!','');
+            findPoints(msg, thisUser);
         }
 
         //if command has one argument "-points @user" and it's a mention
         else if(args.length === 1 && args[0].startsWith('<@') && args[0].endsWith('>')){
-            let mention = msg.mentions.users.first();
-            findPoints(msg, mention);
+            // Removes nickname ! in ID
+            let thisUser = String(msg.mentions.users.first()).replace('/!','/');;
+            findPoints(msg, thisUser);
         }
 
         //every other condition is incorrect
