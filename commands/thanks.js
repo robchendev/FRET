@@ -78,6 +78,9 @@ function idToName(arr){
  */
 function thank (usersID, score) {
     
+    // Removes nickname ! in ID
+    usersID = String(usersID).replace('!','');
+    
     pointsAdd.findOne({userid: usersID}, (err, pointdata) => {
         if(err) console.log(err);
         if(!pointdata){

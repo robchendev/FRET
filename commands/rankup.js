@@ -31,10 +31,13 @@ function howManyPoints(thisUser, cb) {
     pointsAdd.findOne({userid: thisUser}, (err, pointdata) => {
         if(err) 
             return cb(err, null);
-        if(pointdata)
+        if(pointdata) {
+            //console.log(pointdata.points);
             return cb(null, pointdata.points);
-        else
+        }
+        else {
             return cb(null, null);
+        }
     })
 }
 
@@ -52,17 +55,17 @@ function howManyPoints(thisUser, cb) {
 function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
     
     //If user does not have the role
-    if (!thisUser.roles.cache.has(roleNames[index].id)){
+    if (!msg.member.roles.cache.has(roleNames[index].id)){
         //Remove roles if the user has them
-        repairRoles(thisUser, rolePoints, roleNames);
+        repairRoles(msg.member, rolePoints, roleNames);
 
-        thisUser.roles.add(roleNames[index].id);
+        msg.member.roles.add(roleNames[index].id);
         const embedMsg = new Discord.MessageEmbed()
         .setColor('#2ecc71')
         if (index === 5){
-            embedMsg.setDescription(`${thisUser} has ranked up to ${roleNames[index]}!\nCongrats, you now have access to the members chats!`);
+            embedMsg.setDescription(`${msg.member} has ranked up to ${roleNames[index]}!\nCongrats, you now have access to the members chats!`);
         } else {
-            embedMsg.setDescription(`${thisUser} has ranked up to ${roleNames[index]}!\n`);
+            embedMsg.setDescription(`${msg.member} has ranked up to ${roleNames[index]}!\n`);
         }
         msg.channel.send(embedMsg);
     }
@@ -101,7 +104,7 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
 function hasNoRank(msg, thisUser, roleNames, rolePoints,) {
 
     //Check if user somehow has a role already. If they do, remove it.
-    repairRoles(thisUser, rolePoints, roleNames);
+    repairRoles(msg.member, rolePoints, roleNames);
 
     howManyPoints(thisUser, (err, points) => {
         if(err)
@@ -125,43 +128,48 @@ function hasNoRank(msg, thisUser, roleNames, rolePoints,) {
  */
 function rankupCheck(msg, roleNames, rolePoints) {
     
-    let thisUser = msg.member;
-    howManyPoints(thisUser, (err, points) => {
-        if(err)
+    // Removes nickname ! in ID
+    let thisUser = String(msg.member).replace('!','');
+    
+    howManyPoints(thisUser, (err, pointdata) => {
+        if(err) {
             console.log(err);
-        else if(points){
+        }
+        else if(pointdata){
             switch (true) {
-                case points >= rolePoints[5]:
+                case pointdata >= rolePoints[5]:
                     doRankUp(msg, thisUser, roleNames, rolePoints, 5);
                     break;
-                case points >= rolePoints[4] && points < rolePoints[5]:
+                case pointdata >= rolePoints[4] && pointdata < rolePoints[5]:
                     doRankUp(msg, thisUser, roleNames, rolePoints, 4);
                     break;
-                case points >= rolePoints[3] && points < rolePoints[4]:
+                case pointdata >= rolePoints[3] && pointdata < rolePoints[4]:
                     doRankUp(msg, thisUser, roleNames, rolePoints, 3);
                     break;
-                case points >= rolePoints[2] && points < rolePoints[3]:
+                case pointdata >= rolePoints[2] && pointdata < rolePoints[3]:
                     doRankUp(msg, thisUser, roleNames, rolePoints, 2);
                     break;    
-                case points >= rolePoints[1] && points < rolePoints[2]:
+                case pointdata >= rolePoints[1] && pointdata < rolePoints[2]:
                     doRankUp(msg, thisUser, roleNames, rolePoints, 1);
                     break;    
-                case points >= rolePoints[0] && points < rolePoints[1]:
+                case pointdata >= rolePoints[0] && pointdata < rolePoints[1]:
                     doRankUp(msg, thisUser, roleNames, rolePoints, 0);
                     break;
-                case points <  rolePoints[0]:
+                case pointdata <  rolePoints[0]:
                     hasNoRank(msg, thisUser, roleNames, rolePoints);
                     break;
-                case points === 0:
-                    repairRoles(thisUser, rolePoints, roleNames);
+                case pointdatas === 0:
+                    repairRoles(msg.member, rolePoints, roleNames);
                     msg.channel.send(`${thisUser}, you do not have any points! Please contribute by answering questions to get started.`);
                 default:
                     msg.channel.send(`${thisUser}, you do not have any points! Please contribute by answering questions to get started.`);
                     break;
             }
         }
-        else
-            repairRoles(thisUser, rolePoints, roleNames);
+        else {
+            msg.channel.send(`**${thisUser}**, you do not have any points! Please contribute by answering questions to get started.`);
+            repairRoles(msg.member, rolePoints, roleNames);
+        }
     });
 }
 

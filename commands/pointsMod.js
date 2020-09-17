@@ -100,54 +100,47 @@ module.exports = {
     description: "this mod command changes the points of a user",
     execute (prefix, msg, args){
         if (args.length > 0){
-            let mention = args[0];
-            if(mention.startsWith('<@') && mention.endsWith('>') && args.length <= 3){
-                
-                let doCommand = args[1];
-                
-                switch(doCommand) {
-                    case 'inc':
-                        let increment = args[2];
-                        if (!isNaN(parseInt(increment))){
-                            decPoints(msg, mention, increment*(-1));
-                        }
-                        else {
-                            msg.channel.send(`Correct usage: \`${prefix}points <user> inc <points>\``);
-                        }
-                        break;
-                    case 'dec':
-                        let deincrement = args[2];
-                        if (!isNaN(parseInt(deincrement))){
-                            decPoints(msg, mention, deincrement);
-                        }
-                        else {
-                            msg.channel.send(`Correct usage: \`${prefix}points <user> dec <points>\``);
-                        }
-                        break;
-                    case 'set':
-                        let set = args[2];
-                        if (!isNaN(parseInt(set))){
-                            setPoints(msg, mention, set);
-                        }
-                        else {
-                            msg.channel.send(`Correct usage: \`${prefix}points <user> set <points>\``);
-                        }
-                        break;
-                    case 'pen':
-                        decPoints(msg, mention, 1000);
-                        break;
-                    default:
-                        incorrectUsage(prefix, msg);
-                        break;
-                }
+            // Removes nickname ! in ID
+            let mention = String(msg.mentions.users.first()).replace('!','');
+            let doCommand = args[1];
+            switch(doCommand) {
+                case 'inc':
+                    let increment = args[2];
+                    if (!isNaN(parseInt(increment))){
+                        decPoints(msg, mention, increment*(-1));
+                    }
+                    else {
+                        msg.channel.send(`Correct usage: \`${prefix}points <user> inc <points>\``);
+                    }
+                    break;
+                case 'dec':
+                    let deincrement = args[2];
+                    if (!isNaN(parseInt(deincrement))){
+                        decPoints(msg, mention, deincrement);
+                    }
+                    else {
+                        msg.channel.send(`Correct usage: \`${prefix}points <user> dec <points>\``);
+                    }
+                    break;
+                case 'set':
+                    let set = args[2];
+                    if (!isNaN(parseInt(set))){
+                        setPoints(msg, mention, set);
+                    }
+                    else {
+                        msg.channel.send(`Correct usage: \`${prefix}points <user> set <points>\``);
+                    }
+                    break;
+                case 'pen':
+                    decPoints(msg, mention, 1000);
+                    break;
+                default:
+                    incorrectUsage(prefix, msg);
+                    break;
             }
-            else {
-                incorrectUsage(prefix, msg);
-            }
-        } 
+        }
         else {
             incorrectUsage(prefix, msg);
         }
-        
     }
 }
