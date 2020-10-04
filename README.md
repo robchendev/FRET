@@ -17,7 +17,7 @@ ThanksBot is a simple Javascript Discord bot that stores user-awarded points in 
   
 ## Demonstration
 
-![Demonstration](demonstration.gif)
+![Demonstration](demo.gif)
 
 ## Getting Started
 
