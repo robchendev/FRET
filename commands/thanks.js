@@ -9,6 +9,7 @@ mongoose.connect(secrets.Mongo, {
 
 /**
  * Checks if user is thanking themselves
+ * @param {Object} msg - the original command message
  * @param {Array} arr - array of command arguments user IDs
  * @return {Boolean} true if array has one mention matching the sending user's ID
  */
@@ -72,7 +73,9 @@ function idToName(arr){
 /**
  * Adds points to the user's data in the database
  * by updating the usernames and points of the user
+ * and adds points to the message author.
  * If their data doesn't exist, it is made.
+ * @param {Object} msg - the original command message
  * @param {string} usersID - a single user's ID
  * @param {number} score - the amount of points to be added
  */
@@ -120,8 +123,6 @@ function thank (msg, usersID, score) {
  * @param {number} score - the amount of points to be added
  */
 function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
-
-    
 
     const embedMsg = new Discord.MessageEmbed()
     .setColor('#2ecc71')
