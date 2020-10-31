@@ -93,7 +93,7 @@ The method of deployment is up to you, I'm personally self-hosting this bot on a
 
 Do note: If you plan on using the -rankup command, make sure this bot's role is higher than the roles you are trying to give via rankup. I haven't yet made any error checking for this so your bot will just terminate if it encounters this error.
 
-Since this was a personal project, a lot of my variables will be different from what you would want. I might make a setup command or a webpage backend to let others adjust the numbers... but not anytime soon (see [Future Plans](future-plans)), so you'd just need to download the bot and change them within the code yourself.
+Since this was a personal project, a lot of my variables will be different from what you would want. I might make a setup command or a webpage backend to let others adjust the numbers... but not anytime soon (see [Future Plans](#future-plans)), so you'd just need to download the bot and change them within the code yourself.
 
 ## Future Plans
 
