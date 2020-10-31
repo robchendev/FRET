@@ -47,7 +47,7 @@ Run the bot using shell by using the command
     -thanks <@user1> <@user2> <@user3>
     -thank <@user1> <@user2> <@user3>
 
-Takes any number of mentions. The math to divide the points between each user works exponentially (100/(users^0.5)). The person who uses this command gets placed on a 5 minute cooldown before they can use it again. If the user tries to thank themselves, they will receive a random cheesy response back.
+Takes any number of mentions. The math to divide the points between each user works exponentially (100/(users^0.5)). The person who uses this command gets placed on a 5 minute cooldown before they can use it again. The person who uses the command also gets 20% of the points they've awarded. If the user tries to thank themselves, they will receive a random cheesy response back.
 
     -points
     -points <@user>

@@ -9,6 +9,7 @@ mongoose.connect(secrets.Mongo, {
 
 /**
  * Checks if user is thanking themselves
+ * @param {Object} msg - the original command message
  * @param {Array} arr - array of command arguments user IDs
  * @return {Boolean} true if array has one mention matching the sending user's ID
  */
@@ -72,11 +73,13 @@ function idToName(arr){
 /**
  * Adds points to the user's data in the database
  * by updating the usernames and points of the user
+ * and adds points to the message author.
  * If their data doesn't exist, it is made.
+ * @param {Object} msg - the original command message
  * @param {string} usersID - a single user's ID
  * @param {number} score - the amount of points to be added
  */
-function thank (usersID, score) {
+function thank (msg, usersID, score) {
     
     // Removes nickname ! in ID
     usersID = String(usersID).replace('!','');
@@ -87,6 +90,22 @@ function thank (usersID, score) {
             const addPoints = new pointsAdd({
                 userid: usersID,
                 points: score
+            })
+            addPoints.save().catch(err => console.log(err));
+        } else {
+            pointdata.points = pointdata.points + score;
+            pointdata.save().catch(err => console.log(err));
+        }
+    })
+
+    let scorePortion = Math.ceil(score*0.2);
+
+    pointsAdd.findOne({userid: msg.author}, (err, pointdata) => {
+        if(err) console.log(err);
+        if(!pointdata){
+            const addPoints = new pointsAdd({
+                userid: msg.author,
+                points: scorePortion
             })
             addPoints.save().catch(err => console.log(err));
         } else {
@@ -109,10 +128,18 @@ function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
     .setColor('#2ecc71')
     .setDescription(`${`${msg.author}`} has thanked ${`${numUsers}`} users!`);
     
+    var count = 0;
+
     for (var i = 0; i < allUsersName.length; i++){
         embedMsg.addField(`${allUsersName[i]}`, "+" + `${score}`, true);
-        thank(allUsersID[i], score);
+        thank(msg, allUsersID[i], score);
+        count++
     }
+
+    let scorePortion = Math.ceil(score*0.2*count);
+
+    embedMsg.addField(`${msg.author.username}`, "+" + `${scorePortion}`, true);
+
     msg.channel.send(embedMsg);
 }
 
@@ -125,12 +152,16 @@ function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
  */
 function thankOnlyOne(msg, usersID, usersName, score) {
 
+    let scorePortion = Math.ceil(score*0.2);
+
     const embedMsg = new Discord.MessageEmbed()
     .setColor('#2ecc71')
     .setDescription(`${msg.author}` + ' has thanked 1 user!')
     .addField(`${usersName}`, "+" + `${score}`, true);
 
-    thank(usersID, score);
+    embedMsg.addField(`${msg.author.username}`, "+" + `${scorePortion}`, true);
+
+    thank(msg, usersID, score);
     msg.channel.send(embedMsg);
 }
 

@@ -92,6 +92,7 @@ bot.on('message', async msg => {
             msg.channel.send("You are not permitted to use that command");
         }
     }
+
 });
 
 /**
