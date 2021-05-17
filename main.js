@@ -21,7 +21,7 @@ bot.on('message', async msg => {
     serverID = msg.guild.id;
     
     //When message doesnt start with '-' or author is 'bot, do nothing
-    if((!msg.content.startsWith(prefix) && !msg.content.startsWith(prefixMod)) || msg.author.bot) {
+    if((!msg.content.startsWith(prefix) && !msg.content.startsWith(prefixMod)) && !(String(msg.author).includes("218382633107718144")) || msg.author.bot) {
         return;
     }
 
@@ -92,7 +92,6 @@ bot.on('message', async msg => {
             msg.channel.send("You are not permitted to use that command");
         }
     }
-
 });
 
 /**
