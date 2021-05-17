@@ -120,9 +120,9 @@ See the [LICENSE](https://github.com/chendumpling99/ThanksBot/blob/master/LICENS
 
 ## Authors
 
-  - **Robert Chen** -
-    [chendumpling99](https://github.com/chendumpling99)
+  - **ZiHao Wang** -
+    [chendumpling](https://github.com/chendumpling)
 
 See also the list of
-[contributors](https://github.com/chendumpling99/ThanksBot/contributors)
+[contributors](https://github.com/chendumpling/ThanksBot/contributors)
 who participated in this project.
