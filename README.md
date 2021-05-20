@@ -1,6 +1,6 @@
 # ThanksBot
 
-ThanksBot is a simple Javascript Discord bot that stores user-awarded points in a database (specifically Mongoose). The idea is to encourage users to ask and answer questions. With each question answered, other users can choose to thank the user who answered the question by giving them points, leveling them up through roles. Moderator-specific commands to change a user's points on-demand are also included. This bot is currently self-hosted and used in the professional musician Eddie van der Meer's [Discord server](https://discord.com/invite/ZXKrfB2).
+ThanksBot is a simple Javascript Discord bot that stores user-awarded points in a database (specifically MongoDB). The idea is to encourage users to ask and answer questions. With each question answered, other users can choose to thank the user who answered the question by giving them points, leveling them up through roles. Moderator-specific commands to change a user's points on-demand are also included. This bot is currently self-hosted and used in the professional musician Eddie van der Meer's [Discord server](https://discord.com/invite/ZXKrfB2).
 
 ## Summary
 
