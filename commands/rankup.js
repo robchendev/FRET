@@ -158,7 +158,7 @@ function rankupCheck(msg, roleNames, rolePoints) {
                 case pointdata <  rolePoints[0]:
                     hasNoRank(msg, thisUser, roleNames, rolePoints);
                     break;
-                case pointdatas === 0:
+                case pointdata === 0:
                     repairRoles(msg.member, rolePoints, roleNames);
                     msg.channel.send(`${thisUser}, you do not have any points! Please contribute by answering questions to get started.`);
                 default:
