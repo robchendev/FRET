@@ -8,8 +8,8 @@ function createThread(msg){
     
     // The bot crashes if the title is longer than 100 characters,
     // this gives some headroom.
-    let threadTitle = msg.toString().substring(3, 83);
-    if (msg.toString() > 83){
+    let threadTitle = msg.content.substring(3, 83);
+    if (msg.content > 83){
         threadTitle = threadTitle + "...";
     }
     msg.startThread({
@@ -46,6 +46,12 @@ module.exports = {
             else {
                 createThread(msg);
             }
+        }
+        else {
+            msg.channel.send(`**${msg.author.username}**` + ", please ask your question outside this thread.")
+            .then(sentMsg => {
+                setTimeout(() => sentMsg.delete(), 10000)
+            }).catch();
         }
     }
 }
