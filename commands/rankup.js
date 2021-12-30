@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
+const ids = require(`../ids.json`);
 const secrets = require(`../secrets.json`);
 const pointsAdd = require("../models/addPoints.js");
 mongoose.connect(secrets.Mongo, {
@@ -180,12 +181,12 @@ module.exports = {
 
         //the roles in the server that are to be used for this bot
         var roleNames = [
-            /*0*/msg.guild.roles.cache.find(r => r.name === "Peer"),
-            /*1*/msg.guild.roles.cache.find(r => r.name === "Teacher"),
-            /*2*/msg.guild.roles.cache.find(r => r.name === "Mentor"),
-            /*3*/msg.guild.roles.cache.find(r => r.name === "Advisor"),
-            /*4*/msg.guild.roles.cache.find(r => r.name === "Lecturer"),
-            /*5*/msg.guild.roles.cache.find(r => r.name === "Tenure")
+            /*0*/msg.guild.roles.cache.find(r => r.name === ids.rank200),
+            /*1*/msg.guild.roles.cache.find(r => r.name === ids.rank500),
+            /*2*/msg.guild.roles.cache.find(r => r.name === ids.rank1000),
+            /*3*/msg.guild.roles.cache.find(r => r.name === ids.rank2500),
+            /*4*/msg.guild.roles.cache.find(r => r.name === ids.rank5000),
+            /*5*/msg.guild.roles.cache.find(r => r.name === ids.rank10000)
         ];
         
         //the points that are required to get each role

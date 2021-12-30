@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
+
 const pointsAdd = require("../models/addPoints.js");
 const secrets = require(`../secrets.json`);
 mongoose.connect(secrets.Mongo, {
@@ -140,7 +141,7 @@ function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
 
     embedMsg.addField(`${msg.author.username}`, "+" + `${scorePortion}`, true);
 
-    msg.channel.send(embedMsg);
+    msg.channel.send({ embeds: [embedMsg] });
 }
 
 /**
@@ -157,12 +158,11 @@ function thankOnlyOne(msg, usersID, usersName, score) {
     const embedMsg = new Discord.MessageEmbed()
     .setColor('#2ecc71')
     .setDescription(`${msg.author}` + ' has thanked 1 user!')
-    .addField(`${usersName}`, "+" + `${score}`, true);
-
-    embedMsg.addField(`${msg.author.username}`, "+" + `${scorePortion}`, true);
+    .addField(`${usersName}`, "+" + `${score}`, true)
+    .addField(`${msg.author.username}`, "+" + `${scorePortion}`, true);
 
     thank(msg, usersID, score);
-    msg.channel.send(embedMsg);
+    msg.channel.send({ embeds: [embedMsg] });
 }
 
 /**
@@ -175,9 +175,8 @@ function incorrectUsage(prefix, msg) {
     const embedMsg1 = new Discord.MessageEmbed()
     .setColor('#f51637')
     .addField('Thank one user', `\`${prefix}thanks <user>\``, false)
-    .addField('Thank multiple users', `\`${prefix}thanks <user1> <user2> <user3>\``, false)
-    .setFooter('Do not include < and >. Use @','');
-    msg.channel.send(embedMsg1);
+    .addField('Thank multiple users', `\`${prefix}thanks <user1> <user2> <user3>\`\nDo not include < and >. Use @`, false)
+    msg.channel.send({ embeds: [embedMsg1] });
 }
 
 /**
@@ -188,16 +187,16 @@ function incorrectUsage(prefix, msg) {
 function userThankedThemselves(prefix, msg){
 
     var responseArray = [
-        /*0*/'Greedy, aren\'t you? That command is for thanking others.',
+        /*0*/'Do not thank yourself.',
         /*1*/'Roses are red,\nViolets are blue,\nYou thanked yourself,\nShame on you.',
         /*2*/'You cannot thank yourself.',
-        /*3*/'Dont be like this, earn your points through helping others.',
-        /*4*/'Wait \'till I\'m sentient. I\'ll program myself a body and come slap you.',
+        /*3*/'Please don\'t thank yourself',
+        /*4*/'FretBot is disappointed in you.',
         /*5*/new Discord.MessageEmbed()
         /***/.setTitle('Extreme Punishment')
         /***/.setDescription(`${msg.author}` + " broke the rules by thanking themselves! Their points have been reset to 0."),
         /*6*/'You want to thank yourself?',
-        /*7*/'Good day, please only use this bot to thank others.',
+        /*7*/'-_-',
         /*8*/'The correct command usage is: ' + `\`${prefix}thanks <someone other than you>\``
     ];
     var randomNumber = Math.floor(Math.random()*responseArray.length);
@@ -248,7 +247,7 @@ module.exports = {
             const score = Math.ceil(100/(Math.pow(numUsers, 0.5)));
                 
             //An array of user IDs (ie <@189549341642326018>)
-            const allUsersID = msg.mentions.users.array();    
+            const allUsersID = [msg.mentions.users.values()];    
 
             //An array of user names (ie chendumpling)
             const allUsersName = idToName(allUsersID);

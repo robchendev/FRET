@@ -9,12 +9,12 @@
   "author": "Robert Chen",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.2",
-    "discord.js": "^12.2.0",
-    "humanize-duration": "^3.23.1",
-    "mongoose": "^5.9.25",
-    "node": "^14.5.0",
-    "node-fetch": "^2.6.0",
+    "axios": "^0.24.0",
+    "discord.js": "^13.5.0",
+    "humanize-duration": "^3.27.1",
+    "mongoose": "^6.1.4",
+    "node": "^17.3.0",
+    "node-fetch": "^3.1.0",
     "node.js": "0.0.1-security",
     "request": "^2.88.2",
     "tatsumaki.js": "0.0.1"
