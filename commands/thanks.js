@@ -172,12 +172,12 @@ function thankOnlyOne(msg, usersID, usersName, score) {
  */
 function incorrectUsage(prefix, msg) {
 
-    const embedMsg1 = new Discord.MessageEmbed()
+    const embedMsg = new Discord.MessageEmbed()
     .setColor('#f51637')
     .addField('Thank one user', `\`${prefix}thanks <user>\``, false)
     .addField('Thank multiple users', `\`${prefix}thanks <user1> <user2> <user3>\``, false)
     .addField('Careful', 'Do not include < and >. Use @', false);
-    msg.channel.send({embeds: [embedMsg1]});
+    msg.channel.send({embeds: [embedMsg]});
 }
 
 module.exports = {
@@ -230,5 +230,6 @@ module.exports = {
             }
         }
         return hasThanked;
+
     }
 }

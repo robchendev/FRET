@@ -81,6 +81,9 @@ bot.on('messageCreate', async msg => {
                     // check if message was sent to the correct "promotion" channel.
                     bot.commands.get('about').execute(msg, args);
                     break;
+                case 'q':
+                    bot.commands.get('question').execute(prefix, msg, args);
+                    break;
             }
         }
         else if(msg.content.startsWith(prefixMod)) {

@@ -12,6 +12,6 @@ module.exports = {
     name: 'promo',
     description: "this command posts user's promotion material into a regular #promo channel",
     execute (msg){
-
+        
     }
 }
