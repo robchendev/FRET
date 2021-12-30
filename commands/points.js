@@ -41,7 +41,7 @@ function findPoints(msg, userID){
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#2f3136')
             .setDescription(`${userID} has **${(pointdata)}** points.`);
-            msg.channel.send(embedMsg);
+            msg.channel.send({embeds: [embedMsg]});
         }
         else{
             msg.channel.send(`User does not have any points!`);
@@ -60,8 +60,8 @@ function incorrectUsage(prefix, msg) {
     .setColor('#f51637')
     .addField('View your points', `\`${prefix}points\``, false)
     .addField('View someone else\'s points', `\`${prefix}points <user>\``, false)
-    .setFooter('Do not include < and >. Use @','');
-    msg.channel.send(embedMsg1);
+    .addField('Careful', 'Do not include < and >. Use @', false);
+    msg.channel.send({embeds: [embedMsg1]});
 }
 
 module.exports = {

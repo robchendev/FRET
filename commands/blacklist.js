@@ -14,7 +14,7 @@ function doBlackList(msg, thisUser, blacklistRole) {
         const embedMsg = new Discord.MessageEmbed()
         .setColor('#fc00f8')
         .setDescription(`${thisUser} is now blacklisted from this channel.`);
-        msg.channel.send(embedMsg);
+        msg.channel.send({embeds: [embedMsg]});
     }
     //If user already has the role
     else {
@@ -40,7 +40,7 @@ function undoBlackList(msg, thisUser, blacklistRole) {
         const embedMsg = new Discord.MessageEmbed()
         .setColor('#fc00f8')
         .setDescription(`${thisUser} is no longer blacklisted from this channel.`);
-        msg.channel.send(embedMsg);
+        msg.channel.send({embeds: [embedMsg]});
     }
 }
 

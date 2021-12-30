@@ -141,7 +141,7 @@ function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
 
     embedMsg.addField(`${msg.author.username}`, "+" + `${scorePortion}`, true);
 
-    msg.channel.send({ embeds: [embedMsg] });
+    msg.channel.send({embeds: [embedMsg]});
 }
 
 /**
@@ -162,7 +162,7 @@ function thankOnlyOne(msg, usersID, usersName, score) {
     .addField(`${msg.author.username}`, "+" + `${scorePortion}`, true);
 
     thank(msg, usersID, score);
-    msg.channel.send({ embeds: [embedMsg] });
+    msg.channel.send({embeds: [embedMsg]});
 }
 
 /**
@@ -175,8 +175,9 @@ function incorrectUsage(prefix, msg) {
     const embedMsg1 = new Discord.MessageEmbed()
     .setColor('#f51637')
     .addField('Thank one user', `\`${prefix}thanks <user>\``, false)
-    .addField('Thank multiple users', `\`${prefix}thanks <user1> <user2> <user3>\`\nDo not include < and >. Use @`, false)
-    msg.channel.send({ embeds: [embedMsg1] });
+    .addField('Thank multiple users', `\`${prefix}thanks <user1> <user2> <user3>\``, false)
+    .addField('Careful', 'Do not include < and >. Use @', false);
+    msg.channel.send({embeds: [embedMsg1]});
 }
 
 /**

@@ -68,7 +68,7 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
         } else {
             embedMsg.setDescription(`${msg.member} has ranked up to ${roleNames[index]}!\n`);
         }
-        msg.channel.send(embedMsg);
+        msg.channel.send({embeds: [embedMsg]});
     }
     //If user already has the role
     else {
@@ -81,7 +81,7 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
                     const embedMsg = new Discord.MessageEmbed()
                     .setColor('#f1c40f')
                     .setDescription(`${thisUser}, you need **${(rolePoints[index+1]-points)}** points to rank up to ${roleNames[index+1]}.`);
-                    msg.channel.send(embedMsg);
+                    msg.channel.send({embeds: [embedMsg]});
                 }
                 else
                     console.log("no data found");
@@ -114,7 +114,7 @@ function hasNoRank(msg, thisUser, roleNames, rolePoints,) {
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#f1c40f')
             .setDescription(`${thisUser}, you need **${(rolePoints[0]-points)}** points to rank up to ${roleNames[0]}.`);
-            msg.channel.send(embedMsg);
+            msg.channel.send({embeds: [embedMsg]});
         }
         else
             console.log("no data found");

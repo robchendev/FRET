@@ -26,7 +26,7 @@ function decPoints (msg, usersID, deincrement) {
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#fc00f8')
             .setDescription(`${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`);
-            msg.channel.send(embedMsg);
+            msg.channel.send({embeds: [embedMsg]});
         }
         else {
             let resultPoints = 0 - deincrement;
@@ -38,7 +38,7 @@ function decPoints (msg, usersID, deincrement) {
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#fc00f8')
             .setDescription(`${usersID}'s points have been changed from 0 to ${resultPoints}`);
-            msg.channel.send(embedMsg);
+            msg.channel.send({embeds: [embedMsg]});
         }
     })
 }
@@ -62,7 +62,7 @@ function setPoints (msg, usersID, set) {
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#fc00f8')
             .setDescription(`${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`);
-            msg.channel.send(embedMsg);
+            msg.channel.send({embeds: [embedMsg]});
         } else {
             const addPoints = new pointsChange({
                 userid: usersID,
@@ -72,7 +72,7 @@ function setPoints (msg, usersID, set) {
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#fc00f8')
             .setDescription(`${usersID}'s points have been changed from 0 to ${set}`);
-            msg.channel.send(embedMsg);
+            msg.channel.send({embeds: [embedMsg]});
         }
     })
     
@@ -91,8 +91,8 @@ function incorrectUsage(prefix, msg) {
     .addField('Decrease points', `\`${prefix}points <user> dec <points>\``, false)
     .addField('Set points', `\`${prefix}points <user> set <points>\``, false)
     .addField('Default penalty (-1000)', `\`${prefix}points <user> pen\``, false)
-    .setFooter('Do not include < and >. Use @','');
-    msg.channel.send(embedMsg);
+    .addField('Careful', 'Do not include < and >. Use @', false);
+    msg.channel.send({embeds: [embedMsg]});
 }
 
 module.exports = {

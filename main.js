@@ -57,8 +57,7 @@ bot.on('messageCreate', async msg => {
                         msg.channel.send(`**${msg.author.username}**` + ", you can only thank once every 5 minutes.")
                         .then(sentMsg => {
                             setTimeout(() => sentMsg.delete(), 10000)
-                        })
-                        .catch()
+                        }).catch();
                     }
                     else {
                         if(bot.commands.get('thanks').execute(prefix, msg, args)){

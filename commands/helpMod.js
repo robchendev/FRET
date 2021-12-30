@@ -10,8 +10,8 @@ module.exports = {
 	.setTitle('Moderator Commands')
     .addField(`\`${prefix}points <user> inc|dec|set <points>\``, 'Increases, descreases or sets user\'s points', false)
     .addField(`\`${prefix}points <user> pen\``, 'Penalizes a user for 1000 points', false)
-    .addField(`\`${prefix}blacklist\``, 'Blacklists user from sending messages on this channel', false)
+    .addField(`\`${prefix}blacklist\``, 'Blacklists user from sending messages on this channel', false);
     
-    msg.channel.send(embedMsg);
+    msg.channel.send({embeds: [embedMsg]});
     }
 }
