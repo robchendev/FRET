@@ -9,7 +9,7 @@ mongoose.connect(secrets.Mongo, {
 
 /**
  * Checks if user is thanking themselves
- * @param {Object} msg - the original command message
+ * @param {Message} msg - the original command message
  * @param {Array} arr - array of user IDs
  * @return {Boolean} true if array has one mention matching the sending user's ID
  */
@@ -75,9 +75,9 @@ function idToName(arr){
  * by updating the usernames and points of the user
  * and adds points to the message author.
  * If their data doesn't exist, it is made.
- * @param {Object} msg - the original command message
- * @param {string} usersID - a single user's ID
- * @param {number} score - the amount of points to be added
+ * @param {Message} msg - the original command message
+ * @param {String} usersID - a single user's ID
+ * @param {Number} score - the amount of points to be added
  */
 function thank (msg, usersID, score) {
     
@@ -117,10 +117,10 @@ function thank (msg, usersID, score) {
 
 /**
  * Sends embed message and awards points to all users mentioned
- * @param {Object} msg - the original command message
- * @param {array} allUsersID - array of user IDs
- * @param {array} allUsersName - array of usernames
- * @param {number} score - the amount of points to be added
+ * @param {Message} msg - the original command message
+ * @param {Array} allUsersID - array of user IDs
+ * @param {Array} allUsersName - array of usernames
+ * @param {Number} score - the amount of points to be added
  */
 function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
 
@@ -145,10 +145,10 @@ function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
 
 /**
  * Sends embed message and awards points to the user mentioned
- * @param {Object} msg - the original command message
- * @param {string} usersID - a single user's ID
- * @param {string} usersName - a single user's username
- * @param {number} score - the amount of points to be added
+ * @param {Message} msg - the original command message
+ * @param {String} usersID - a single user's ID
+ * @param {String} usersName - a single user's username
+ * @param {Number} score - the amount of points to be added
  */
 function thankOnlyOne(msg, usersID, usersName, score) {
 
@@ -166,8 +166,8 @@ function thankOnlyOne(msg, usersID, usersName, score) {
 
 /**
  * Sends embed message on how to use the command properly
- * @param {string} prefix - the prefix of the command
- * @param {Object} msg - the original command message
+ * @param {String} prefix - the prefix of the command
+ * @param {Message} msg - the original command message
  */
 function incorrectUsage(prefix, msg) {
 

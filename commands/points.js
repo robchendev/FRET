@@ -9,8 +9,8 @@ mongoose.connect(secrets.Mongo, {
 
 /**
  * Pulls the user's points data from the database
- * @param {string} userID - a single user's ID
- * @param {none} cb - callback
+ * @param {String} userID - a single user's ID
+ * @param {None} cb - callback
  */
 function howManyPoints(userID, cb) {
 
@@ -28,8 +28,8 @@ function howManyPoints(userID, cb) {
 
 /**
  * Sends an embed message on how many points the user has
- * @param {*} msg - the original command message
- * @param {*} userID - a single user's ID
+ * @param {Message} msg - the original command message
+ * @param {String} userID - a single user's ID
  */
 function findPoints(msg, userID){
 
@@ -51,8 +51,8 @@ function findPoints(msg, userID){
 
 /**
  * Sends embed message on how to use the command properly
- * @param {*} prefix - the prefix of the command
- * @param {*} msg - the original command message
+ * @param {String} prefix - the prefix of the command
+ * @param {Message} msg - the original command message
  */
 function incorrectUsage(prefix, msg) {
 

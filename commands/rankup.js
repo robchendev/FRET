@@ -97,8 +97,8 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
 /**
  * Removes rank if the user has it already, and sends an embed
  * message about how many points the user needs for the next rank
- * @param {Object} msg - the original command message 
- * @param {string} thisUser - id of the user to adjust the roles of
+ * @param {Message} msg - the original command message 
+ * @param {String} thisUser - id of the user to adjust the roles of
  * @param {Array} roleNames - array of roles to be given
  * @param {Array} rolePoints - array of point thresholds for each corresponding role
  */
@@ -123,7 +123,7 @@ function hasNoRank(msg, thisUser, roleNames, rolePoints,) {
 
 /**
  * Determines what role is to be given to a user, if applicable.
- * @param {Object} msg - the original command message 
+ * @param {Message} msg - the original command message 
  * @param {Array} roleNames - array of roles to be given
  * @param {Array} rolePoints - array of point thresholds for each corresponding role
  */
@@ -176,7 +176,7 @@ function rankupCheck(msg, roleNames, rolePoints) {
 
 module.exports = {
     name: 'rankup',
-    description: "this command determines if a user is ready to rank up. If so, they will rank up.",
+    description: "this command determines if a user is ready to rank up. If so, they will rank up. Also repairs ranks if the points are below threshold.",
     execute (msg){
 
         //the roles in the server that are to be used for this bot
