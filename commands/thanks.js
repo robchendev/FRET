@@ -1,6 +1,5 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
-const bot = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES"] });
 const pointsAdd = require("../models/addPoints.js");
 const secrets = require(`../secrets.json`);
 mongoose.connect(secrets.Mongo, {
@@ -230,6 +229,5 @@ module.exports = {
             }
         }
         return hasThanked;
-
     }
 }

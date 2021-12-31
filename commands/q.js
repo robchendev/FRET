@@ -18,6 +18,17 @@ function createThread(msg){
 }
 
 /**
+ * Sends message telling user to write -q command outside the current thread
+ * @param {Message} msg - the original command message
+ */
+function commandInsideThread(msg){
+    msg.channel.send(`**${msg.author.username}**` + ", please ask your question outside this thread.")
+    .then(sentMsg => {
+        setTimeout(() => sentMsg.delete(), 10000)
+    }).catch();
+}
+
+/**
  * Sends embed message on how to use the command properly
  * @param {String} prefix - the prefix of the command
  * @param {Message} msg - the original command message
@@ -39,8 +50,7 @@ module.exports = {
         // If this if statement didn't exist, the bot will crash
         if (!(msg.channel.type == 'GUILD_PUBLIC_THREAD')){
 
-            // if the user simply did the command with no arguments
-            if (!args.length) {
+            if (!args.length) { // user only typed "-q"
                 incorrectUsage(prefix, msg);
             }
             else {
@@ -48,10 +58,7 @@ module.exports = {
             }
         }
         else {
-            msg.channel.send(`**${msg.author.username}**` + ", please ask your question outside this thread.")
-            .then(sentMsg => {
-                setTimeout(() => sentMsg.delete(), 10000)
-            }).catch();
+            commandInsideThread(msg);
         }
     }
 }

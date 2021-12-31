@@ -77,19 +77,19 @@ bot.on('messageCreate', async msg => {
                 case 'about':
                     bot.commands.get('about').execute(msg);
                     break;
-                case 'promo':
-                    // check if message was sent to the correct "promotion" channel.
-                    bot.commands.get('about').execute(msg, args);
-                    break;
                 case 'q':
                     bot.commands.get('question').execute(prefix, msg, args);
+                    break;
+                case 'weekly':
+                    if(msg.channel.id == ids.weeklyChannel){
+                        bot.commands.get('weekly').execute(prefix, msg, args);
+                    }
                     break;
             }
         }
         else if(msg.content.startsWith(prefixMod)) {
             
-            let modRole = msg.guild.roles.cache.find(r => r.name === ids.DBmanager);
-            if (msg.member.roles.cache.has(modRole.id)) {
+            if (msg.member.roles.cache.has(ids.DBmanager)){
                 //Splices via space (ie "+thanks @robert")
                 const withoutPrefix = msg.content.slice(prefixMod.length);
                 const split = withoutPrefix.split(/ +/);

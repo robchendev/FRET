@@ -10,8 +10,8 @@ mongoose.connect(secrets.Mongo, {
 /**
  * Decreases users points in database and sends an embed message
  * @param {Object} msg - the original message sent
- * @param {string} usersID - a single user's ID
- * @param {number} deincrement - the amount of points to subtract by
+ * @param {String} usersID - a single user's ID
+ * @param {Number} deincrement - the amount of points to subtract by
  */
 function decPoints (msg, usersID, deincrement) {
     
@@ -46,8 +46,8 @@ function decPoints (msg, usersID, deincrement) {
 /**
  * Sets users points in database and sends an embed message
  * @param {Object} msg - the original message sent
- * @param {string} usersID - a single user's ID
- * @param {number} set - the points amount to be set to
+ * @param {String} usersID - a single user's ID
+ * @param {Number} set - the points amount to be set to
  */
 function setPoints (msg, usersID, set) {
     
@@ -80,8 +80,8 @@ function setPoints (msg, usersID, set) {
 
 /**
  * Sends embed message on how to use the command properly
- * @param {*} prefix - the prefix of the command
- * @param {*} msg - the original command message
+ * @param {String} prefix - the prefix of the command
+ * @param {Message} msg - the original command message
  */
 function incorrectUsage(prefix, msg) {
 
