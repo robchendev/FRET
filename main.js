@@ -12,7 +12,8 @@ for(const file of commandFiles){
     const command = require(`./commands/${file}`);
     bot.commands.set(command.name, command);
 }
-const usedCommandRecently = new Set(); //Tracks cooldowns
+let usedThanksRecently = new Set(); 
+let usedQuestionRecently = new Set();
 
 bot.once('ready', () => {
     console.log('FretBot is online!');
@@ -52,7 +53,7 @@ bot.on('messageCreate', async msg => {
 
                 case 'thank':
                 case 'thanks':
-                    if(usedCommandRecently.has(msg.author.id)){
+                    if(usedThanksRecently.has(msg.author.id)){
                         
                         msg.channel.send(`**${msg.author.username}**` + ", you can only thank once every 5 minutes.")
                         .then(sentMsg => {
@@ -60,9 +61,8 @@ bot.on('messageCreate', async msg => {
                         }).catch();
                     }
                     else {
-                        if(bot.commands.get('thanks').execute(prefix, msg, args)){
-                            setCooldown(5, msg);
-                        } 
+                        bot.commands.get('thanks').execute(prefix, msg, args)
+                        setThanksCooldown(5, msg);
                     }
                     break;
                 case 'rankup':
@@ -78,11 +78,16 @@ bot.on('messageCreate', async msg => {
                     bot.commands.get('about').execute(msg);
                     break;
                 case 'q':
-                    bot.commands.get('question').execute(prefix, msg, args);
-                    break;
-                case 'weekly':
-                    if(msg.channel.id == ids.weeklyChannel){
-                        bot.commands.get('weekly').execute(prefix, msg, args);
+                    if(usedQuestionRecently.has(msg.author.id)){
+                        
+                        msg.channel.send(`**${msg.author.username}**` + ", you can only ask a question once every 5 minutes.")
+                        .then(sentMsg => {
+                            setTimeout(() => sentMsg.delete(), 10000)
+                        }).catch();
+                    }
+                    else {
+                        bot.commands.get('question').execute(prefix, msg, args)
+                        setQuestionCooldown(5, msg);
                     }
                     break;
             }
@@ -120,18 +125,31 @@ bot.on('messageCreate', async msg => {
 });
 
 /**
- * sets the cooldown of a command for a certain user
- * @param {number} cd - number of minutes to cooldown for
- * @param {Object} msg - original message sent to the channel
+ * sets the cooldown of a -thanks command for a certain user
+ * @param {Number} cd - number of minutes to cooldown for
+ * @param {Message} msg - original message sent to the channel
  */
-function setCooldown(cd, msg) {
+function setThanksCooldown(cd, msg) {
     
-    usedCommandRecently.add(msg.author.id);
+    usedThanksRecently.add(msg.author.id);
     setTimeout(() => {
-        usedCommandRecently.delete(msg.author.id);
+        usedThanksRecently.delete(msg.author.id);
     }, (Math.floor((60000)*cd))); //1min * cd
 }
 
+/**
+ * sets the cooldown of a -q command for a certain user
+ * @param {Number} cd - number of minutes to cooldown for
+ * @param {Message} msg - original message sent to the channel
+ */
+function setQuestionCooldown(cd, msg) {
+    
+    usedQuestionRecently.add(msg.author.id);
+    setTimeout(() => {
+        usedQuestionRecently.delete(msg.author.id);
+    }, (Math.floor((60000)*cd))); //1min * cd
+    console.log(usedQuestionRecently);
+}
 //keep this at the last line of the file
 bot.login(secrets.Token);
 
