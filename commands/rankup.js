@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
+const ids = require(`../ids.json`);
 const secrets = require(`../secrets.json`);
 const pointsAdd = require("../models/addPoints.js");
 mongoose.connect(secrets.Mongo, {
@@ -67,7 +68,7 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
         } else {
             embedMsg.setDescription(`${msg.member} has ranked up to ${roleNames[index]}!\n`);
         }
-        msg.channel.send(embedMsg);
+        msg.channel.send({embeds: [embedMsg]});
     }
     //If user already has the role
     else {
@@ -80,7 +81,7 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
                     const embedMsg = new Discord.MessageEmbed()
                     .setColor('#f1c40f')
                     .setDescription(`${thisUser}, you need **${(rolePoints[index+1]-points)}** points to rank up to ${roleNames[index+1]}.`);
-                    msg.channel.send(embedMsg);
+                    msg.channel.send({embeds: [embedMsg]});
                 }
                 else
                     console.log("no data found");
@@ -96,8 +97,8 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
 /**
  * Removes rank if the user has it already, and sends an embed
  * message about how many points the user needs for the next rank
- * @param {Object} msg - the original command message 
- * @param {string} thisUser - id of the user to adjust the roles of
+ * @param {Message} msg - the original command message 
+ * @param {String} thisUser - id of the user to adjust the roles of
  * @param {Array} roleNames - array of roles to be given
  * @param {Array} rolePoints - array of point thresholds for each corresponding role
  */
@@ -113,7 +114,7 @@ function hasNoRank(msg, thisUser, roleNames, rolePoints,) {
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#f1c40f')
             .setDescription(`${thisUser}, you need **${(rolePoints[0]-points)}** points to rank up to ${roleNames[0]}.`);
-            msg.channel.send(embedMsg);
+            msg.channel.send({embeds: [embedMsg]});
         }
         else
             console.log("no data found");
@@ -122,7 +123,7 @@ function hasNoRank(msg, thisUser, roleNames, rolePoints,) {
 
 /**
  * Determines what role is to be given to a user, if applicable.
- * @param {Object} msg - the original command message 
+ * @param {Message} msg - the original command message 
  * @param {Array} roleNames - array of roles to be given
  * @param {Array} rolePoints - array of point thresholds for each corresponding role
  */
@@ -158,7 +159,7 @@ function rankupCheck(msg, roleNames, rolePoints) {
                 case pointdata <  rolePoints[0]:
                     hasNoRank(msg, thisUser, roleNames, rolePoints);
                     break;
-                case pointdatas === 0:
+                case pointdata === 0:
                     repairRoles(msg.member, rolePoints, roleNames);
                     msg.channel.send(`${thisUser}, you do not have any points! Please contribute by answering questions to get started.`);
                 default:
@@ -175,17 +176,17 @@ function rankupCheck(msg, roleNames, rolePoints) {
 
 module.exports = {
     name: 'rankup',
-    description: "this command determines if a user is ready to rank up. If so, they will rank up.",
+    description: "this command determines if a user is ready to rank up. If so, they will rank up. Also repairs ranks if the points are below threshold.",
     execute (msg){
 
         //the roles in the server that are to be used for this bot
         var roleNames = [
-            /*0*/msg.guild.roles.cache.find(r => r.name === "Peer"),
-            /*1*/msg.guild.roles.cache.find(r => r.name === "Teacher"),
-            /*2*/msg.guild.roles.cache.find(r => r.name === "Mentor"),
-            /*3*/msg.guild.roles.cache.find(r => r.name === "Advisor"),
-            /*4*/msg.guild.roles.cache.find(r => r.name === "Lecturer"),
-            /*5*/msg.guild.roles.cache.find(r => r.name === "Tenure")
+            /*0*/msg.guild.roles.cache.find(r => r.name === ids.rank200),
+            /*1*/msg.guild.roles.cache.find(r => r.name === ids.rank500),
+            /*2*/msg.guild.roles.cache.find(r => r.name === ids.rank1000),
+            /*3*/msg.guild.roles.cache.find(r => r.name === ids.rank2500),
+            /*4*/msg.guild.roles.cache.find(r => r.name === ids.rank5000),
+            /*5*/msg.guild.roles.cache.find(r => r.name === ids.rank10000)
         ];
         
         //the points that are required to get each role

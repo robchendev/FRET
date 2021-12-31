@@ -1,6 +1,6 @@
-# ThanksBot
+# FretBot
 
-ThanksBot is a simple Javascript Discord bot that stores user-awarded points in a database (specifically MongoDB). The idea is to encourage users to ask and answer questions. With each question answered, other users can choose to thank the user who answered the question by giving them points, leveling them up through roles. Moderator-specific commands to change a user's points on-demand are also included. This bot is currently self-hosted and used in the professional musician Eddie van der Meer's [Discord server](https://discord.com/invite/ZXKrfB2).
+FretBot is a Javascript Discord bot creates threads for questions, lets users answer those questions, and stores user-awarded points in a MongoDB database. The goal is to encourage an active and organized community help forum similar to StackOverflow but on Discord. Users can ask and answer questions within the FretBot-created threads. With each question answered, other users can choose to thank the user(s) who answered the question by giving them points, leveling them up through roles. Points are also awarded to the user who is thanking to encourage an active discussion. Moderator-specific commands to change data in the database on-demand are also included. This bot is currently self-hosted and used in the a guitar community [discord server](https://discord.com/invite/ZXKrfB2).
 
 ## Summary
 
@@ -21,7 +21,7 @@ ThanksBot is a simple Javascript Discord bot that stores user-awarded points in 
 
 ## Getting Started
 
-For personal development purposes, clone this repository to your system, install Node.js, npm, and Discord.js
+For personal development purposes, clone this repository to your system, install Node.js v16.6+, npm, and Discord.js v13.
     
 Because this is a Discord bot, you need to create your Discord application [here](https://discord.com/developers/applications)
 
@@ -42,12 +42,16 @@ Run the bot using shell by using the command
 
 ### User Commands
 
+    -q <user question>
+
+Takes a question and creates a thread under the message that invoked the -q command. The thread is auto-archived in 24 hours and can be un-archived by anyone who writes a message in the thread. Automatically handles thread titling.
+
     -thanks <@user>
     -thank <@user>
     -thanks <@user1> <@user2> <@user3>
     -thank <@user1> <@user2> <@user3>
 
-Takes any number of mentions. The math to divide the points between each user works exponentially (100/(users^0.5)). The person who uses this command gets placed on a 5 minute cooldown before they can use it again. The person who uses the command also gets 20% of the points they've awarded. If the user tries to thank themselves, they will receive a random cheesy response back.
+Takes any number of mentions. The math to divide the points between each user works exponentially (100/(users^0.5)). The person who uses this command gets placed on a 5 minute cooldown before they can use it again. The person who uses the command also gets 20% of the points they've awarded. Does not allow the user to thank themselves to farm points.
 
     -points
     -points <@user>
@@ -93,21 +97,21 @@ The method of deployment is up to you, I'm personally self-hosting this bot on a
 
 Do note: If you plan on using the -rankup command, make sure this bot's role is higher than the roles you are trying to give via rankup. I haven't yet made any error checking for this so your bot will just terminate if it encounters this error.
 
-Since this was a personal project, a lot of my variables will be different from what you would want. I might make a setup command or a webpage backend to let others adjust the numbers... but not anytime soon (see [Future Plans](#future-plans)), so you'd just need to download the bot and change them within the code yourself.
+Since this was a personal project, a lot of my variables will be different from what you would want. A customizable JSON file is provided for you to make simple changes the roles FretBot checks for and assigns based on the amount of points a user has. The user managing the databases must have the `DBmanager` role id.
 
 ## Future Plans
 
-I do hope to eventually implement a backend for this bot, so people can invite this bot onto their servers and use it with the ease of having customizable options right at their fingertips. This is a long term goal and not one I'm certain I'll work towards. If you want to tell me your interest in a customizable option for this bot, please contact me via the email shown on [my Github profile](https://github.com/chendumpling99)
+I will be further improving on FretBot if something on the guitar community server needs to be automated.
 
 ## Contributing
 
 Your contributions are very welcome and appreciated. Following are the things you can do to contribute to this project.
 
 1. **Report a bug** <br>
-If you think you've encountered a bug, please inform me by creating an issue [here](https://github.com/chendumpling99/ThanksBot/issues).
+If you think you've encountered a bug, please inform me by creating an issue [here](https://github.com/chendumpling/FretBot/issues).
 
 2. **Request a feature** <br>
-You can request for a feature by creating an issue [here](https://github.com/chendumpling99/ThanksBot/issues)., and if it is viable, it will be picked for development.
+You can request for a feature by creating an issue [here](https://github.com/chendumpling/FretBot/issues)., and if it is viable, it will be picked for development.
 
 3. **Create a pull request** <br>
 If you improved the bot yourself and would like to contribute to this project, I really appreciate it!
@@ -116,13 +120,13 @@ If you improved the bot yourself and would like to contribute to this project, I
 
 ## License
 
-See the [LICENSE](https://github.com/chendumpling99/ThanksBot/blob/master/LICENSE) file for details.
+See the [LICENSE](https://github.com/chendumpling/FretBot/blob/master/LICENSE) file for details.
 
 ## Authors
 
-  - **ZiHao Wang** -
-    [chendumpling](https://github.com/chendumpling)
+  - **Robert Chen** -
+    [chendumpling99](https://github.com/chendumpling)
 
 See also the list of
-[contributors](https://github.com/chendumpling/ThanksBot/contributors)
+[contributors](https://github.com/chendumpling/FretBot/contributors)
 who participated in this project.

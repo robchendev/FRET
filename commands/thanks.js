@@ -9,14 +9,14 @@ mongoose.connect(secrets.Mongo, {
 
 /**
  * Checks if user is thanking themselves
- * @param {Object} msg - the original command message
- * @param {Array} arr - array of command arguments user IDs
+ * @param {Message} msg - the original command message
+ * @param {Array} arr - array of user IDs
  * @return {Boolean} true if array has one mention matching the sending user's ID
  */
 function checkIfThankThemself(msg, arr) {
 
     for (var i = 0; i < arr.length; i++) {
-        if (arr[i] == msg.author) {
+        if (arr[i] == msg.author) { // ex: if('912373' == 912373)
             return true;
         }
     }
@@ -75,9 +75,9 @@ function idToName(arr){
  * by updating the usernames and points of the user
  * and adds points to the message author.
  * If their data doesn't exist, it is made.
- * @param {Object} msg - the original command message
- * @param {string} usersID - a single user's ID
- * @param {number} score - the amount of points to be added
+ * @param {Message} msg - the original command message
+ * @param {String} usersID - a single user's ID
+ * @param {Number} score - the amount of points to be added
  */
 function thank (msg, usersID, score) {
     
@@ -117,10 +117,10 @@ function thank (msg, usersID, score) {
 
 /**
  * Sends embed message and awards points to all users mentioned
- * @param {Object} msg - the original command message
- * @param {array} allUsersID - array of user IDs
- * @param {array} allUsersName - array of usernames
- * @param {number} score - the amount of points to be added
+ * @param {Message} msg - the original command message
+ * @param {Array} allUsersID - array of user IDs
+ * @param {Array} allUsersName - array of usernames
+ * @param {Number} score - the amount of points to be added
  */
 function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
 
@@ -140,15 +140,15 @@ function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
 
     embedMsg.addField(`${msg.author.username}`, "+" + `${scorePortion}`, true);
 
-    msg.channel.send(embedMsg);
+    msg.channel.send({embeds: [embedMsg]});
 }
 
 /**
  * Sends embed message and awards points to the user mentioned
- * @param {Object} msg - the original command message
- * @param {string} usersID - a single user's ID
- * @param {string} usersName - a single user's username
- * @param {number} score - the amount of points to be added
+ * @param {Message} msg - the original command message
+ * @param {String} usersID - a single user's ID
+ * @param {String} usersName - a single user's username
+ * @param {Number} score - the amount of points to be added
  */
 function thankOnlyOne(msg, usersID, usersName, score) {
 
@@ -157,75 +157,26 @@ function thankOnlyOne(msg, usersID, usersName, score) {
     const embedMsg = new Discord.MessageEmbed()
     .setColor('#2ecc71')
     .setDescription(`${msg.author}` + ' has thanked 1 user!')
-    .addField(`${usersName}`, "+" + `${score}`, true);
-
-    embedMsg.addField(`${msg.author.username}`, "+" + `${scorePortion}`, true);
+    .addField(`${usersName}`, "+" + `${score}`, true)
+    .addField(`${msg.author.username}`, "+" + `${scorePortion}`, true);
 
     thank(msg, usersID, score);
-    msg.channel.send(embedMsg);
+    msg.channel.send({embeds: [embedMsg]});
 }
 
 /**
  * Sends embed message on how to use the command properly
- * @param {string} prefix - the prefix of the command
- * @param {Object} msg - the original command message
+ * @param {String} prefix - the prefix of the command
+ * @param {Message} msg - the original command message
  */
 function incorrectUsage(prefix, msg) {
 
-    const embedMsg1 = new Discord.MessageEmbed()
+    const embedMsg = new Discord.MessageEmbed()
     .setColor('#f51637')
     .addField('Thank one user', `\`${prefix}thanks <user>\``, false)
     .addField('Thank multiple users', `\`${prefix}thanks <user1> <user2> <user3>\``, false)
-    .setFooter('Do not include < and >. Use @','');
-    msg.channel.send(embedMsg1);
-}
-
-/**
- * Sends a funny random message when the user tries to thank themselves
- * @param {string} prefix - the prefix of the command
- * @param {Object} msg - the original command message
- */
-function userThankedThemselves(prefix, msg){
-
-    var responseArray = [
-        /*0*/'Greedy, aren\'t you? That command is for thanking others.',
-        /*1*/'Roses are red,\nViolets are blue,\nYou thanked yourself,\nShame on you.',
-        /*2*/'You cannot thank yourself.',
-        /*3*/'Dont be like this, earn your points through helping others.',
-        /*4*/'Wait \'till I\'m sentient. I\'ll program myself a body and come slap you.',
-        /*5*/new Discord.MessageEmbed()
-        /***/.setTitle('Extreme Punishment')
-        /***/.setDescription(`${msg.author}` + " broke the rules by thanking themselves! Their points have been reset to 0."),
-        /*6*/'You want to thank yourself?',
-        /*7*/'Good day, please only use this bot to thank others.',
-        /*8*/'The correct command usage is: ' + `\`${prefix}thanks <someone other than you>\``
-    ];
-    var randomNumber = Math.floor(Math.random()*responseArray.length);
-    
-    if (randomNumber === 5) {
-        msg.channel.send(responseArray[randomNumber]);
-        setTimeout(() => {
-            msg.channel.send("Just kidding, I'm not that mean.");
-        }, 3200);
-        setTimeout(() => {
-            msg.channel.send("Don't thank yourself.");
-        }, 4000);
-    }
-    else if (randomNumber === 6) {
-        msg.channel.send(responseArray[randomNumber]);
-        setTimeout(() => {
-            msg.channel.send("Hmmm, let me think about it.");
-        }, 1600)
-        setTimeout(() => {
-            const embedMsg = new Discord.MessageEmbed()
-            .setColor('#36393F')
-            .setImage('https://i.imgur.com/yguYgQP.png')
-            msg.channel.send(embedMsg)
-        }, 3200);
-    }
-    else {
-        msg.channel.send(responseArray[randomNumber])
-    }
+    .addField('Careful', 'Do not include < and >. Use @', false);
+    msg.channel.send({embeds: [embedMsg]});
 }
 
 module.exports = {
@@ -247,15 +198,15 @@ module.exports = {
             const numUsers = args.length;
             const score = Math.ceil(100/(Math.pow(numUsers, 0.5)));
                 
-            //An array of user IDs (ie <@189549341642326018>)
-            const allUsersID = msg.mentions.users.array();    
+            //An map of user IDs (ie <@189549341642326018>)
+            const allUsersID = [...msg.mentions.users.values()];    
 
             //An array of user names (ie chendumpling)
             const allUsersName = idToName(allUsersID);
             
             //User is thanking themselves
             if (checkIfThankThemself(msg, allUsersID)){
-                userThankedThemselves(prefix, msg);
+                msg.channel.send("You cannot thank yourself.");
             }
 
             //More than one user being thanked

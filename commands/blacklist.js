@@ -2,9 +2,9 @@ const Discord = require('discord.js');
 
 /**
  * Gives the user the blacklist role if they don't have it already
- * @param {Object} msg - the original command message 
- * @param {string} thisUser - id of the user to adjust the roles of
- * @param {string} blacklistRole - the blacklist role to be given
+ * @param {Message} msg - the original command message 
+ * @param {String} thisUser - id of the user to adjust the roles of
+ * @param {String} blacklistRole - the blacklist role to be given
  */
 function doBlackList(msg, thisUser, blacklistRole) {
     
@@ -14,7 +14,7 @@ function doBlackList(msg, thisUser, blacklistRole) {
         const embedMsg = new Discord.MessageEmbed()
         .setColor('#fc00f8')
         .setDescription(`${thisUser} is now blacklisted from this channel.`);
-        msg.channel.send(embedMsg);
+        msg.channel.send({embeds: [embedMsg]});
     }
     //If user already has the role
     else {
@@ -24,9 +24,9 @@ function doBlackList(msg, thisUser, blacklistRole) {
 
 /**
  * Removes the blacklist role from the user if they have it
- * @param {Object} msg - the original command message 
- * @param {string} thisUser - id of the user to adjust the roles of
- * @param {string} blacklistRole - the blacklist role to be removed
+ * @param {Message} msg - the original command message 
+ * @param {String} thisUser - id of the user to adjust the roles of
+ * @param {String} blacklistRole - the blacklist role to be removed
  */
 function undoBlackList(msg, thisUser, blacklistRole) {
     
@@ -40,7 +40,7 @@ function undoBlackList(msg, thisUser, blacklistRole) {
         const embedMsg = new Discord.MessageEmbed()
         .setColor('#fc00f8')
         .setDescription(`${thisUser} is no longer blacklisted from this channel.`);
-        msg.channel.send(embedMsg);
+        msg.channel.send({embeds: [embedMsg]});
     }
 }
 

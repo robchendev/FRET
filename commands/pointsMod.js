@@ -9,9 +9,9 @@ mongoose.connect(secrets.Mongo, {
 
 /**
  * Decreases users points in database and sends an embed message
- * @param {Object} msg - the original message sent
- * @param {string} usersID - a single user's ID
- * @param {number} deincrement - the amount of points to subtract by
+ * @param {Message} msg - the original message sent
+ * @param {String} usersID - a single user's ID
+ * @param {Number} deincrement - the amount of points to subtract by
  */
 function decPoints (msg, usersID, deincrement) {
     
@@ -26,7 +26,7 @@ function decPoints (msg, usersID, deincrement) {
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#fc00f8')
             .setDescription(`${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`);
-            msg.channel.send(embedMsg);
+            msg.channel.send({embeds: [embedMsg]});
         }
         else {
             let resultPoints = 0 - deincrement;
@@ -38,16 +38,16 @@ function decPoints (msg, usersID, deincrement) {
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#fc00f8')
             .setDescription(`${usersID}'s points have been changed from 0 to ${resultPoints}`);
-            msg.channel.send(embedMsg);
+            msg.channel.send({embeds: [embedMsg]});
         }
     })
 }
 
 /**
  * Sets users points in database and sends an embed message
- * @param {Object} msg - the original message sent
- * @param {string} usersID - a single user's ID
- * @param {number} set - the points amount to be set to
+ * @param {Message} msg - the original message sent
+ * @param {String} usersID - a single user's ID
+ * @param {Number} set - the points amount to be set to
  */
 function setPoints (msg, usersID, set) {
     
@@ -62,7 +62,7 @@ function setPoints (msg, usersID, set) {
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#fc00f8')
             .setDescription(`${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`);
-            msg.channel.send(embedMsg);
+            msg.channel.send({embeds: [embedMsg]});
         } else {
             const addPoints = new pointsChange({
                 userid: usersID,
@@ -72,7 +72,7 @@ function setPoints (msg, usersID, set) {
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#fc00f8')
             .setDescription(`${usersID}'s points have been changed from 0 to ${set}`);
-            msg.channel.send(embedMsg);
+            msg.channel.send({embeds: [embedMsg]});
         }
     })
     
@@ -80,8 +80,8 @@ function setPoints (msg, usersID, set) {
 
 /**
  * Sends embed message on how to use the command properly
- * @param {*} prefix - the prefix of the command
- * @param {*} msg - the original command message
+ * @param {String} prefix - the prefix of the command
+ * @param {Message} msg - the original command message
  */
 function incorrectUsage(prefix, msg) {
 
@@ -91,8 +91,8 @@ function incorrectUsage(prefix, msg) {
     .addField('Decrease points', `\`${prefix}points <user> dec <points>\``, false)
     .addField('Set points', `\`${prefix}points <user> set <points>\``, false)
     .addField('Default penalty (-1000)', `\`${prefix}points <user> pen\``, false)
-    .setFooter('Do not include < and >. Use @','');
-    msg.channel.send(embedMsg);
+    .addField('Careful', 'Do not include < and >. Use @', false);
+    msg.channel.send({embeds: [embedMsg]});
 }
 
 module.exports = {

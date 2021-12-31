@@ -8,6 +8,7 @@ module.exports = {
     const embedMsg = new Discord.MessageEmbed()
 	.setColor('#2f3136') 
 	.setTitle('Commands')
+    .addField(`\`${prefix}q <your question>\``, 'Creates new thread to discuss your question', false)
     .addField(`\`${prefix}thanks <user>\``, 'Thanks a single user and gives them points', false)
     .addField(`\`${prefix}thanks <user1> <user2> <user3>\``, 'Thanks multiple users and gives them points', false)
     .addField(`\`${prefix}rankup\``, 'Ranks you up if you have enough points. Otherwise, shows how many points you need to rank up.', false)
@@ -15,6 +16,6 @@ module.exports = {
     .addField(`\`${prefix}points <user>\``, 'Shows a user\'s points and amount needed for the next rank', false)
     .addField(`\`${prefix}about\``, 'Shows useless info about this bot', false);
     
-    msg.channel.send(embedMsg);
+    msg.channel.send({embeds: [embedMsg]});
     }
 }
