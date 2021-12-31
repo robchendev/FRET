@@ -8,9 +8,9 @@ module.exports = {
         const embedMsg = new Discord.MessageEmbed()
         .setColor('#2f3136')
         .setTitle('Github Repository')
-        .setURL('https://github.com/chendumpling/ThanksBot')
-        .setAuthor('About ThanksBot', '', '')
-        .setDescription('ThanksBot is a simple Javascript Discord bot that stores user-awarded points in a database (specifically Mongoose). The idea is to encourage users to ask and answer questions. With each question answered, other users can choose to thank the user who answered the question by giving them points, leveling them up through roles.')
+        .setURL('https://github.com/chendumpling/FretBot')
+        .setAuthor('About FretBot', '', '')
+        .setDescription('FretBot is a Javascript Discord bot creates threads for questions, lets users answer those questions, and stores user-awarded points in a MongoDB database. The goal is to encourage an active and organized community help forum similar to StackOverflow but on Discord. Users can ask and answer questions within the FretBot-created threads. With each question answered, other users can choose to thank the user(s) who answered the question by giving them points, leveling them up through roles. Points are also awarded to the user who is thanking to encourage an active discussion.')
         .addField('How points are calculated', 'The expression used is 100/(users^0.5)', false)
         .addField('Developer', 'Robert Chen', false);
 
