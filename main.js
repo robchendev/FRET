@@ -55,14 +55,14 @@ bot.on('messageCreate', async msg => {
                 case 'thanks':
                     if(usedThanksRecently.has(msg.author.id)){
                         
-                        msg.channel.send(`**${msg.author.username}**` + ", you can only thank once every 5 minutes.")
+                        msg.channel.send(`**${msg.author.username}**` + ", you can only thank once every 3 minutes.")
                         .then(sentMsg => {
                             setTimeout(() => sentMsg.delete(), 10000)
                         }).catch();
                     }
                     else {
                         bot.commands.get('thanks').execute(prefix, msg, args)
-                        setThanksCooldown(5, msg);
+                        setThanksCooldown(3, msg);
                     }
                     break;
                 case 'rankup':
@@ -77,17 +77,20 @@ bot.on('messageCreate', async msg => {
                 case 'about':
                     bot.commands.get('about').execute(msg);
                     break;
+                case 'weekly':
+                    bot.commands.get('weekly').execute(msg);
+                    break;
                 case 'q':
                     if(usedQuestionRecently.has(msg.author.id)){
                         
-                        msg.channel.send(`**${msg.author.username}**` + ", you can only ask a question once every 5 minutes.")
+                        msg.channel.send(`**${msg.author.username}**` + ", you can only ask a question once every 1 minute.")
                         .then(sentMsg => {
                             setTimeout(() => sentMsg.delete(), 10000)
                         }).catch();
                     }
                     else {
                         bot.commands.get('question').execute(prefix, msg, args)
-                        setQuestionCooldown(5, msg);
+                        setQuestionCooldown(1, msg);
                     }
                     break;
             }

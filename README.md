@@ -14,6 +14,12 @@ FretBot is a Javascript Discord bot creates threads for questions, lets users an
   - [Authors](#authors)
   - [License](#license)
 
+## Demonstration
+
+![Demonstration](demo.gif)
+
+This needs to be replaced, its a little outdated and doesn't show what the `-q` command does.
+
 ## Getting Started
 
 For personal development purposes, clone this repository to your system, install Node.js v16.6+, npm, and Discord.js v13.
