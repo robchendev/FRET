@@ -88,9 +88,9 @@ Penalizes user for 1000 points.
 
 Adds or removes user from a blacklist. This blacklist is controlled by a role called "help-blacklist" that prevents the user from sending messages in the channel.
 
-    +i #channel <message>
+    #channel <message>
 
-Impersonates yourself as FretBot and remotely sends a message as FretBot into another channel it has access to. (Careful: The method to check if the bot has access to the channel is not implemented yet, and will result in an exception.)
+Only works in the channel whose ID is written in `impersonateChannel` in the `ids.JSON` file. Impersonates yourself as FretBot and remotely sends a message as FretBot into another channel it has access to. FretBot also checks to make sure it has permissions to view and send messages in the channel to avoid errors.
 
     +help
 
@@ -102,7 +102,7 @@ The method of deployment is up to you, I'm personally self-hosting this bot on a
 
 Do note: If you plan on using the -rankup command, make sure this bot's role is higher than the roles you are trying to give via rankup. I haven't yet made any error checking for this so your bot will just terminate if it encounters this error.
 
-Since this was a personal project, a lot of my variables will be different from what you would want. A customizable JSON file is provided for you to make simple changes the roles FretBot checks for and assigns based on the amount of points a user has. The user managing the databases must have the `DBmanager` role id.
+Since this was a personal project, a lot of my variables will be different from what you would want. A customizable JSON file is provided for you to make simple changes to the identification of roles and channels. The user using any of the moderator commands must have the `DBmanager` role id.
 
 ## Future Plans
 

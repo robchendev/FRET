@@ -35,6 +35,10 @@ bot.on('messageCreate', async msg => {
             bot.commands.get('promo').execute(msg);
         }
 
+        if(msg.channel.id === ids.impersonateChannel && !msg.author.bot) {
+            bot.commands.get('impersonate').execute(bot, msg);
+        }
+
         //When message doesnt start with '-', '+' or author is bot
         else if((!msg.content.startsWith(prefix) && !msg.content.startsWith(prefixMod)) || msg.author.bot) {
             return;
@@ -111,9 +115,6 @@ bot.on('messageCreate', async msg => {
                         break;
                     case 'ping':
                         msg.channel.send("FretBot is online");
-                        break;
-                    case 'i':
-                        bot.commands.get('impersonate').execute(bot, msg, args);
                         break;
                 }
             } else {

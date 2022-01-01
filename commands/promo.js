@@ -1,16 +1,19 @@
 const Discord = require('discord.js');
+const ids = require(`../ids.json`);
+var tools = require(`../tools/functions.js`)
 
 /**
  * Creates a thread using the original message author's username
  * @param {Message} msg - the original command message
  */
-function createThread(msg){
+async function createThread(msg){
     
     let threadTitle = msg.author.username + " - Discussion";
-    msg.startThread({
+    const thread = await msg.startThread({
         name: threadTitle,
         autoArchiveDuration: 60
     });
+    thread.send("hello");
 }
 
 /**
@@ -18,19 +21,20 @@ function createThread(msg){
  * @param {Message} msg - the original command message
  */
 function incorrectUsage(msg){
-
+    let time = 10;
     if(msg.content.includes('discord.gg')){
         msg.delete()
-        msg.channel.send(`**${msg.author.username}**` + ", discord invite links are not allowed in promotion.")
+        msg.channel.send(`**${msg.member}**` + ", discord invite links are not allowed in promotion.")
         .then(sentMsg => {
-            setTimeout(() => sentMsg.delete(), 7000)
+            tools.deleteMsg(sentMsg, time);
         }).catch();
     }
     else {
-        msg.delete()
-        msg.channel.send(`**${msg.author.username}**` + ", your promotion must include a link.")
+        let time = 15;
+        msg.channel.send(`**${msg.member}**` + `, discussions in <#${ids.promoChannel}> are only allowed in threads. If you're promoting your work, include a link. Your message will be deleted in **${time} seconds. `)
         .then(sentMsg => {
-            setTimeout(() => sentMsg.delete(), 7000)
+            tools.deleteMsg(sentMsg, time);
+            tools.deleteMsg(msg, time);
         }).catch();
     }
 }
