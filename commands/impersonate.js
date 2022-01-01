@@ -6,7 +6,7 @@ function incorrectUsage(msg){
 }
 
 function missingPermissions(msg, targetChannel){
-    msg.channel.send(`**[ERR]** Missing access to channel <#${targetChannel}>`);
+    msg.channel.send(`**[ERR]** Missing access to <#${targetChannel}>`);
 }
 
 module.exports = {
