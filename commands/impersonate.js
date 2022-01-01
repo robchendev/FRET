@@ -19,11 +19,6 @@ module.exports = {
         let targetChannel = args[0].replace(/\D/g, "");
         let result = "";
 
-        // else if(!msg.guild.me.permissionsIn(targetChannel).has("SEND_MESSAGES")
-        //     || !msg.guild.me.permissionsIn(targetChannel).has("VIEW_CHANNEL")){
-                
-        //         //missingPermissions(msg, targetChannel);
-        // }
         // Does the mentioned channel actually exist
         if(bot.channels.cache.get(targetChannel) != undefined
             && msg.guild.me.permissionsIn(targetChannel).has("SEND_MESSAGES")
