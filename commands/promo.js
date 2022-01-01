@@ -17,7 +17,7 @@ function createThread(msg){
  * Sends embed message on how to use the command properly
  * @param {Message} msg - the original command message
  */
- function incorrectUsage(msg){
+function incorrectUsage(msg){
 
     if(msg.content.includes('discord.gg')){
         msg.delete()

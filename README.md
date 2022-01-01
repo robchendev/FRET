@@ -88,9 +88,13 @@ Penalizes user for 1000 points.
 
 Adds or removes user from a blacklist. This blacklist is controlled by a role called "help-blacklist" that prevents the user from sending messages in the channel.
 
+    +imp #channel <message>
+
+Remotely sends a message as FretBot into another channel it has access to. (Careful: The method to check if the bot has access to the channel is not implemented yet, and will result in an exception.)
+
     +help
 
-Displays all the moderator commands listed here (except -help) and their intended use.
+Displays all the moderator commands listed here (except +help and +imp) and their intended use.
 
 ## Deployment
 
