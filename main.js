@@ -33,7 +33,6 @@ bot.on('messageCreate', async msg => {
         //Monitors #promotion channel only and creates threads for it
         if(msg.channelID === ids.promoChannel) {
             bot.commands.get('promo').execute(msg);
-            break;
         }
 
         //When message doesnt start with '-', '+' or author is bot
