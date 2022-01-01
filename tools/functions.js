@@ -14,7 +14,7 @@ module.exports = {
     }
 
     // ,
-    // bar: function () {
-    //   // whatever
+    // anotherFunc: function () {
+    //   // writing this here so I dont forget how to do this
     // }
 };
