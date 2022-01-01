@@ -37,7 +37,7 @@ function commandInsideThread(msg){
 
     const embedMsg = new Discord.MessageEmbed()
     .setColor('#f51637')
-    .addField('Ask a qeustion', `\`${prefix}q <your question>\``, false)
+    .addField('Ask a question', `\`${prefix}q <your question>\``, false)
     msg.channel.send({embeds: [embedMsg]});
 }
 

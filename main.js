@@ -30,8 +30,14 @@ bot.on('messageCreate', async msg => {
     else{ 
         serverID = msg.guild.id;
         
-        //When message doesnt start with '-', '+' or author is bot, do nothing
-        if((!msg.content.startsWith(prefix) && !msg.content.startsWith(prefixMod)) || msg.author.bot) {
+        //Monitors #promotion channel only and creates threads for it
+        if(msg.channelID === ids.promoChannel) {
+            bot.commands.get('promo').execute(msg);
+            break;
+        }
+
+        //When message doesnt start with '-', '+' or author is bot
+        else if((!msg.content.startsWith(prefix) && !msg.content.startsWith(prefixMod)) || msg.author.bot) {
             return;
         }
 
@@ -44,25 +50,17 @@ bot.on('messageCreate', async msg => {
             const command = split[0];
             const args = split.slice(1);
 
-            // // client.guilds.cache 
-            // const Guilds = bot.guilds.cache.find(guild => guild.id === '595032134792511490');
-            // console.log(Guilds);
-
             //Reads commands and does stuff
             switch(command) {
 
                 case 'thank':
                 case 'thanks':
                     if(usedThanksRecently.has(msg.author.id)){
-                        
-                        msg.channel.send(`**${msg.author.username}**` + ", you can only thank once every 3 minutes.")
-                        .then(sentMsg => {
-                            setTimeout(() => sentMsg.delete(), 10000)
-                        }).catch();
+                        cooldownReminder("thank", 2, msg);
                     }
                     else {
                         bot.commands.get('thanks').execute(prefix, msg, args)
-                        setThanksCooldown(3, msg);
+                        setThanksCooldown(2, msg);
                     }
                     break;
                 case 'rankup':
@@ -77,20 +75,13 @@ bot.on('messageCreate', async msg => {
                 case 'about':
                     bot.commands.get('about').execute(msg);
                     break;
-                case 'weekly':
-                    bot.commands.get('weekly').execute(msg);
-                    break;
                 case 'q':
                     if(usedQuestionRecently.has(msg.author.id)){
-                        
-                        msg.channel.send(`**${msg.author.username}**` + ", you can only ask a question once every 1 minute.")
-                        .then(sentMsg => {
-                            setTimeout(() => sentMsg.delete(), 10000)
-                        }).catch();
+                        cooldownReminder("ask a question", 2, msg);
                     }
                     else {
                         bot.commands.get('question').execute(prefix, msg, args)
-                        setQuestionCooldown(1, msg);
+                        setQuestionCooldown(2, msg);
                     }
                     break;
             }
@@ -128,6 +119,19 @@ bot.on('messageCreate', async msg => {
 });
 
 /**
+ * sends a message reminding the user of a command's cooldown.
+ * @param {String} reminder - the phrase to remind with
+ * @param {Number} cd - number of minutes to cooldown for
+ * @param {Message} msg - original message sent to the channel
+ */
+function cooldownReminder(reminder, cd, msg){
+    msg.channel.send(`**${msg.author.username}**` + `, you can only ` + reminder + ` once every ${cd} minutes.`)
+    .then(sentMsg => {
+        setTimeout(() => sentMsg.delete(), 5000)
+    }).catch();
+}
+
+/**
  * sets the cooldown of a -thanks command for a certain user
  * @param {Number} cd - number of minutes to cooldown for
  * @param {Message} msg - original message sent to the channel
@@ -151,7 +155,6 @@ function setQuestionCooldown(cd, msg) {
     setTimeout(() => {
         usedQuestionRecently.delete(msg.author.id);
     }, (Math.floor((60000)*cd))); //1min * cd
-    console.log(usedQuestionRecently);
 }
 //keep this at the last line of the file
 bot.login(secrets.Token);
