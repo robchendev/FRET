@@ -6,7 +6,7 @@ const Discord = require('discord.js');
  */
 function createThread(msg){
     
-    let threadTitle = "Discussion: " + msg.author.username + "'s video";
+    let threadTitle = msg.author.username + " - Discussion";
     msg.startThread({
         name: threadTitle,
         autoArchiveDuration: 60
@@ -43,7 +43,7 @@ module.exports = {
         // Makes sure this command only runs outside of threads
         if (!(msg.channel.type == 'GUILD_PUBLIC_THREAD')){
 
-            let hasLink = msg.content.includes(('https://' || 'http://') && !('discord.gg'));
+            let hasLink = msg.content.includes('https://' || 'http://');
 
             // message contains valid link
             if (hasLink) {

@@ -31,7 +31,7 @@ bot.on('messageCreate', async msg => {
         serverID = msg.guild.id;
         
         //Monitors #promotion channel only and creates threads for it
-        if(msg.channelID === ids.promoChannel) {
+        if(msg.channel.id === ids.promoChannel && !msg.author.bot) {
             bot.commands.get('promo').execute(msg);
         }
 
@@ -41,7 +41,7 @@ bot.on('messageCreate', async msg => {
         }
 
         //user commands 
-        if(msg.content.startsWith(prefix)) {
+        if(msg.content.startsWith(prefix) && !msg.author.bot) {
             
             //Splices via space (ie "-thanks @robert")
             const withoutPrefix = msg.content.slice(prefix.length);
@@ -75,17 +75,20 @@ bot.on('messageCreate', async msg => {
                     bot.commands.get('about').execute(msg);
                     break;
                 case 'q':
-                    if(usedQuestionRecently.has(msg.author.id)){
-                        cooldownReminder("ask a question", 2, msg);
-                    }
-                    else {
-                        bot.commands.get('question').execute(prefix, msg, args)
-                        setQuestionCooldown(2, msg);
+                    // Will only work when used in question channel
+                    if(msg.channel.id === ids.questionChannel){
+                        if(usedQuestionRecently.has(msg.author.id)){
+                            cooldownReminder("ask a question", 2, msg);
+                        }
+                        else {
+                            bot.commands.get('question').execute(prefix, msg, args)
+                            setQuestionCooldown(2, msg);
+                        }
                     }
                     break;
             }
         }
-        else if(msg.content.startsWith(prefixMod)) {
+        else if(msg.content.startsWith(prefixMod) && !msg.author.bot) {
             
             if (msg.member.roles.cache.has(ids.DBmanager)){
                 //Splices via space (ie "+thanks @robert")
@@ -108,6 +111,9 @@ bot.on('messageCreate', async msg => {
                         break;
                     case 'ping':
                         msg.channel.send("FretBot is online");
+                        break;
+                    case 'i':
+                        bot.commands.get('impersonate').execute(bot, msg, args);
                         break;
                 }
             } else {
