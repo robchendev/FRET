@@ -19,19 +19,6 @@ function createThread(msg){
 }
 
 /**
- * Sends message telling user to write -q command outside the current thread
- * @param {Message} msg - the original command message
- */
-function commandInsideThread(msg){
-    let time = 10;
-    msg.channel.send(`**${msg.member}**` + `, please ask your question outside this thread. Your message will be deleted in ${time} seconds.`)
-    .then(sentMsg => {
-        tools.deleteMsg(sentMsg, time);
-        tools.deleteMsg(msg, time);
-    }).catch();
-}
-
-/**
  * Sends embed message on how to use the command properly
  * @param {String} prefix - the prefix of the command
  * @param {Message} msg - the original command message
@@ -70,9 +57,6 @@ module.exports = {
             else {
                 createThread(msg);
             }
-        }
-        else {
-            commandInsideThread(msg);
         }
     }
 }
