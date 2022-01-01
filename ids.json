@@ -1,9 +1,18 @@
 {
     "DBmanager": "737445717823586375",
-    "rank200": "Peer",
-    "rank500": "Teacher",
-    "rank1000": "Mentor",
-    "rank2500": "Advisor",
-    "rank5000": "Lecturer",
-    "rank10000": "Tenure"
+    "promoChannel": "926876888125812786",
+    "questionChannel": "926931655766179890",
+    "impersonateChannel": "926901332818939954",
+    "rank1": "Peer",
+    "rank2": "Teacher",
+    "rank3": "Mentor",
+    "rank4": "Advisor",
+    "rank5": "Lecturer",
+    "rank6": "Tenure",
+    "rank1Points": "200",
+    "rank2Points": "500",
+    "rank3Points": "1000",
+    "rank4Points": "2500",
+    "rank5Points": "5000",
+    "rank6Points": "10000"
 }

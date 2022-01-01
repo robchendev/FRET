@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+var tools = require(`../tools/functions.js`);
 
 /**
  * Creates a thread using the original message's question.
@@ -22,9 +23,11 @@ function createThread(msg){
  * @param {Message} msg - the original command message
  */
 function commandInsideThread(msg){
-    msg.channel.send(`**${msg.author.username}**` + ", please ask your question outside this thread.")
+    let time = 10;
+    msg.channel.send(`**${msg.member}**` + `, please ask your question outside this thread. Your message will be deleted in ${time} seconds.`)
     .then(sentMsg => {
-        setTimeout(() => sentMsg.delete(), 10000)
+        tools.deleteMsg(sentMsg, time);
+        tools.deleteMsg(msg, time);
     }).catch();
 }
 
@@ -35,10 +38,20 @@ function commandInsideThread(msg){
  */
  function incorrectUsage(prefix, msg){
 
+    let time = 10;
     const embedMsg = new Discord.MessageEmbed()
     .setColor('#f51637')
-    .addField('Ask a qeustion', `\`${prefix}q <your question>\``, false)
-    msg.channel.send({embeds: [embedMsg]});
+    .addField('Ask a question', `\`${prefix}q <your question>\``, false)
+    msg.channel.send({embeds: [embedMsg]})
+    .then(sentMsg => {
+        tools.deleteMsg(sentMsg, time);
+        tools.deleteMsg(msg, time);
+    }).catch();
+    msg.channel.send(`Your message will be deleted in ${time} seconds.`)
+    .then(sentMsg => {
+        tools.deleteMsg(sentMsg, time);
+        tools.deleteMsg(msg, time);
+    }).catch();
 }
 
 module.exports = {
@@ -48,7 +61,8 @@ module.exports = {
 
         // Makes sure this code will not run when invoked in threads
         // If this if statement didn't exist, the bot will crash
-        if (!(msg.channel.type == 'GUILD_PUBLIC_THREAD')){
+        if (!(msg.channel.type == 'GUILD_PUBLIC_THREAD')
+            && !(msg.channel.type == 'GUILD_PRIVATE_THREAD')){
 
             if (!args.length) { // user only typed "-q"
                 incorrectUsage(prefix, msg);

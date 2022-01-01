@@ -181,22 +181,22 @@ module.exports = {
 
         //the roles in the server that are to be used for this bot
         var roleNames = [
-            /*0*/msg.guild.roles.cache.find(r => r.name === ids.rank200),
-            /*1*/msg.guild.roles.cache.find(r => r.name === ids.rank500),
-            /*2*/msg.guild.roles.cache.find(r => r.name === ids.rank1000),
-            /*3*/msg.guild.roles.cache.find(r => r.name === ids.rank2500),
-            /*4*/msg.guild.roles.cache.find(r => r.name === ids.rank5000),
-            /*5*/msg.guild.roles.cache.find(r => r.name === ids.rank10000)
+            /*0*/msg.guild.roles.cache.find(r => r.name === ids.rank1),
+            /*1*/msg.guild.roles.cache.find(r => r.name === ids.rank2),
+            /*2*/msg.guild.roles.cache.find(r => r.name === ids.rank3),
+            /*3*/msg.guild.roles.cache.find(r => r.name === ids.rank4),
+            /*4*/msg.guild.roles.cache.find(r => r.name === ids.rank5),
+            /*5*/msg.guild.roles.cache.find(r => r.name === ids.rank6)
         ];
         
         //the points that are required to get each role
         var rolePoints = [
-            /*0*/200,
-            /*1*/500,
-            /*2*/1000,
-            /*3*/2500,
-            /*4*/5000,
-            /*5*/10000
+            /*0*/ids.rank1Points,
+            /*1*/ids.rank2Points,
+            /*2*/ids.rank3Points,
+            /*3*/ids.rank4Points,
+            /*4*/ids.rank5Points,
+            /*5*/ids.rank6Points
         ];
 
         rankupCheck(msg, roleNames, rolePoints);
