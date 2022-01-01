@@ -4,6 +4,7 @@ FretBot is a Javascript Discord bot creates threads for questions, lets users an
 
 ## Summary
 
+  - [Demonstration](#demonstration)
   - [Getting Started](#getting-started)
   - [Commands](#commands)
     - [User Commands](#user-commands)
@@ -13,6 +14,10 @@ FretBot is a Javascript Discord bot creates threads for questions, lets users an
   - [Contributing](#contributing)
   - [Authors](#authors)
   - [License](#license)
+  
+## Demonstration
+
+![Demonstration](demo.gif)
 
 ## Demonstration
 
