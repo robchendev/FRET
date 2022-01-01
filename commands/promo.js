@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const ids = require(`../ids.json`);
-var tools = require(`../tools/functions.js`)
+var tools = require(`../tools/functions.js`);
 
 /**
  * Creates a thread using the original message author's username
@@ -31,7 +31,7 @@ function incorrectUsage(msg){
     }
     else {
         let time = 15;
-        msg.channel.send(`**${msg.member}**` + `, discussions in <#${ids.promoChannel}> are only allowed in threads. If you're promoting your work, include a link. Your message will be deleted in **${time} seconds. `)
+        msg.channel.send(`**${msg.member}**` + `, discussions in <#${ids.promoChannel}> are only allowed in threads. If you're promoting your work, include a link. Your message will be deleted in ${time} seconds. `)
         .then(sentMsg => {
             tools.deleteMsg(sentMsg, time);
             tools.deleteMsg(msg, time);
