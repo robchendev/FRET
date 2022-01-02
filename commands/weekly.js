@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
-const weeklyUpdate = require("../models/weeklyUpdate.js");
+const updateWeekly = require("../models/weeklyUpdate.js");
 const secrets = require(`../secrets.json`);
 var tools = require(`../tools/functions.js`);
 mongoose.connect(secrets.Mongo, {
@@ -39,11 +39,11 @@ function updateProfile(msg) {
 
 
 
-    // const dateToday = new Date();
+    const dateToday = new Date();
     
-    // //weeklyUpdate
-    // // this date needs to be BEFORE 1st submission to award role
-    // let dateWeekAgo = new Date();
+    // this date needs to be BEFORE 1st submission to award role
+    let dateWeekAgo = new Date();
+
     // dateWeekAgo.setDate(dateWeekAgo.getDate() - 7);
     // let diffInTime = dateToday.getTime() - dateWeekAgo.getTime();
     // // diffInTime is is set to milliseconds, so convert that to days
@@ -53,22 +53,16 @@ function updateProfile(msg) {
     // msg.channel.send(dateWeekAgo.toString()); 
     // msg.channel.send("dateToday - dateWeekAgo = " + diffInDays); 
 
-    // Add this weeks submission to schema
-
-    // console.log(msg.author.id);
-    // weeklyUpdate.findOne({userid: msg.author.id}, (err, submitdata) => {
-    //     if(err) console.log(err);
-    //     if(!submitdata){
-    //         const weeklyUpdate = new pointsAdd({
-    //             userid: usersID,
-    //             points: score
-    //         })
-    //         weeklyUpdate.save().catch(err => console.log(err));
-    //     } else {
-    //         // pointdata.points = pointdata.points + score;
-    //         // pointdata.save().catch(err => console.log(err));
-    //     }
-    // })
+    // add this weeks submission into schema
+    updateWeekly.findOne({userid: msg.author.id}, (err, submitdata) => {
+        if(err) console.log(err);
+        if(!submitdata){
+            tools.createWeeklydata(updateWeekly, msg.author.id, dateToday);
+        } else {
+            tools.updateWeeklydata(submitdata, dateToday);
+        }
+        //console.log(dateToday);
+    })
 }
 
 function weeklySubmit(msg, args) {

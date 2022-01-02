@@ -1,4 +1,3 @@
-const Discord = require('discord.js');
 const ids = require(`../ids.json`);
 var tools = require(`../tools/functions.js`);
 

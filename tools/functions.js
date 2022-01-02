@@ -13,7 +13,7 @@ module.exports = {
         );
     },
     /**
-     * Creates pointdata schema for user by adding their score.
+     * Creates addPoints schema for user by adding their score.
      * @param {Schema} pointsAdd - the schema that stores point data
      * @param {String} usersID - a single user's ID
      * @param {Number} score - the amount of points to be added
@@ -26,7 +26,7 @@ module.exports = {
         addPoints.save().catch(err => console.log(err));
     },
     /**
-     * updates pointdata schema for user by adding their score.
+     * Updates addPoints schema for user by adding their score.
      * @param {Callback} pointdata - the point data callback
      * @param {Number} score - the amount of points to be added
      */
@@ -35,12 +35,37 @@ module.exports = {
         pointdata.save().catch(err => console.log(err));
     },
     /**
-     * updates pointdata schema for user by setting their score.
+     * Updates addPoints schema for user by setting their score.
      * @param {Callback} pointdata - the point data callback
      * @param {Number} score - the amount of points to be added
      */
-     setPointdata: function (pointdata, score) {
+    setPointdata: function (pointdata, score) {
         pointdata.points = score;
         pointdata.save().catch(err => console.log(err));
+    },
+    /**
+     * Creates weeklyUpdate schema for user by adding their score.
+     * @param {Schema} updateWeekly - the schema that stores submission data
+     * @param {String} usersID - a single user's ID
+     * @param {Date} dateToday - the date when this function runs
+     */
+    createWeeklydata: function (updateWeekly, usersID, dateToday) {
+        const weeklyUpdate = new updateWeekly({
+            userid: usersID,
+            consecutiveSubmissions: 1,
+            submissionThisWeek: dateToday,
+            submissionLastWeek: undefined,
+            submissionLastLastWeek: undefined
+        })
+        weeklyUpdate.save().catch(err => console.log(err));
+    },
+    /**
+     * Updates weeklyUpdate schema for user by adding their score.
+     * @param {Callback} submitdata - the point data callback
+     * @param {Number} score - the amount of points to be added
+     */
+    updateWeeklydata: function (submitdata, dateToday) {
+        submitdata.submissionThisWeek = dateToday;
+        submitdata.save().catch(err => console.log(err));
     }
 };
