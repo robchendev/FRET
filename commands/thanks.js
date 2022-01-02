@@ -83,7 +83,6 @@ function idToName(arr){
  */
 function thank (msg, usersID, score) {
     
-    
     // Removes nickname ! in ID
     usersID = String(usersID).replace('!','');
     

@@ -33,5 +33,14 @@ module.exports = {
     updatePointdata: function (pointdata, score) {
         pointdata.points = pointdata.points + score;
         pointdata.save().catch(err => console.log(err));
+    },
+    /**
+     * updates pointdata schema for user by setting their score.
+     * @param {Callback} pointdata - the point data callback
+     * @param {Number} score - the amount of points to be added
+     */
+     setPointdata: function (pointdata, score) {
+        pointdata.points = score;
+        pointdata.save().catch(err => console.log(err));
     }
 };
