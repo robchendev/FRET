@@ -4,7 +4,7 @@ F.R.E.T. is a Javascript Discord bot creates threads for questions, lets users a
 
 ## Why the cheesy name?
 
-F.R.E.T. is the only name I could think of that sounds okay as a standalone name is related to guitar. Then I had to make up a reverse acronym for it. Since this bot was originally called ThankBot when it's only purpose was to store and award points from users thanking each other, "Fragile Remains of the Eternal ThankBot" came to be.
+I couldn't think of anything better.
 
 ## Summary
 
