@@ -6,6 +6,7 @@ const prefix = '-';
 const prefixMod = '+';
 var serverID = '';
 const fs = require('fs');
+const cron = require('node-cron');
 bot.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
@@ -15,9 +16,19 @@ for(const file of commandFiles){
 let usedThanksRecently = new Set(); 
 let usedQuestionRecently = new Set();
 
+// Schedule tasks to be run on the server.
+// Test - Runs every minute
+cron.schedule('* * * * *', function() { 
+    console.log('running a task every minute');
+});
+
+// Intended for live use - runs every week at Monday 12:00 AM EST
+cron.schedule('0 0 * * Mon', function() { // Every minute
+    // bot.commands.get('weeklyCron').execute();
+});
+
 bot.once('ready', () => {
     console.log('FretBot is online!');
-    
 });
   
 bot.on('messageCreate', async msg => {
@@ -77,6 +88,9 @@ bot.on('messageCreate', async msg => {
                     break;
                 case 'about':
                     bot.commands.get('about').execute(msg);
+                    break;
+                case 'w':
+                    bot.commands.get('weekly').execute(prefix, msg, args);
                     break;
                 case 'q':
                     // Will only work when used in question channel

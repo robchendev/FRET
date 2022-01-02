@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const mongoose = require('mongoose');
 const pointsAdd = require("../models/addPoints.js");
 const secrets = require(`../secrets.json`);
+const { schemaAddPoints } = require('../tools/functions.js');
+var tools = require(`../tools/functions.js`);
 mongoose.connect(secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
@@ -81,20 +83,16 @@ function idToName(arr){
  */
 function thank (msg, usersID, score) {
     
+    
     // Removes nickname ! in ID
     usersID = String(usersID).replace('!','');
     
     pointsAdd.findOne({userid: usersID}, (err, pointdata) => {
         if(err) console.log(err);
         if(!pointdata){
-            const addPoints = new pointsAdd({
-                userid: usersID,
-                points: score
-            })
-            addPoints.save().catch(err => console.log(err));
+            tools.createPointdata(pointsAdd, usersID, score);
         } else {
-            pointdata.points = pointdata.points + score;
-            pointdata.save().catch(err => console.log(err));
+            tools.updatePointdata(pointdata, score);
         }
     })
 
@@ -103,14 +101,9 @@ function thank (msg, usersID, score) {
     pointsAdd.findOne({userid: msg.author}, (err, pointdata) => {
         if(err) console.log(err);
         if(!pointdata){
-            const addPoints = new pointsAdd({
-                userid: msg.author,
-                points: scorePortion
-            })
-            addPoints.save().catch(err => console.log(err));
+            tools.pointdataCreateSchema(pointsAdd, msg.author, scorePortion);
         } else {
-            pointdata.points = pointdata.points + score;
-            pointdata.save().catch(err => console.log(err));
+            tools.updatePointdata(pointdata, scorePortion);
         }
     })
 }
