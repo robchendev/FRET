@@ -1,14 +1,20 @@
-# FretBot
+# F.R.E.T. - Fragile Remains of the Eternal ThankBot
 
-FretBot is a Javascript Discord bot creates threads for questions, lets users answer those questions, and stores user-awarded points in a MongoDB database. The goal is to encourage an active and organized community help forum similar to StackOverflow but on Discord. Users can ask and answer questions within the FretBot-created threads. With each question answered, other users can choose to thank the user(s) who answered the question by giving them points, leveling them up through roles. Points are also awarded to the user who is thanking to encourage an active discussion. Moderator-specific commands to change data in the database on-demand are also included. This bot is currently self-hosted and used in the a guitar community [discord server](https://discord.com/invite/ZXKrfB2).
+F.R.E.T. is a Javascript Discord bot creates threads for questions, lets users answer those questions, and stores user-awarded points in a MongoDB database. The goal is to encourage an active and organized community help forum similar to StackOverflow but on Discord. Users can ask and answer questions within the FretBot-created threads. With each question answered, other users can choose to thank the user(s) who answered the question by giving them points, leveling them up through roles. Points are also awarded to the user who is thanking to encourage an active discussion. Moderator-specific commands to change data in the database on-demand are also included. This bot is currently self-hosted and used in the a guitar community [discord server](https://discord.com/invite/ZXKrfB2).
+
+## Why the cheesy name?
+
+F.R.E.T. is the only name I could think of that sounds okay as a standalone name is related to guitar. Then I had to make up a reverse acronym for it. Since this bot was originally called ThankBot when it's only purpose was to store and award points from users thanking each other, "Fragile Remains of the Eternal ThankBot" came to be.
 
 ## Summary
 
   - [Getting Started](#getting-started)
+  - [Demonstration](#demonstration)
   - [Commands](#commands)
     - [User Commands](#user-commands)
     - [Moderator Commands](#moderator-commands)
   - [Deployment](#deployment)
+    - [Customization](#customization)
   - [Future Plans](#future-plans)
   - [Contributing](#contributing)
   - [Authors](#authors)
@@ -16,9 +22,7 @@ FretBot is a Javascript Discord bot creates threads for questions, lets users an
 
 ## Demonstration
 
-![Demonstration](demo.gif)
-
-This needs to be replaced, its a little outdated and doesn't show what the `-q` command does.
+I'm making some gifs and videos that demonstrate this bot's functionality.
 
 ## Getting Started
 
@@ -26,16 +30,16 @@ For personal development purposes, clone this repository to your system, install
     
 Because this is a Discord bot, you need to create your Discord application [here](https://discord.com/developers/applications)
 
-This bot uses MongoDB to store it's data. The data is stored in the form of a JSON object called a Schema, with it's contents described in models/addPoints.js. You only need to provide a secrets.json (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
+This bot uses Mongoose JS to store it's data in MongoDB as a JSON schema. You only need to provide a secrets.json (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
 
 This code uses two tokens, "Token" and "Mongo", as described in secrets-example.json. Rename this file secrets.json and edit the following fields:
 
 1. Replace the "Token" value in that file with your bot's token - it is what the bot will use to sign into Discord. 
 2. Replace the "Mongo" value with your MongoDB's database connection string. 
 
-If you are to use this code in your public github repositories, do not share your secrets.json file. Doing so will give someone else access to your Discord bot and your database.
+If you are to use this code in your public github repositories, do not share your secrets.json file. It will give other people access to your Discord bot and your database. Though, github will likely recognize this and warn you before anyone does.
 
-Run the bot using shell by using the command
+Run the bot by using the command:
 
     node .
 
@@ -52,7 +56,7 @@ Takes a question and creates a thread under the message that invoked the -q comm
     -thanks <@user1> <@user2> <@user3>
     -thank <@user1> <@user2> <@user3>
 
-Takes any number of mentions. The math to divide the points between each user works exponentially (100/(users^0.5)). The person who uses this command gets placed on a 5 minute cooldown before they can use it again. The person who uses the command also gets 20% of the points they've awarded. Does not allow the user to thank themselves to farm points.
+Takes any number of mentions. The math to divide the points between each user works exponentially (`100/(users^0.5)`). The person who uses this command gets placed on a short cooldown before they can use it again. The person who uses the command also gets 20% of the points they've awarded. Users cannot thank themselves to farm points.
 
     -points
     -points <@user>
@@ -102,7 +106,18 @@ The method of deployment is up to you, I'm personally self-hosting this bot on a
 
 Do note: If you plan on using the -rankup command, make sure this bot's role is higher than the roles you are trying to give via rankup. I haven't yet made any error checking for this so your bot will just terminate if it encounters this error.
 
-Since this was a personal project, a lot of my variables will be different from what you would want. A customizable JSON file is provided for you to make simple changes to the identification of roles and channels. The user using any of the moderator commands must have the `DBmanager` role id.
+F.R.E.T. needs the permission to manage messages since it will be deleting messages to clear up the chat whenever someone invokes a command incorrectly or sends a message in the wrong channel.
+
+### Customization
+
+Since this was a personal project, my variables will be different from what you would need. `ids.json` is provided for you to make changes to the identification of roles and channels. Here are what they mean:
+
+    DBmanager - Anyone with this role will be able to use F.R.E.T.'s mod commands
+    promoChannel - The channel promo.js to passively runs in
+    questionChannel - The channel where question.js can be invoked
+    impersonateChannel - The channel that forwards messages to targeted channels
+    rank1...6 - The leveled rank names
+    rank1Points...6Points - The leveled rank point thresholds
 
 ## Future Plans
 
@@ -130,7 +145,7 @@ See the [LICENSE](https://github.com/chendumpling/FretBot/blob/master/LICENSE) f
 ## Authors
 
   - **Robert Chen** -
-    [chendumpling99](https://github.com/chendumpling)
+    [chendumpling](https://github.com/chendumpling)
 
 See also the list of
 [contributors](https://github.com/chendumpling/FretBot/contributors)

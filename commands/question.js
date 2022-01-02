@@ -5,7 +5,7 @@ var tools = require(`../tools/functions.js`);
  * Creates a thread using the original message's question.
  * @param {Message} msg - the original command message
  */
-function createThread(msg){
+async function createThread(msg){
     
     // The bot crashes if the title is longer than 100 characters,
     // this gives some headroom.
@@ -13,9 +13,10 @@ function createThread(msg){
     if (msg.content > 83){
         threadTitle = threadTitle + "...";
     }
-    msg.startThread({
+    const thread = await msg.startThread({
         name: threadTitle
     });
+    thread.send(`Answer ${msg.author.username}'s question on this thread.`);
 }
 
 /**

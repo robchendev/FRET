@@ -13,7 +13,7 @@ async function createThread(msg){
         name: threadTitle,
         autoArchiveDuration: 60
     });
-    thread.send("hello");
+    thread.send(`Show ${msg.author.username} some support!`);
 }
 
 /**
