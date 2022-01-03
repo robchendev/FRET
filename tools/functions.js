@@ -52,10 +52,11 @@ module.exports = {
     createWeeklydata: function (updateWeekly, usersID, dateToday) {
         const weeklyUpdate = new updateWeekly({
             userid: usersID,
-            consecutiveSubmissions: 1,
-            submissionThisWeek: dateToday,
-            submissionLastWeek: undefined,
-            submissionLastLastWeek: undefined
+            streak: 0,
+            highestStreak: 0,
+            thisWeek: dateToday,
+            lastWeek: undefined,
+            lastLastWeek: undefined
         })
         weeklyUpdate.save().catch(err => console.log(err));
     },
@@ -65,7 +66,7 @@ module.exports = {
      * @param {Number} score - the amount of points to be added
      */
     updateWeeklydata: function (submitdata, dateToday) {
-        submitdata.submissionThisWeek = dateToday;
+        submitdata.thisWeek = dateToday;
         submitdata.save().catch(err => console.log(err));
     }
 };

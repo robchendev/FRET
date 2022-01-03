@@ -10,7 +10,7 @@ mongoose.connect(secrets.Mongo, {
 
 /**
  * Removes all roles in roleNames from the user
- * @param {string} thisUser - id of the user to adjust the roles of
+ * @param {String} thisUser - User to adjust the roles of
  * @param {Array} roleNames - array of roles to be given
  * @param {Array} rolePoints - array of point thresholds for each corresponding role
  */
@@ -24,8 +24,8 @@ function repairRoles(thisUser, rolePoints, roleNames){
 
 /**
  * Pulls the user's points data from the database
- * @param {string} thisUser - id of the user to find points of
- * @param {none} cb - callback 
+ * @param {String} thisUser - id of the user to find points of
+ * @param {Callback} cb - callback 
  */
 function howManyPoints(thisUser, cb) {
 
@@ -102,7 +102,7 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
  * @param {Array} roleNames - array of roles to be given
  * @param {Array} rolePoints - array of point thresholds for each corresponding role
  */
-function hasNoRank(msg, thisUser, roleNames, rolePoints,) {
+function hasNoRank(msg, thisUser, roleNames, rolePoints) {
 
     //Check if user somehow has a role already. If they do, remove it.
     repairRoles(msg.member, rolePoints, roleNames);
@@ -133,9 +133,7 @@ function rankupCheck(msg, roleNames, rolePoints) {
     let thisUser = String(msg.member).replace('!','');
     
     howManyPoints(thisUser, (err, pointdata) => {
-        if(err) {
-            console.log(err);
-        }
+        if(err) console.log(err);
         else if(pointdata){
             switch (true) {
                 case pointdata >= rolePoints[5]:

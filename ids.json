@@ -1,4 +1,5 @@
 {
+    "serverGuildID": "595032134792511490",
     "DBmanager": "737445717823586375",
     "promoChannel": "926876888125812786",
     "questionChannel": "926931655766179890",
@@ -15,5 +16,11 @@
     "rank3Points": "1000",
     "rank4Points": "2500",
     "rank5Points": "5000",
-    "rank6Points": "10000"
+    "rank6Points": "10000",
+    "wRank1": "weekly1",
+    "wRank2": "weekly2",
+    "wRank3": "weekly3",
+    "wRank1Streak": 1,
+    "wRank2Streak": 4,
+    "wRank3Streak": 9
 }

@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
+const { allowedNodeEnvironmentFlags } = require('process');
 const updateWeekly = require("../models/weeklyUpdate.js");
 const secrets = require(`../secrets.json`);
 var tools = require(`../tools/functions.js`);
@@ -63,6 +64,8 @@ function updateProfile(msg) {
         }
         //console.log(dateToday);
     })
+    msg.react('✅');
+    
 }
 
 function weeklySubmit(msg, args) {

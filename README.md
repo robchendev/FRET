@@ -13,6 +13,7 @@ I couldn't think of anything better.
   - [Commands](#commands)
     - [User Commands](#user-commands)
     - [Moderator Commands](#moderator-commands)
+  - [Weekly Submissions](#weekly-submissions)
   - [Deployment](#deployment)
     - [Customization](#customization)
   - [Future Plans](#future-plans)
@@ -75,6 +76,10 @@ Displays all the user commands listed here (except -help) and their intended use
 
 Shows information about this bot. Gives a description, the github repository link and the math expression used to calculate how many points are to be awarded to each user being thanked.
 
+    -w
+
+This is harder to describe, go to [Weekly Submissions](#weekly-submissions) for more information
+
 ### Moderator Commands
 
     +points <@user> inc <points>
@@ -99,6 +104,14 @@ Only works in the channel whose ID is written in `impersonateChannel` in the `id
     +help
 
 Displays all the moderator commands listed here (except +help and +imp) and their intended use.
+
+## Weekly Submissions
+
+This is the bulkiest part of the bot, so I'm dedicating a section to it.
+
+### Purpose
+
+### Commands
 
 ## Deployment
 

@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const bot = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES"] });
+const bot = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_PRESENCES"] });
 const secrets = require(`./secrets.json`);
 const ids = require(`./ids.json`);
 const prefix = '-';
@@ -19,20 +19,20 @@ let usedQuestionRecently = new Set();
 // Schedule tasks to be run on the server.
 // Test - Runs every minute
 cron.schedule('* * * * *', function() { 
-    console.log('running a task every minute');
+    bot.commands.get('weeklyCron').execute(bot);
 });
 
-// Intended for live use - runs every week at Monday 12:00 AM EST
-cron.schedule('0 0 * * Mon', function() { // Every minute
-    // bot.commands.get('weeklyCron').execute();
-});
+// Intended for live use - runs every week at Sunday 11:59 PM EST
+// cron.schedule('1231245 0 * * Sun', function() { // Every minute
+//     // bot.commands.get('weeklyCron').execute();
+// });
 
 bot.once('ready', () => {
     console.log('FretBot is online!');
 });
   
 bot.on('messageCreate', async msg => {
-
+    
     // If user DMs, do nothing
     if (msg.channel.type == "dm") {
         return;
