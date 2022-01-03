@@ -1,5 +1,4 @@
 const ids = require(`../ids.json`);
-var tools = require(`../tools/functions.js`);
 const secrets = require(`../secrets.json`);
 const mongoose = require('mongoose');
 const updateWeekly = require("../models/weeklyUpdate.js");
@@ -24,10 +23,9 @@ async function createThread(bot, myGuild, roleNames, roleStreak){
     // Convert to more readable date strings
     let today = dateToday.toISOString().split('T')[0];
 
-    // Prepare thread 
     let threadTitle = 'Weekly finalization ' + today;
 
-    //need to make message first to start the thread
+    // Start message to create thread
     bot.channels.cache.get(ids.weeklyChannel).send('Streaks have been updated.')
     .then(async sentMsg => {
         
@@ -104,7 +102,6 @@ function doRankUp(bot, myGuild, thread, submitdata, roleNames, roleStreak, index
 function rankupCheck(bot, myGuild, thread, submitdata, roleNames, roleStreak){
 
     updateStreak(submitdata);
-    console.log("Streak: " + submitdata.streak)
     switch(true){
         case submitdata.streak >= roleStreak[2]: // 9 streak
             doRankUp(bot, myGuild, thread, submitdata, roleNames, roleStreak, 2);
@@ -136,6 +133,7 @@ function repairRoles(submitdata, myGuild, roleStreak, roleNames){
         }
     }
 }
+
 function updateStreak(submitdata){
 
     submitdata.streak += 1;
@@ -143,19 +141,22 @@ function updateStreak(submitdata){
         submitdata.highestStreak = submitdata.streak;
     }
 }
+
 function resetStreak(submitdata){
     submitdata.streak = 0;
 }
+
 function startNewWeek(submitdata){
     submitdata.lastLastWeek = submitdata.lastWeek;
     submitdata.lastWeek = submitdata.thisWeek;
     submitdata.thisWeek = undefined;
 }
 
-// Note: This doesnt error check for permissions
-// So you must make sure ids.json "weeklyChannel" is correct
-// and the bot must have permission to view, send messages,
-// and create thread in it.
+/** 
+ * This doesnt error check for permissions, so make sure the bot
+ * has permission to view, send messages, and create threads in
+ * ids.weeklyChannel.
+ */
 module.exports = {
     name: 'weeklyCron',
     description: "this command is passively invoked on Monday 12:00 AM EST every week to update roles for the weekly submissions.",
@@ -177,7 +178,6 @@ module.exports = {
             /*1*/ids.wRank2Streak,
             /*2*/ids.wRank3Streak
         ];
-        
         
         createThread(bot, myGuild, roleNames, roleStreak);
     }
