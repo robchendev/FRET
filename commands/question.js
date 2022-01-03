@@ -5,7 +5,7 @@ var tools = require(`../tools/functions.js`);
  * Creates a thread using the original message's question.
  * @param {Message} msg - the original command message
  */
-function createThread(msg){
+async function createThread(msg){
     
     // The bot crashes if the title is longer than 100 characters,
     // this gives some headroom.
@@ -13,22 +13,10 @@ function createThread(msg){
     if (msg.content > 83){
         threadTitle = threadTitle + "...";
     }
-    msg.startThread({
+    const thread = await msg.startThread({
         name: threadTitle
     });
-}
-
-/**
- * Sends message telling user to write -q command outside the current thread
- * @param {Message} msg - the original command message
- */
-function commandInsideThread(msg){
-    let time = 10;
-    msg.channel.send(`**${msg.member}**` + `, please ask your question outside this thread. Your message will be deleted in ${time} seconds.`)
-    .then(sentMsg => {
-        tools.deleteMsg(sentMsg, time);
-        tools.deleteMsg(msg, time);
-    }).catch();
+    thread.send(`Answer ${msg.author.username}'s question on this thread.`);
 }
 
 /**
@@ -70,9 +58,6 @@ module.exports = {
             else {
                 createThread(msg);
             }
-        }
-        else {
-            commandInsideThread(msg);
         }
     }
 }

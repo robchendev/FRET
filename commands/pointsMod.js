@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
 const secrets = require(`../secrets.json`);
+var tools = require(`../tools/functions.js`);
 const pointsChange = require("../models/addPoints.js");
 mongoose.connect(secrets.Mongo, {
     useUnifiedTopology: true,
@@ -17,27 +18,19 @@ function decPoints (msg, usersID, deincrement) {
     
     pointsChange.findOne({userid: usersID}, (err, pointdata) => {
         if(err) console.log(err);
-        if(pointdata){
-            beforeChange = pointdata.points;
-
-            pointdata.points = pointdata.points - deincrement;
-            pointdata.save().catch(err => console.log(err));
-
+        if(!pointdata){
+            tools.createPointdata(pointsChange, usersID, -deincrement);
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#fc00f8')
-            .setDescription(`${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`);
+            .setDescription(`${usersID}'s points have been changed from 0 to ${-deincrement}`);
             msg.channel.send({embeds: [embedMsg]});
         }
         else {
-            let resultPoints = 0 - deincrement;
-            const addPoints = new pointsChange({
-                userid: usersID,
-                points: resultPoints 
-            })
-            addPoints.save().catch(err => console.log(err));
+            beforeChange = pointdata.points;
+            tools.updatePointdata(pointdata, -deincrement);
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#fc00f8')
-            .setDescription(`${usersID}'s points have been changed from 0 to ${resultPoints}`);
+            .setDescription(`${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`);
             msg.channel.send({embeds: [embedMsg]});
         }
     })
@@ -53,25 +46,18 @@ function setPoints (msg, usersID, set) {
     
     pointsChange.findOne({userid: usersID}, (err, pointdata) => {
         if(err) console.log(err);
-        if(pointdata){
-            beforeChange = pointdata.points;
-
-            pointdata.points = set;
-            pointdata.save().catch(err => console.log(err));
-
-            const embedMsg = new Discord.MessageEmbed()
-            .setColor('#fc00f8')
-            .setDescription(`${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`);
-            msg.channel.send({embeds: [embedMsg]});
-        } else {
-            const addPoints = new pointsChange({
-                userid: usersID,
-                points: set
-            })
-            addPoints.save().catch(err => console.log(err));
+        if(!pointdata){
+            tools.createPointdata(pointsChange, usersID, set);
             const embedMsg = new Discord.MessageEmbed()
             .setColor('#fc00f8')
             .setDescription(`${usersID}'s points have been changed from 0 to ${set}`);
+            msg.channel.send({embeds: [embedMsg]});
+        } else {
+            beforeChange = pointdata.points;
+            tools.setPointdata(pointdata, set);
+            const embedMsg = new Discord.MessageEmbed()
+            .setColor('#fc00f8')
+            .setDescription(`${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`);
             msg.channel.send({embeds: [embedMsg]});
         }
     })
