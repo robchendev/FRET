@@ -68,5 +68,40 @@ module.exports = {
     updateWeeklydata: function (submitdata, dateToday) {
         submitdata.thisWeek = dateToday;
         submitdata.save().catch(err => console.log(err));
+    },
+    /**
+     * sends a message reminding the user of a command's cooldown.
+     * @param {String} reminder - the phrase to remind with
+     * @param {Number} cd - number of minutes to cooldown for
+     * @param {Message} msg - original message sent to the channel
+     * @param {Set} set - the set to store the cooldowns in
+     */
+    cooldownReminder: function (reminder, cd, msg){
+        msg.channel.send(`**${msg.author}**` + `, you can only ` + reminder + ` once every ${cd} minute.`)
+        .then(sentMsg => {
+            setTimeout(() => 
+                sentMsg.delete().catch(err => {
+                    console.log('Message was already deleted');
+                }), 7000
+            );
+            setTimeout(() => 
+                msg.delete().catch(err => {
+                    console.log('Message was already deleted');
+                }), 7000
+            );
+        }).catch();
+    },
+    /**
+     * sets the cooldown of a -thanks command for a certain user
+     * @param {Number} cd - number of minutes to cooldown for
+     * @param {Message} msg - original message sent to the channel
+     */
+    setCooldown: function (cd, msg) {
+        let usedRecently = new Set(); 
+        usedRecently.add(msg.author.id);
+        setTimeout(() => {
+            usedRecently.delete(msg.author.id);
+        }, (Math.floor((60000)*cd))); //1min * cd
+        return usedRecently;
     }
 };

@@ -166,8 +166,8 @@ function incorrectUsage(prefix, msg) {
 
     const embedMsg = new Discord.MessageEmbed()
     .setColor(ids.incorrectUsageColor)
-    .addField('Thank one user', `\`${prefix}thanks <user>\``, false)
-    .addField('Thank multiple users', `\`${prefix}thanks <user1> <user2> <user3>\``, false)
+    .addField(`\`${prefix}thanks <user>\``, 'Thank one user', false)
+    .addField(`\`${prefix}thanks <user1> <user2> <user3>\``, 'Thank multiple users', false)
     .addField('Careful', 'Do not include < and >. Use @', false);
     msg.channel.send({embeds: [embedMsg]});
 }
