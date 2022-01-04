@@ -15,10 +15,11 @@ mongoose.connect(secrets.Mongo, {
  * @param {Message} msg - the original command message
  */
 function incorrectSubmit(msg){
-    msg.delete()
-    msg.channel.send(`**${msg.author.username}**` + ", your submission must include an attachment or link.")
+
+    msg.channel.send(`**${msg.author}**` + ", your submission must include an attachment or link.")
     .then(sentMsg => {
         tools.deleteMsg(sentMsg, 10);
+        tools.deleteMsg(msg, 10);
     }).catch();
 }
 
@@ -47,7 +48,6 @@ function updateProfile(msg) {
         } else {
             tools.updateWeeklydata(submitdata, dateToday);
         }
-        //console.log(dateToday);
     })
     msg.react('✅');
 }
@@ -88,11 +88,7 @@ function weeklyInfo(msg){
     .addField(`Current time`, `${datetimeToday}`, false)
     .addField(`Next finalization`, `${datetimeDeadline}`, false)
     .addField(`Time remaining`, `${secondsToDHM(timeLeft)}`, false);
-    msg.channel.send({embeds: [embedMsg]})
-    .then(sentMsg => {
-        tools.deleteMsg(sentMsg, 15);
-        tools.deleteMsg(msg, 15);
-    }).catch();
+    msg.channel.send({embeds: [embedMsg]});
 }
 
 function dateTimeString(datetime){

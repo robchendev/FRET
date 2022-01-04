@@ -33,7 +33,6 @@ function howManyPoints(thisUser, cb) {
         if(err) 
             return cb(err, null);
         if(pointdata) {
-            //console.log(pointdata.points);
             return cb(null, pointdata.points);
         }
         else {
