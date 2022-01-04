@@ -16,14 +16,8 @@ for(const file of commandFiles){
 let usedThanksRecently = new Set(); 
 let usedQuestionRecently = new Set();
 
-// Schedule tasks to be run on the server.
-
-// Test - Runs every minute
-// cron.schedule('* * * * *', function() { 
-//     bot.commands.get('weeklyCron').execute(bot);
-// });
-
-// Live - Runs every week at Sunday 11:59 PM EST
+// Live '59 23 * * Sun' - Runs every week at Sunday 11:59 PM EST
+// Test '* * * * *' - Runs every minute
 cron.schedule('59 23 * * Sun', function() { // Every minute
     bot.commands.get('weeklyCron').execute(bot);
 });
