@@ -156,13 +156,19 @@ function makeProfile(bot, msg, thisUser){
             msg.channel.send(`**${thisUser.user.username}** does not have a profile! They will get one when they submit a weekly for the first time.`);
         } 
         else {
-            // Display currentRole in embed
+            // Display current temporary role in embed
             let currentRole = getCurrentRole(bot, thisUser);
             let showCurRole = "None";
             if (currentRole != undefined){
                 showCurRole = currentRole;
             }
-            embedMsg.setDescription(`Rank: ${showCurRole}`); 
+            // Display permanent role in embed
+            let permaRole = getPermaRole(bot, thisUser);
+            let showCurPermaRole = "Not yet achieved";
+            if (permaRole != undefined){
+                showCurPermaRole = permaRole;
+            }
+            embedMsg.setDescription(`🏆 ${showCurPermaRole}\nRank: ${showCurRole}`); 
             
             // Show submission history
             let showThisWeek = `No submission`;
@@ -208,6 +214,21 @@ function getCurrentRole(bot, thisUser){
         }
     }
     return currentRole;
+}
+
+function getPermaRole(bot, thisUser){
+    
+    // retrieves guild object
+    let myGuild = bot.guilds.cache.get(ids.serverGuildID);
+    let permaRole = undefined;
+
+    // Get current perma rank of member
+    if (thisUser != undefined) {
+        if(thisUser.roles.cache.some(r => r.name === ids.wRankPerma)){
+            permaRole = myGuild.roles.cache.find(r => r.name === ids.wRankPerma);
+        }
+    }
+    return permaRole;
 }
 
 module.exports = {

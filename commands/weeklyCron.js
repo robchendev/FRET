@@ -64,7 +64,7 @@ async function createThread(bot, myGuild, roleNames, roleStreak){
     }).catch();
 }
 
-function doRankUp(bot, myGuild, thread, submitdata, roleNames, roleStreak, index){
+function doRankUp(bot, myGuild, thread, submitdata, roleNames, index){
 
     // need intent GUILD_PRESENCES for this to work
     let name = bot.users.cache.get(submitdata.userid);
@@ -89,6 +89,28 @@ function doRankUp(bot, myGuild, thread, submitdata, roleNames, roleStreak, index
     }
 }
 
+// Permanently grants role once reached threshold
+function permaRank(bot, myGuild, thread, submitdata){
+    
+    // need intent GUILD_PRESENCES for this to work
+    let name = bot.users.cache.get(submitdata.userid);
+    let user = myGuild.members.cache.get(submitdata.userid)
+
+    // retrieve rank
+    let permaRankRole = myGuild.roles.cache.find(r => r.name === ids.wRankPerma);
+
+    // if user exists
+    if (name != undefined && user != undefined) {
+        name = name.username;
+
+        // If user does not have new role
+        if (!user.roles.cache.has(permaRankRole.id)){
+            user.roles.add(permaRankRole.id);
+            thread.send(`**${name}** has achieved the permanent **${permaRankRole.name}** rank for reaching ${ids.wRankPermaStreak} streaks in a row!`);
+        }
+    }
+}
+
 /**
  * Determines what role is to be given to a user, if applicable.
  * @param {Client} bot - the client that lets F.R.E.T. use discordJS methods
@@ -103,14 +125,17 @@ function rankupCheck(bot, myGuild, thread, submitdata, roleNames, roleStreak){
     updateStreak(submitdata);
     switch(true){
         case submitdata.streak >= roleStreak[2]: // 9 streak
-            doRankUp(bot, myGuild, thread, submitdata, roleNames, roleStreak, 2);
+            doRankUp(bot, myGuild, thread, submitdata, roleNames, 2);
             break;
         case submitdata.streak >= roleStreak[1]: // 4 streak
-            doRankUp(bot, myGuild, thread, submitdata, roleNames, roleStreak, 1);
+            doRankUp(bot, myGuild, thread, submitdata, roleNames, 1);
             break;
         case submitdata.streak >= roleStreak[0]: // 1 streak  
-            doRankUp(bot, myGuild, thread, submitdata, roleNames, roleStreak, 0);
+            doRankUp(bot, myGuild, thread, submitdata, roleNames, 0);
             break;
+    }
+    if (submitdata.highestStreak >= ids.wRankPermaStreak){
+        permaRank(bot, myGuild, thread, submitdata);
     }
 }
 

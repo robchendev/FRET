@@ -25,7 +25,9 @@
     "wRank1": "weekly1",
     "wRank2": "weekly2",
     "wRank3": "weekly3",
+    "wRankPerma": "weeklyPerma",
     "wRank1Streak": 1,
-    "wRank2Streak": 4,
-    "wRank3Streak": 9
+    "wRank2Streak": 3,
+    "wRank3Streak": 7,
+    "wRankPermaStreak": 2
 }
