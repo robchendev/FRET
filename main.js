@@ -85,7 +85,7 @@ bot.on('messageCreate', async msg => {
                     break;
                 case 'w':
                     // Will only work when used in weekly
-                    if(msg.channel.id === ids.helpForumChannel){
+                    if(msg.channel.id === ids.weeklyChannel){
                         bot.commands.get('weekly').execute(bot, prefix, msg, args);
                     }
                     break;
