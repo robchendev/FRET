@@ -44,7 +44,8 @@ module.exports = {
     execute (msg){
 
         // Makes sure this command only runs outside of threads
-        if (!(msg.channel.type == 'GUILD_PUBLIC_THREAD')){
+        if (!(msg.channel.type == 'GUILD_PUBLIC_THREAD')
+            && !(msg.channel.type == 'GUILD_PRIVATE_THREAD')){
 
             let hasLink = msg.content.includes('https://' || 'http://');
 

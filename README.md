@@ -92,11 +92,6 @@ Increases, decreases or sets a user's points by a certain amount.
 
 Penalizes user for 1000 points.
 
-    +blacklist <@user>
-    +blacklist <@user> remove
-
-Adds or removes user from a blacklist. This blacklist is controlled by a role called "help-blacklist" that prevents the user from sending messages in the channel.
-
     #channel <message>
 
 Only works in the channel whose ID is written in `impersonateChannel` in the `ids.JSON` file. Impersonates yourself as FretBot and remotely sends a message as FretBot into another channel it has access to. FretBot also checks to make sure it has permissions to view and send messages in the channel to avoid errors.
@@ -127,7 +122,7 @@ Since this was a personal project, my variables will be different from what you 
 
     DBmanager - Anyone with this role will be able to use F.R.E.T.'s mod commands
     promoChannel - The channel promo.js to passively runs in
-    questionChannel - The channel where question.js can be invoked
+    helpForumChannel - The channel where question.js can be invoked
     impersonateChannel - The channel that forwards messages to targeted channels
     rank1...6 - The leveled rank names
     rank1Points...6Points - The leveled rank point thresholds

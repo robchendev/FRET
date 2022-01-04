@@ -33,7 +33,6 @@ function howManyPoints(thisUser, cb) {
         if(err) 
             return cb(err, null);
         if(pointdata) {
-            //console.log(pointdata.points);
             return cb(null, pointdata.points);
         }
         else {
@@ -62,7 +61,7 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
 
         msg.member.roles.add(roleNames[index].id);
         const embedMsg = new Discord.MessageEmbed()
-        .setColor('#2ecc71')
+        .setColor(ids.thanksColor)
         if (index === 5){
             embedMsg.setDescription(`${msg.member} has ranked up to ${roleNames[index]}!\nCongrats, you now have access to the members chats!`);
         } else {
@@ -79,7 +78,7 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
                     console.log(err);
                 else if(points){
                     const embedMsg = new Discord.MessageEmbed()
-                    .setColor('#f1c40f')
+                    .setColor(ids.transparentColor)
                     .setDescription(`${thisUser}, you need **${(rolePoints[index+1]-points)}** points to rank up to ${roleNames[index+1]}.`);
                     msg.channel.send({embeds: [embedMsg]});
                 }
@@ -112,7 +111,7 @@ function hasNoRank(msg, thisUser, roleNames, rolePoints) {
             console.log(err);
         else if(points){
             const embedMsg = new Discord.MessageEmbed()
-            .setColor('#f1c40f')
+            .setColor(ids.transparentColor)
             .setDescription(`${thisUser}, you need **${(rolePoints[0]-points)}** points to rank up to ${roleNames[0]}.`);
             msg.channel.send({embeds: [embedMsg]});
         }

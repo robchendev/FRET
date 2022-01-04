@@ -10,22 +10,39 @@ mongoose.connect(secrets.Mongo, {
     useNewUrlParser: true,
 });
 
-// Resets streak to 0 and removes role
-function resetProfile(bot, msg, thisUser, roleNames){
-
-    // Access submitdata
-}
-
 /**
  * Deletes message and sends a disappearing message telling user how to use the command
+ * @param {String} prefix - the prefix of the command
  * @param {Message} msg - the original command message
  */
- function incorrectSubmit(msg){
-    msg.delete()
-    msg.channel.send(`**${msg.author.username}**` + ", your submission must include an attachment or link.")
+ function incorrectUsage(prefix, msg){
+    const embedMsg = new Discord.MessageEmbed()
+    .setColor(ids.incorrectUsageColor)
+    .addField(`\`${prefix}w reset <user>\``, 'Reset streak and rank', false);
+    msg.channel.send({embeds: [embedMsg]})
     .then(sentMsg => {
         tools.deleteMsg(sentMsg, 10);
+        tools.deleteMsg(msg, 10);
     }).catch();
+}
+
+// Resets streak to 0 and removes role
+function resetProfile(msg, thisUser, roleNames){
+
+    updateWeekly.findOne({userid: thisUser.id}, (err, submitdata) => {
+        if(err) console.log(err);
+        if(!submitdata){
+            msg.channel.send(`**${thisUser.user.username}** does not have a profile.`);
+        } 
+        else {
+            resetStreak(submitdata);
+            repairRoles(msg, roleNames);
+            const embedMsg = new Discord.MessageEmbed()
+            .setColor(ids.dataChangeColor)
+            .setDescription(`${thisUser}'s streaks and rank have been reset.`);
+            msg.channel.send({embeds: [embedMsg]});
+        }
+    });
 }
 
 /**
@@ -34,7 +51,7 @@ function resetProfile(bot, msg, thisUser, roleNames){
  * @param {Schema} submitdata - holds submission data
  * @param {Array} roleNames - roles to be given
  */
- function repairRoles(msg, submitdata, roleNames){
+ function repairRoles(msg, roleNames){
     
     // retrieve member object for user
     let user = msg.mentions.members.first();
@@ -47,11 +64,18 @@ function resetProfile(bot, msg, thisUser, roleNames){
     }
 }
 
+function resetStreak(submitdata){
+    submitdata.streak = 0;
+}
+
 module.exports = {
     name: 'weeklyMod',
     description: "this command submits an entry to the weekly counter",
-    execute (prefix, msg, args){
+    execute (bot, prefix, msg, args){
     
+        // retrieves guild object
+        let myGuild = bot.guilds.cache.get(ids.serverGuildID);
+
         // Weekly streak roles
         var roleNames = [
             /*0*/myGuild.roles.cache.find(r => r.name === ids.wRank1),
@@ -60,9 +84,9 @@ module.exports = {
         ];
 
         // make sure passed arg is a mention
-        if(args.length === 1 && args[0].startsWith('<@') && args[0].endsWith('>')){
+        if(args.length === 2 && args[1].startsWith('<@') && args[1].endsWith('>')){
             let thisUser = msg.mentions.members.first();
-            resetProfile(bot, msg, thisUser, roleNames);
+            resetProfile(msg, thisUser, roleNames);
         }
         else {
             incorrectUsage(prefix, msg);

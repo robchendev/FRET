@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
+const ids = require(`../ids.json`);
 const secrets = require(`../secrets.json`);
 const pointsAdd = require("../models/addPoints.js");
 mongoose.connect(secrets.Mongo, {
@@ -39,7 +40,7 @@ function findPoints(msg, userID){
         }
         else if(pointdata){
             const embedMsg = new Discord.MessageEmbed()
-            .setColor('#2f3136')
+            .setColor(ids.transparentColor)
             .setDescription(`${userID} has **${(pointdata)}** points.`);
             msg.channel.send({embeds: [embedMsg]});
         }
@@ -57,10 +58,9 @@ function findPoints(msg, userID){
 function incorrectUsage(prefix, msg) {
 
     const embedMsg1 = new Discord.MessageEmbed()
-    .setColor('#f51637')
+    .setColor(ids.incorrectUsageColor)
     .addField('View your points', `\`${prefix}points\``, false)
     .addField('View someone else\'s points', `\`${prefix}points <user>\``, false)
-    .addField('Careful', 'Do not include < and >. Use @', false);
     msg.channel.send({embeds: [embedMsg1]});
 }
 

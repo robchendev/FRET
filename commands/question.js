@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const ids = require(`../ids.json`);
 var tools = require(`../tools/functions.js`);
 
 /**
@@ -28,7 +29,7 @@ async function createThread(msg){
 
     let time = 10;
     const embedMsg = new Discord.MessageEmbed()
-    .setColor('#f51637')
+    .setColor(ids.incorrectUsageColor)
     .addField('Ask a question', `\`${prefix}q <your question>\``, false)
     msg.channel.send({embeds: [embedMsg]})
     .then(sentMsg => {
