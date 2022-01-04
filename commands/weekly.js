@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
+const ids = require(`../ids.json`);
 const { allowedNodeEnvironmentFlags } = require('process');
 const updateWeekly = require("../models/weeklyUpdate.js");
 const secrets = require(`../secrets.json`);
@@ -38,23 +39,7 @@ function incorrectUsage(prefix, msg) {
 
 function updateProfile(msg) {
 
-
-
-    const dateToday = new Date();
-    
-    // this date needs to be BEFORE 1st submission to award role
-    let dateWeekAgo = new Date();
-
-    // dateWeekAgo.setDate(dateWeekAgo.getDate() - 7);
-    // let diffInTime = dateToday.getTime() - dateWeekAgo.getTime();
-    // // diffInTime is is set to milliseconds, so convert that to days
-    // let diffInDays = diffInTime / (1000 * 3600 * 24);
-    
-    // msg.channel.send(dateToday.toString());
-    // msg.channel.send(dateWeekAgo.toString()); 
-    // msg.channel.send("dateToday - dateWeekAgo = " + diffInDays); 
-
-    // add this weeks submission into schema
+    let dateToday = new Date();
     updateWeekly.findOne({userid: msg.author.id}, (err, submitdata) => {
         if(err) console.log(err);
         if(!submitdata){
@@ -65,22 +50,15 @@ function updateProfile(msg) {
         //console.log(dateToday);
     })
     msg.react('✅');
-    
 }
 
-function weeklySubmit(msg, args) {
+function weeklySubmit(msg){
 
     let hasAttach = msg.attachments.size > 0;
     let hasLink = msg.content.includes('https://' || 'http://' || 'youtube.com' || 'youtu.be');
 
     // message is valid (contains attachment or link)
     if (hasAttach || hasLink) {
-        // Dont need thread, just make mod command where mods can
-        // invalidate current week user's submission with +w invalid @user
-        // which would move last week user's submission to current
-        // and lastLastWeek to lastweek.
-        // the weeklyUpdate schema will have a "previous submission"
-        // that the mods can rollback to.
         updateProfile(msg); 
     }
 
@@ -90,32 +68,168 @@ function weeklySubmit(msg, args) {
     }
 }
 
+function weeklyInfo(msg){
+
+    // Current time
+    let dateToday = new Date();
+    let datetimeToday = dateTimeString(dateToday);
+
+    // This week's deadline
+    let deadline = setDeadline(dateToday, 0);
+    deadline.setHours(23, 59);
+    let datetimeDeadline = dateTimeString(deadline);
+
+    // how many seconds before deadline
+    let timeLeft = (deadline.getTime() - dateToday.getTime()) / 1000;
+
+    // send embedded msg with all the date / time info.
+    const embedMsg = new Discord.MessageEmbed()
+    .setColor('#2f3136')
+    .addField(`Current time`, `${datetimeToday}`, false)
+    .addField(`Next finalization`, `${datetimeDeadline}`, false)
+    .addField(`Time remaining`, `${secondsToDHM(timeLeft)}`, false);
+    msg.channel.send({embeds: [embedMsg]})
+    .then(sentMsg => {
+        tools.deleteMsg(sentMsg, 15);
+        tools.deleteMsg(msg, 15);
+    }).catch();
+}
+
+function dateTimeString(datetime){
+    let date = datetime.toISOString().split('T')[0];
+    let time = datetime.toLocaleString('en-US', { 
+        hour: 'numeric', 
+        minute: 'numeric', 
+        hour12: true 
+    });
+    return `${time} EST ${date}`;
+}
+
+// converts seconds to a string that says N days, N hours, N minutes
+function secondsToDHM(timeLeft) {
+
+    let days = Math.floor(timeLeft/86400);
+    timeLeft -= days*86400;
+
+    let hours = Math.floor(timeLeft/3600) % 24;
+    timeLeft -= hours*3600;
+
+    let minutes = Math.floor(timeLeft/60) % 60;
+    timeLeft -= minutes*60;
+
+    return `${days} days, ${hours} hours, ${minutes} minutes`;
+}
+
+// finds the date of next Sunday (0-6, sunday is 0)
+// Next deadline is the following Sunday 11:59 PM
+function setDeadline(date, dayOfWeek) {
+    date = new Date(date.getTime ());
+    date.setDate(date.getDate() + (dayOfWeek + 7 - date.getDay()) % 7);
+    return date;
+}
+
+function weeklyProfile(bot, msg, args){
+
+    // -w profile @user
+    if(args.length === 2 && args[1].startsWith('<@') && args[1].endsWith('>')){
+        let thisUser = msg.mentions.members.first();
+        makeProfile(bot, msg, thisUser);
+    }
+    // -w profile
+    else {
+        //msg.member (guildmember) is the same as msg.author (user)
+        let thisUser = msg.member; 
+        makeProfile(bot, msg, thisUser);
+    }
+}
+
+function makeProfile(bot, msg, thisUser){
+
+    const embedMsg = new Discord.MessageEmbed()
+    .setColor('#2ecc71')
+    .setAuthor({ 
+        name: `Profile for ${thisUser.user.username}`, 
+    })
+    .setThumbnail(thisUser.user.avatarURL());
+
+    updateWeekly.findOne({userid: thisUser.id}, (err, submitdata) => {
+        
+        if(err) console.log(err);
+        
+        if(!submitdata){
+            msg.channel.send(`**${thisUser.user.username}** does not have a profile! They will get one when they submit a weekly for the first time.`);
+        } 
+        else {
+            // Display currentRole in embed
+            let currentRole = getCurrentRole(bot, thisUser);
+            let showCurRole = "None";
+            if (currentRole != undefined){
+                showCurRole = currentRole;
+            }
+            embedMsg.setDescription(`Rank: ${showCurRole}`); 
+            
+            // Show submission history
+            let showThisWeek = `No submission`;
+            let showLastWeek = `No submission`;
+            // console.log(submitdata.thisWeek)
+            // console.log(submitdata.lastWeek)
+
+            if (submitdata.thisWeek != undefined){
+                showThisWeek = dateTimeString(submitdata.thisWeek);
+            }
+            if (submitdata.lastWeek != undefined){
+                showLastWeek = dateTimeString(submitdata.lastWeek);
+            }
+            embedMsg.addField(`Submissions`, `This week: ${showThisWeek}\nLast week: ${showLastWeek}`, false); 
+
+            // Show streaks
+            embedMsg.addField(`Current streak`, `${submitdata.streak}`, true); 
+            embedMsg.addField(`Highest streak`, `${submitdata.highestStreak}`, true); 
+
+            // send message
+            msg.channel.send({embeds: [embedMsg]});
+        }
+    });
+}
+
+function getCurrentRole(bot, thisUser){
+    
+    // retrieves guild object
+    let myGuild = bot.guilds.cache.get(ids.serverGuildID);
+    let currentRole = undefined;
+
+    // Get current rank of member
+    if (thisUser != undefined) {
+        
+        if(thisUser.roles.cache.some(r => r.name === ids.wRank1)){
+            currentRole = myGuild.roles.cache.find(r => r.name === ids.wRank1);
+        }
+        else if(thisUser.roles.cache.some(r => r.name === ids.wRank2)){
+            currentRole = myGuild.roles.cache.find(r => r.name === ids.wRank2);
+        }
+        else if(thisUser.roles.cache.some(r => r.name === ids.wRank3)){
+            currentRole = myGuild.roles.cache.find(r => r.name === ids.wRank3);
+        }
+    }
+    return currentRole;
+}
+
 module.exports = {
     name: 'weekly',
     description: "this command submits an entry to the weekly counter",
-    execute (prefix, msg, args){
+    execute (bot, prefix, msg, args){
     
         switch(true) {
             case args[0] === "submit":
                 weeklySubmit(msg, args);
                 break;
             case args[0] === "info":
-                // Current time HH:MM EST DD/MM/YYYY 
-                // Next deadline HH:MM EST DD/MM/YYYY
-                // Hrs and Min until next deadline HH:MM
-                console.log("in info");
+                weeklyInfo(msg);
                 break;
             case args[0] === "profile":
-                // Show in good looking embed message
-                // Current role
-                // This week's submission: N/A / datetime
-                // Last week's submission: N/A / datetime
-                // # concurrent weeklies (only if mods say "yes" to thread)
-                // if mods say yes to thread, archive thread and 
-                console.log("in profile");
+                weeklyProfile(bot, msg, args);
                 break;
             default:
-                //When message is invalid (first arg is not submit, info, profile)
                 incorrectUsage(prefix, msg);
                 break;
         }

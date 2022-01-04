@@ -29,11 +29,10 @@ async function createThread(bot, myGuild, roleNames, roleStreak){
     bot.channels.cache.get(ids.weeklyChannel).send('Streaks have been updated.')
     .then(async sentMsg => {
         
-        // Make sure the message was actually sent by the bot in weeklyChannel
         if(sentMsg.channel.id === ids.weeklyChannel && sentMsg.author.bot) {
+
             const thread = await sentMsg.startThread({
-                name: threadTitle,
-                autoArchiveDuration: 60
+                name: threadTitle
             });
 
             updateWeekly.find({}, (err, documents) => {
@@ -50,7 +49,7 @@ async function createThread(bot, myGuild, roleNames, roleStreak){
                     else if (submitdata.lastWeek != undefined){
                         
                         resetStreak(submitdata);
-                        repairRoles(submitdata, myGuild, roleStreak, roleNames);
+                        repairRoles(submitdata, myGuild, roleNames);
                         let name = bot.users.cache.get(submitdata.userid)
                         if (name != undefined){
                             name = name.username;
@@ -79,7 +78,7 @@ function doRankUp(bot, myGuild, thread, submitdata, roleNames, roleStreak, index
         if (!user.roles.cache.has(roleNames[index].id)){
 
             // removes roles if user has them (since we're upgrading roles)
-            repairRoles(submitdata, myGuild, roleStreak, roleNames);
+            repairRoles(submitdata, myGuild, roleNames);
             user.roles.add(roleNames[index].id);
             thread.send(`**${name}** ranked up to **${roleNames[index].name}**! Streak: **${submitdata.streak}**`);
         }
@@ -118,15 +117,15 @@ function rankupCheck(bot, myGuild, thread, submitdata, roleNames, roleStreak){
 /**
  * Removes all roles in roleNames from the user
  * @param {Schema} submitdata - holds submission data
+ * @param {Guild} myGuild - the discord server
  * @param {Array} roleNames - roles to be given
- * @param {Array} rolePoints - point thresholds for each role
  */
-function repairRoles(submitdata, myGuild, roleStreak, roleNames){
+function repairRoles(submitdata, myGuild, roleNames){
     
     // retrieve member object for user
     let user = myGuild.members.cache.get(submitdata.userid)
     if (user != undefined){
-        for (var i = 0; i < roleStreak.length; i++){
+        for (var i = 0; i < roleNames.length; i++){
             if (user.roles.cache.has(roleNames[i].id)){
                 user.roles.remove(roleNames[i].id)
             }
