@@ -17,15 +17,16 @@ let usedThanksRecently = new Set();
 let usedQuestionRecently = new Set();
 
 // Schedule tasks to be run on the server.
+
 // Test - Runs every minute
-cron.schedule('* * * * *', function() { 
+// cron.schedule('* * * * *', function() { 
+//     bot.commands.get('weeklyCron').execute(bot);
+// });
+
+// Live - Runs every week at Sunday 11:59 PM EST
+cron.schedule('59 23 * * Sun', function() { // Every minute
     bot.commands.get('weeklyCron').execute(bot);
 });
-
-// Intended for live use - runs every week at Sunday 11:59 PM EST
-// cron.schedule('1231245 0 * * Sun', function() { // Every minute
-//     // bot.commands.get('weeklyCron').execute();
-// });
 
 bot.once('ready', () => {
     console.log('FretBot is online!');
