@@ -90,7 +90,7 @@ bot.on('messageCreate', async msg => {
                     bot.commands.get('about').execute(msg);
                     break;
                 case 'w':
-                    bot.commands.get('weekly').execute(prefix, msg, args);
+                    bot.commands.get('weekly').execute(bot, prefix, msg, args);
                     break;
                 case 'q':
                     // Will only work when used in question channel
@@ -130,6 +130,8 @@ bot.on('messageCreate', async msg => {
                     case 'ping':
                         msg.channel.send("FretBot is online");
                         break;
+                    case 'w':
+                        bot.commands.get('helpMod').execute(prefixMod, msg, args);
                 }
             } else {
                 msg.channel.send("You are not permitted to use that command");

@@ -69,6 +69,7 @@ module.exports = {
     description: "this command shows how many points a user has",
     
     execute (prefix, msg, args){
+        
         //if command doesnt have any arguments "-points"
         if(!args.length){
             // Removes nickname ! in ID
