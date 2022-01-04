@@ -25,11 +25,11 @@ function incorrectSubmit(msg){
 function incorrectUsage(prefix, msg) {
 
     const embedMsg = new Discord.MessageEmbed()
-    .setColor('#f51637')
-    .addField('Submit weekly', `\`${prefix}w submit <link/file>\``, false)
-    .addField('Check deadline', `\`${prefix}w info\``, false)
-    .addField('View your profile', `\`${prefix}w profile\``, false)
-    .addField('View someone else\'s profile', `\`${prefix}w profile <user>\``, false)
+    .setColor(ids.incorrectUsageColor)
+    .addField(`\`${prefix}w submit <link/file>\``, 'Submit weekly', false)
+    .addField(`\`${prefix}w info\``, 'Check deadline', false)
+    .addField(`\`${prefix}w profile\``, 'View your profile', false)
+    .addField(`\`${prefix}w profile <user>\``, 'View someone else\'s profile', false)
     msg.channel.send({embeds: [embedMsg]})
     .then(sentMsg => {
         tools.deleteMsg(sentMsg, 15);
@@ -75,7 +75,7 @@ function weeklyInfo(msg){
     let datetimeToday = dateTimeString(dateToday);
 
     // This week's deadline
-    let deadline = setDeadline(dateToday, 0);
+    let deadline = setDeadline(dateToday, 6);
     deadline.setHours(23, 59);
     let datetimeDeadline = dateTimeString(deadline);
 
@@ -84,7 +84,7 @@ function weeklyInfo(msg){
 
     // send embedded msg with all the date / time info.
     const embedMsg = new Discord.MessageEmbed()
-    .setColor('#2f3136')
+    .setColor(ids.transparentColor)
     .addField(`Current time`, `${datetimeToday}`, false)
     .addField(`Next finalization`, `${datetimeDeadline}`, false)
     .addField(`Time remaining`, `${secondsToDHM(timeLeft)}`, false);
@@ -146,7 +146,7 @@ function weeklyProfile(bot, msg, args){
 function makeProfile(bot, msg, thisUser){
 
     const embedMsg = new Discord.MessageEmbed()
-    .setColor('#2ecc71')
+    .setColor(ids.thanksColor)
     .setAuthor({ 
         name: `Profile for ${thisUser.user.username}`, 
     })

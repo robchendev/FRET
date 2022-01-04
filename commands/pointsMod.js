@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
+const ids = require(`../ids.json`);
 const secrets = require(`../secrets.json`);
 var tools = require(`../tools/functions.js`);
 const pointsChange = require("../models/addPoints.js");
@@ -21,7 +22,7 @@ function decPoints (msg, usersID, deincrement) {
         if(!pointdata){
             tools.createPointdata(pointsChange, usersID, -deincrement);
             const embedMsg = new Discord.MessageEmbed()
-            .setColor('#fc00f8')
+            .setColor(ids.dataChangeColor)
             .setDescription(`${usersID}'s points have been changed from 0 to ${-deincrement}`);
             msg.channel.send({embeds: [embedMsg]});
         }
@@ -29,7 +30,7 @@ function decPoints (msg, usersID, deincrement) {
             beforeChange = pointdata.points;
             tools.updatePointdata(pointdata, -deincrement);
             const embedMsg = new Discord.MessageEmbed()
-            .setColor('#fc00f8')
+            .setColor(ids.dataChangeColor)
             .setDescription(`${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`);
             msg.channel.send({embeds: [embedMsg]});
         }
@@ -44,20 +45,20 @@ function decPoints (msg, usersID, deincrement) {
  */
 function setPoints (msg, usersID, set) {
     
+    const embedMsg = new Discord.MessageEmbed()
+    .setColor(ids.dataChangeColor)
+    
     pointsChange.findOne({userid: usersID}, (err, pointdata) => {
         if(err) console.log(err);
         if(!pointdata){
             tools.createPointdata(pointsChange, usersID, set);
-            const embedMsg = new Discord.MessageEmbed()
-            .setColor('#fc00f8')
-            .setDescription(`${usersID}'s points have been changed from 0 to ${set}`);
+            
+            embedMsg.setDescription(`${usersID}'s points have been changed from 0 to ${set}`);
             msg.channel.send({embeds: [embedMsg]});
         } else {
             beforeChange = pointdata.points;
             tools.setPointdata(pointdata, set);
-            const embedMsg = new Discord.MessageEmbed()
-            .setColor('#fc00f8')
-            .setDescription(`${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`);
+            embedMsg.setDescription(`${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`);
             msg.channel.send({embeds: [embedMsg]});
         }
     })
@@ -72,13 +73,16 @@ function setPoints (msg, usersID, set) {
 function incorrectUsage(prefix, msg) {
 
     const embedMsg = new Discord.MessageEmbed()
-    .setColor('#fc00f8')
+    .setColor(ids.incorrectUsageColor)
     .addField('Increase points', `\`${prefix}points <user> inc <points>\``, false)
     .addField('Decrease points', `\`${prefix}points <user> dec <points>\``, false)
     .addField('Set points', `\`${prefix}points <user> set <points>\``, false)
     .addField('Default penalty (-1000)', `\`${prefix}points <user> pen\``, false)
-    .addField('Careful', 'Do not include < and >. Use @', false);
-    msg.channel.send({embeds: [embedMsg]});
+    msg.channel.send({embeds: [embedMsg]})
+    .then(sentMsg => {
+        tools.deleteMsg(sentMsg, 10);
+        tools.deleteMsg(msg, 10);
+    }).catch();
 }
 
 module.exports = {

@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const mongoose = require('mongoose');
+const ids = require(`../ids.json`);
 const pointsAdd = require("../models/addPoints.js");
 const secrets = require(`../secrets.json`);
 const { schemaAddPoints } = require('../tools/functions.js');
@@ -117,7 +118,7 @@ function thank (msg, usersID, score) {
 function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
 
     const embedMsg = new Discord.MessageEmbed()
-    .setColor('#2ecc71')
+    .setColor(ids.thanksColor)
     .setDescription(`${`${msg.author}`} has thanked ${`${numUsers}`} users!`);
     
     var count = 0;
@@ -147,7 +148,7 @@ function thankOnlyOne(msg, usersID, usersName, score) {
     let scorePortion = Math.ceil(score*0.2);
 
     const embedMsg = new Discord.MessageEmbed()
-    .setColor('#2ecc71')
+    .setColor(ids.thanksColor)
     .setDescription(`${msg.author}` + ' has thanked 1 user!')
     .addField(`${usersName}`, "+" + `${score}`, true)
     .addField(`${msg.author.username}`, "+" + `${scorePortion}`, true);
@@ -164,7 +165,7 @@ function thankOnlyOne(msg, usersID, usersName, score) {
 function incorrectUsage(prefix, msg) {
 
     const embedMsg = new Discord.MessageEmbed()
-    .setColor('#f51637')
+    .setColor(ids.incorrectUsageColor)
     .addField('Thank one user', `\`${prefix}thanks <user>\``, false)
     .addField('Thank multiple users', `\`${prefix}thanks <user1> <user2> <user3>\``, false)
     .addField('Careful', 'Do not include < and >. Use @', false);

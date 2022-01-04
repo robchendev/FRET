@@ -83,26 +83,26 @@ bot.on('messageCreate', async msg => {
                 case 'points':
                     bot.commands.get('points').execute(prefix, msg, args);
                     break;
-                case 'help':
-                    bot.commands.get('help').execute(prefix, msg);
-                    break;
-                case 'about':
-                    bot.commands.get('about').execute(msg);
-                    break;
                 case 'w':
-                    bot.commands.get('weekly').execute(bot, prefix, msg, args);
+                    // Will only work when used in weekly
+                    if(msg.channel.id === ids.helpForumChannel){
+                        bot.commands.get('weekly').execute(bot, prefix, msg, args);
+                    }
                     break;
                 case 'q':
                     // Will only work when used in question channel
-                    if(msg.channel.id === ids.questionChannel){
+                    if(msg.channel.id === ids.helpForumChannel){
                         if(usedQuestionRecently.has(msg.author.id)){
                             cooldownReminder("ask a question", 2, msg);
                         }
                         else {
-                            bot.commands.get('question').execute(prefix, msg, args)
+                            bot.commands.get('question').execute(prefix, msg, args);
                             setQuestionCooldown(2, msg);
                         }
                     }
+                    break;
+                case 'help':
+                    bot.commands.get('help').execute(bot, prefix, msg, args);
                     break;
             }
         }
@@ -118,20 +118,18 @@ bot.on('messageCreate', async msg => {
                 //Reads commands and does stuff
                 switch(command) {
 
+                    case 'ping':
+                        msg.channel.send(`${ids.botName} is online`);
+                        break;
                     case 'points':
                         bot.commands.get('pointsMod').execute(prefixMod, msg, args);
                         break;
-                    case 'blacklist':
-                        bot.commands.get('blacklist').execute(msg, args);
+                    case 'w':
+                        bot.commands.get('weeklyMod').execute(bot, prefixMod, msg, args);
                         break;
                     case 'help':
                         bot.commands.get('helpMod').execute(prefixMod, msg);
                         break;
-                    case 'ping':
-                        msg.channel.send("FretBot is online");
-                        break;
-                    case 'w':
-                        bot.commands.get('helpMod').execute(prefixMod, msg, args);
                 }
             } else {
                 msg.channel.send("You are not permitted to use that command");
