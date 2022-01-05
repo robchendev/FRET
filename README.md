@@ -31,7 +31,7 @@ I'm making some gifs and videos that demonstrate this bot's functionality.
 
 For personal development purposes, clone this repository to your system, install Node.js v16.6+, npm, and Discord.js v13.
     
-Because this is a Discord bot, you need to create your Discord application [here](https://discord.com/developers/applications)
+Because this is a Discord bot, you need to create your Discord application [here](https://discord.com/developers/applications).
 
 F.R.E.T. uses Mongoose JS to store it's data in MongoDB as a JSON schema. You only need to provide a secrets.json (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
 
@@ -115,9 +115,11 @@ Displays a fancy user profile that shows the user's username, profile picture, t
 
 ### Passive Commands
 
-    <link> // In promotion channel
+These happen automatically without any command being sent in the chat.
 
-Creates a thread under the message. The purpose of this is to avoid these promotional links from getting buried due to people who talk about the promoted link (usually a video). The thread is auto-archived in 24 hours and can be un-archived by anyone who writes a message in the thread. Automatically handles thread titling. Any message that isnt a link is removed and the user is reminded that discussion is only allowed in the threads.
+    <link>
+
+Only works in the channel whose ID is written in `promotionChannel` in the `ids.JSON` file. Creates a thread under the message. The purpose of this is to avoid these promotional links from getting buried due to people who talk about the promoted link (usually a video). The thread is auto-archived in 24 hours and can be un-archived by anyone who writes a message in the thread. Automatically handles thread titling. Any message that isnt a link is removed and the user is reminded that discussion is only allowed in the threads.
 
     <#channel> <message>
 
