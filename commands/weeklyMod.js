@@ -86,7 +86,7 @@ module.exports = {
     description: "this command submits an entry to the weekly counter",
     execute(bot, prefix, msg, args) {
         // retrieves guild object
-        let myGuild = bot.guilds.cache.get(ids.serverGuildID);
+        let myGuild = bot.guilds.cache.get(ids.serverGuild);
 
         // Weekly streak roles
         var roleNames = [

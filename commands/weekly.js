@@ -218,7 +218,7 @@ function setDeadline(date, dayOfWeek) {
  */
 function getCurrentRole(bot, thisUser) {
     // retrieves guild object
-    let myGuild = bot.guilds.cache.get(ids.serverGuildID);
+    let myGuild = bot.guilds.cache.get(ids.serverGuild);
     let currentRole = undefined;
 
     // Get current rank of member
@@ -248,7 +248,7 @@ function getCurrentRole(bot, thisUser) {
  */
 function getPermaRole(bot, thisUser) {
     // retrieves guild object
-    let myGuild = bot.guilds.cache.get(ids.serverGuildID);
+    let myGuild = bot.guilds.cache.get(ids.serverGuild);
     let permaRole = undefined;
 
     // Get current perma rank of member

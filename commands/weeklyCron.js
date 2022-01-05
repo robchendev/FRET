@@ -211,7 +211,6 @@ function resetStreak(submitdata) {
  * @param {Schema} submitdata - holds submission data
  */
 function startNewWeek(submitdata) {
-    submitdata.lastLastWeek = submitdata.lastWeek;
     submitdata.lastWeek = submitdata.thisWeek;
     submitdata.thisWeek = undefined;
 }
@@ -227,7 +226,7 @@ module.exports = {
         "this command is passively invoked on Monday 12:00 AM EST every week to update roles for the weekly submissions.",
     execute(bot) {
         // retrieves guild object
-        let myGuild = bot.guilds.cache.get(ids.serverGuildID);
+        let myGuild = bot.guilds.cache.get(ids.serverGuild);
 
         // Weekly streak roles
         var roleNames = [

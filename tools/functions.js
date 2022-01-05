@@ -56,8 +56,7 @@ module.exports = {
             streak: 0,
             highestStreak: 0,
             thisWeek: dateToday,
-            lastWeek: undefined,
-            lastLastWeek: undefined,
+            lastWeek: undefined
         });
         weeklyUpdate.save().catch((err) => console.log(err));
     },
