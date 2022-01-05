@@ -33,9 +33,9 @@ For personal development purposes, clone this repository to your system, install
     
 Because this is a Discord bot, you need to create your Discord application [here](https://discord.com/developers/applications).
 
-F.R.E.T. uses Mongoose JS to store it's data in MongoDB as a JSON schema. You only need to provide a secrets.json (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
+F.R.E.T. uses MongooseJS to store it's data in MongoDB as a JSON schema. You only need to provide a secrets.json (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
 
-This code uses two tokens, "Token" and "Mongo", as described in secrets-example.json. Rename this file secrets.json and edit the following fields:
+This code uses two tokens, "Token" and "Mongo", as described in secrets-example.json. Rename this file secrets.json and edit the fields:
 
 1. Replace the "Token" value in that file with your application's bot token - it is what the F.R.E.T. will use to sign into Discord. 
 2. Replace the "Mongo" value with your MongoDB's database connection string. 
