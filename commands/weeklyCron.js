@@ -136,7 +136,7 @@ function permaRank(bot, myGuild, thread, submitdata) {
         if (!user.roles.cache.has(permaRankRole.id)) {
             user.roles.add(permaRankRole.id);
             thread.send(
-                `**${name}** has achieved the permanent **${permaRankRole.name}** rank for reaching ${ids.wRankPermaStreak} streaks in a row!`
+                `**${name}** has achieved the permanent :trophy: **${permaRankRole.name}** rank for reaching ${ids.wRankPermaStreak} streaks in a row!`
             );
         }
     }

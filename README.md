@@ -92,10 +92,6 @@ Ranks up the user if they have enough points for a role. Otherwise, show how man
 
 Displays the number of points a user has.
 
-    -about
-
-Shows information about F.R.E.T.. Gives a description, the github repository link and the math expression used to calculate how many points are to be awarded to each user being thanked.
-
 ### Weekly Submission Commands
 
 A CronJob task occurs every Sunday 11:59 PM EST to finalize the submissions for a week, creates the data for the users who submitted a weekly for the first time, updates the data of each user with an existing weekly submission history, and assigns temporary or permanent "trophy" roles if the user has submitted enough weeks in a row. If the user has a weekly submission history and a streak but they did not submit for that week, the streaks are reset and temporary roles are removed.
@@ -127,6 +123,10 @@ Only works in the channel whose ID is written in `impersonateChannel` in the `id
 
 ### Moderator Commands
 
+    +help
+
+Displays all the moderator commands listed here (except +help) and their intended use.
+
     +points <@user> inc <points>
     +points <@user> dec <points>
     +points <@user> set <points>
@@ -137,22 +137,18 @@ Increases, decreases or sets a user's points by a certain amount.
 
 Penalizes user for 1000 points.
 
-    +help
-
-Displays all the moderator commands listed here (except +help and +imp) and their intended use.
-
-    +w reset <@user>
-
-Resets a user's weekly streak and weekly rank.
-
     +w inv <@user>
     +w invalidate <@user>
 
-Invalidates a user's weekly submission so that they never had submitted this week. Doesn't account for previously submitted valid submissions in the same week, so the user needs to submit again after this command is invoked.
+Invalidates a user's weekly submission such that that they haven't submitted this week. Doesn't account for previously submitted valid submissions in the same week, so the user needs to submit again after this command is invoked.
 
     +w setstreak <@user> <streaks>
 
 Sets a user's weekly submission streak to a specific amount.
+
+    +w reset <@user>
+
+Resets a user's weekly streak and weekly rank.
 
 ## Deployment
 

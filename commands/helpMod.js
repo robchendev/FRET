@@ -4,15 +4,25 @@ const ids = require(`../ids.json`);
 function showModCommands(prefix, msg) {
     const embedMsg = new Discord.MessageEmbed()
         .setColor(ids.transparentColor)
-        .setTitle(":small_red_triangle_down: Moderator Commands")
+        .setTitle("Moderator Commands")
         .addField(
-            `\`${prefix}points <user> inc|dec|set <points>\``,
+            `\`${prefix}points inc|dec|set <user> <points>\``,
             "Increases, descreases or sets user's points",
             false
         )
         .addField(
-            `\`${prefix}points <user> pen\``,
+            `\`${prefix}points pen <user>\``,
             "Penalizes user for 1000 points",
+            false
+        )
+        .addField(
+            `\`${prefix}w invalidate <user>\``,
+            "Invalidates user's submission this week",
+            false
+        )
+        .addField(
+            `\`${prefix}w setstreak <user> <streaks>\``,
+            "Sets a user's weekly submission streak",
             false
         )
         .addField(

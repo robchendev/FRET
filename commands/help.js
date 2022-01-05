@@ -155,6 +155,10 @@ module.exports = {
             if (args[0] === "c" || args[0] === "commands") {
                 whichCommand(bot, prefix, msg);
             }
+
+            else{
+                whichCommand(bot, prefix, msg);
+            }
         }
 
         // -help (inside Help Forum)
