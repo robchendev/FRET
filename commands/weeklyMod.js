@@ -130,7 +130,7 @@ function setStreak(msg, thisUser, newStreak) {
             const embedMsg = new Discord.MessageEmbed()
                 .setColor(ids.dataChangeColor)
                 .setDescription(
-                    `${thisUser}'s streaks set to ${newStreak}. Last week set as submission date for finalization. Rank will be calculated at finalization. Make sure to submit this week to keep the streak.`
+                    `${thisUser}'s streaks set to ${newStreak}. Last week set as submission date for finalization. Rank will be calculated at finalization. Make sure to submit this week.`
                 );
             msg.channel.send({ embeds: [embedMsg] });
         }
@@ -165,10 +165,20 @@ function incorrectUsage(prefix, msg) {
     const embedMsg = new Discord.MessageEmbed()
         .setColor(ids.incorrectUsageColor)
         .addField(
-            `\`${prefix}w reset <user>\``,
-            "Reset streak and rank",
+            `\`${prefix}w invalidate <user>\``,
+            "Invalidates user's submission this week",
             false
-        );
+        )
+        .addField(
+            `\`${prefix}w setstreak <user> <streaks>\``,
+            "Sets a user's weekly submission streak",
+            false
+        )
+        .addField(
+            `\`${prefix}w reset <user>\``,
+            "Resets user's weekly streak and rank",
+            false
+        );;
     msg.channel
         .send({ embeds: [embedMsg] })
         .then((sentMsg) => {
@@ -202,7 +212,7 @@ module.exports = {
                 resetProfile(msg, thisUser, roleNames);
             }
             // +w invalidate <user>
-            if (args.length === 2 && args[0] === "invalidate"){
+            else if (args.length === 2 && args[0] === "invalidate"){
                 invalidate(msg, thisUser);
             }
             // +w setstreak <user> <streak>

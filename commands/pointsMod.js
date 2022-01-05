@@ -111,10 +111,10 @@ module.exports = {
         if (args.length > 0) {
             // Removes nickname ! in ID
             let mention = String(msg.mentions.users.first()).replace("!", "");
-            let doCommand = args[1];
+            let doCommand = args[2];
             switch (doCommand) {
                 case "inc":
-                    let increment = args[2];
+                    let increment = args[1];
                     if (!isNaN(parseInt(increment))) {
                         decPoints(msg, mention, increment * -1);
                     } else {
@@ -124,7 +124,7 @@ module.exports = {
                     }
                     break;
                 case "dec":
-                    let deincrement = args[2];
+                    let deincrement = args[1];
                     if (!isNaN(parseInt(deincrement))) {
                         decPoints(msg, mention, deincrement);
                     } else {
@@ -134,7 +134,7 @@ module.exports = {
                     }
                     break;
                 case "set":
-                    let set = args[2];
+                    let set = args[1];
                     if (!isNaN(parseInt(set))) {
                         setPoints(msg, mention, set);
                     } else {
