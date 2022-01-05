@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-const mongoose = require('mongoose');
+const Discord = require("discord.js");
+const mongoose = require("mongoose");
 const ids = require(`../ids.json`);
 const secrets = require(`../secrets.json`);
 const pointsAdd = require("../models/addPoints.js");
@@ -9,44 +9,37 @@ mongoose.connect(secrets.Mongo, {
 });
 
 /**
- * Pulls the user's points data from the database
- * @param {String} userID - a single user's ID
- * @param {None} cb - callback
- */
-function howManyPoints(userID, cb) {
-
-    pointsAdd.findOne({userid: userID}, (err, pointdata) => {
-        if(err) 
-            return cb(err, null);
-        if(pointdata) {
-            //console.log(pointdata.points);
-            return cb(null, pointdata.points);
-        }
-        else
-            return cb(null, null);
-    })
-}
-
-/**
  * Sends an embed message on how many points the user has
  * @param {Message} msg - the original command message
  * @param {String} userID - a single user's ID
  */
-function findPoints(msg, userID){
-
+function findPoints(msg, userID) {
     howManyPoints(userID, (err, pointdata) => {
-        if(err){
+        if (err) {
             console.log(err);
-        }
-        else if(pointdata){
+        } else if (pointdata) {
             const embedMsg = new Discord.MessageEmbed()
-            .setColor(ids.transparentColor)
-            .setDescription(`${userID} has **${(pointdata)}** points.`);
-            msg.channel.send({embeds: [embedMsg]});
-        }
-        else{
+                .setColor(ids.transparentColor)
+                .setDescription(`${userID} has **${pointdata}** points.`);
+            msg.channel.send({ embeds: [embedMsg] });
+        } else {
             msg.channel.send(`User does not have any points!`);
         }
+    });
+}
+
+/**
+ * Pulls the user's points data from the database
+ * @param {String} userID - a single user's ID
+ * @param {Callback} cb - callback
+ */
+function howManyPoints(userID, cb) {
+    pointsAdd.findOne({ userid: userID }, (err, pointdata) => {
+        if (err) return cb(err, null);
+        if (pointdata) {
+            //console.log(pointdata.points);
+            return cb(null, pointdata.points);
+        } else return cb(null, null);
     });
 }
 
@@ -56,31 +49,40 @@ function findPoints(msg, userID){
  * @param {Message} msg - the original command message
  */
 function incorrectUsage(prefix, msg) {
-
     const embedMsg1 = new Discord.MessageEmbed()
-    .setColor(ids.incorrectUsageColor)
-    .addField('View your points', `\`${prefix}points\``, false)
-    .addField('View someone else\'s points', `\`${prefix}points <user>\``, false)
-    msg.channel.send({embeds: [embedMsg1]});
+        .setColor(ids.incorrectUsageColor)
+        .addField("View your points", `\`${prefix}points\``, false)
+        .addField(
+            "View someone else's points",
+            `\`${prefix}points <user>\``,
+            false
+        );
+    msg.channel.send({ embeds: [embedMsg1] });
 }
 
 module.exports = {
-    name: 'points',
+    name: "points",
     description: "this command shows how many points a user has",
-    
-    execute (prefix, msg, args){
-        
+
+    execute(prefix, msg, args) {
         //if command doesnt have any arguments "-points"
-        if(!args.length){
+        if (!args.length) {
             // Removes nickname ! in ID
-            let thisUser = String(msg.member).replace('!','');
+            let thisUser = String(msg.member).replace("!", "");
             findPoints(msg, thisUser);
         }
 
         //if command has one argument "-points @user" and it's a mention
-        else if(args.length === 1 && args[0].startsWith('<@') && args[0].endsWith('>')){
+        else if (
+            args.length === 1 &&
+            args[0].startsWith("<@") &&
+            args[0].endsWith(">")
+        ) {
             // Removes nickname ! in ID
-            let thisUser = String(msg.mentions.users.first()).replace('/!','/');;
+            let thisUser = String(msg.mentions.users.first()).replace(
+                "/!",
+                "/"
+            );
             findPoints(msg, thisUser);
         }
 
@@ -88,5 +90,5 @@ module.exports = {
         else {
             incorrectUsage(prefix, msg);
         }
-    }
-}
+    },
+};
