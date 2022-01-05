@@ -141,9 +141,18 @@ Penalizes user for 1000 points.
 
 Displays all the moderator commands listed here (except +help and +imp) and their intended use.
 
-    +w reset
+    +w reset <@user>
 
 Resets a user's weekly streak and weekly rank.
+
+    +w inv <@user>
+    +w invalidate <@user>
+
+Invalidates a user's weekly submission so that they never had submitted this week. Doesn't account for previously submitted valid submissions in the same week, so the user needs to submit again after this command is invoked.
+
+    +w setstreak <@user> <streaks>
+
+Sets a user's weekly submission streak to a specific amount.
 
 ## Deployment
 
@@ -163,6 +172,7 @@ Since this was a personal project, my variables will be different from what you 
     promoChannel - ID of the channel promo.js passively runs in
     helpForumChannel - ID of the channel where forum.js passively runs in can be invoked
     impersonateChannel - ID of the channel that forwards messages to targeted channels
+    weeklyGuideChannel - ID of the channel where the weekly submission criteria are listed
     weeklyChannel - ID of the channel for weekly submissions
     ...Color - The colors of embeds depending on their usage 
     rank1...6 - Leveled forum rank names

@@ -154,13 +154,13 @@ function permaRank(bot, myGuild, thread, submitdata) {
 function rankupCheck(bot, myGuild, thread, submitdata, roleNames, roleStreak) {
     updateStreak(submitdata);
     switch (true) {
-        case submitdata.streak >= roleStreak[2]: // 9 streak
+        case submitdata.streak >= roleStreak[2]: // 7 streak
             doRankUp(bot, myGuild, thread, submitdata, roleNames, 2);
             break;
-        case submitdata.streak >= roleStreak[1]: // 4 streak
+        case submitdata.streak >= roleStreak[1] && submitdata.streak < roleStreak[2]: // 3-6 streak
             doRankUp(bot, myGuild, thread, submitdata, roleNames, 1);
             break;
-        case submitdata.streak >= roleStreak[0]: // 1 streak
+        case submitdata.streak >= roleStreak[0] && submitdata.streak < roleStreak[1]: // 1-2 streak
             doRankUp(bot, myGuild, thread, submitdata, roleNames, 0);
             break;
     }

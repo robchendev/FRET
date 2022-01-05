@@ -1,6 +1,7 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
 const ids = require(`../ids.json`);
+const { update } = require("../models/weeklyUpdate.js");
 const updateWeekly = require("../models/weeklyUpdate.js");
 const secrets = require(`../secrets.json`);
 var tools = require(`../tools/functions.js`);
@@ -12,6 +13,7 @@ mongoose.connect(secrets.Mongo, {
 /**
  * Resets streak to 0 and removes role
  * @param {Array} msg - point thresholds for each role
+ * @param {Member} thisUser - member object of the user to be reset
  * @param {Array} roleNames - roles to be given
  */
 function resetProfile(msg, thisUser, roleNames) {
@@ -20,7 +22,11 @@ function resetProfile(msg, thisUser, roleNames) {
         if (!submitdata) {
             msg.channel.send(
                 `**${thisUser.user.username}** does not have a profile.`
-            );
+            )
+            .then((sentMsg) => {
+                tools.deleteMsg(sentMsg, 10);
+                tools.deleteMsg(msg, 10);
+            });
         } else {
             resetStreak(submitdata);
             removeRoles(msg, roleNames);
@@ -30,6 +36,39 @@ function resetProfile(msg, thisUser, roleNames) {
                     `${thisUser}'s streaks and rank have been reset.`
                 );
             msg.channel.send({ embeds: [embedMsg] });
+        }
+    });
+}
+
+/**
+ * sets thisWeek to undefined (as if the user didnt submit this week)
+ * @param {Array} msg - point thresholds for each role
+ * @param {Member} thisUser - member object of the user to be invalidated
+ */
+function invalidate(msg, thisUser) {
+    updateWeekly.findOne({ userid: thisUser.id }, (err, submitdata) => {
+        if (err) console.log(err);
+        if (!submitdata) {
+            msg.channel.send(
+                `**${thisUser.user.username}** does not have a profile.`
+            )
+            .then((sentMsg) => {
+                tools.deleteMsg(sentMsg, 15);
+                tools.deleteMsg(msg, 15);
+            });
+        } 
+        else if (submitdata.thisWeek === undefined) {
+            msg.channel.send(
+                `**${thisUser.user.username}** has not submitted this week.`
+            )
+            .then((sentMsg) => {
+                tools.deleteMsg(sentMsg, 15);
+                tools.deleteMsg(msg, 15);
+            });
+        }
+        else {
+            resetThisWeek(submitdata);
+            msg.channel.send(`${thisUser}, your submission for this week has been invalidated. Please read <#${ids.weeklyGuideChannel}> and submit again with the correct criteria.`);
         }
     });
 }
@@ -57,6 +96,64 @@ function removeRoles(msg, roleNames) {
  */
 function resetStreak(submitdata) {
     submitdata.streak = 0;
+    submitdata.save().catch((err) => console.log(err));
+}
+
+/**
+ * Resets thisWeek to undefined
+ * @param {Schema} submitdata - holds submission data
+ */
+function resetThisWeek(submitdata) {
+    submitdata.thisWeek = undefined;
+    submitdata.save().catch((err) => console.log(err));
+}
+
+/**
+ * Sets streak and updates highestStreak count
+ * @param {Array} msg - point thresholds for each role
+ * @param {Member} thisUser - member object of the user to be invalidated
+ * @param {Number} newStreak - the new streak to be updated to
+ */
+function setStreak(msg, thisUser, newStreak) {
+    updateWeekly.findOne({ userid: thisUser.id }, (err, submitdata) => {
+        if (err) console.log(err);
+        if (!submitdata) {
+            msg.channel.send(
+                `**${thisUser.user.username}** does not have a profile. They need to submit once to get one.`
+            )
+            .then((sentMsg) => {
+                tools.deleteMsg(sentMsg, 10);
+                tools.deleteMsg(msg, 10);
+            });
+        } else {
+            updateStreak(submitdata, newStreak);
+            const embedMsg = new Discord.MessageEmbed()
+                .setColor(ids.dataChangeColor)
+                .setDescription(
+                    `${thisUser}'s streaks set to ${newStreak}. Last week set as submission date for finalization. Rank will be calculated at finalization. Make sure to submit this week to keep the streak.`
+                );
+            msg.channel.send({ embeds: [embedMsg] });
+        }
+    });
+}
+
+/**
+ * Sets streak and updates highestStreak count
+ * Also sets lastWeek to a date exactly one week before today to avoid
+ * a bug that causes the user to permanently keep their streak
+ * @param {Schema} submitdata - holds submission data
+ * @param {Number} newStreak - the new streak to be updated to
+ */
+ function updateStreak(submitdata, newStreak) {
+    submitdata.streak = newStreak;
+    if (submitdata.highestStreak < newStreak) {
+        submitdata.highestStreak = newStreak;
+    }
+    let today = new Date();
+    let lastWeekDate = new Date();
+    lastWeekDate.setDate(today.getDate() - 7);
+    submitdata.lastWeek = lastWeekDate;
+    submitdata.save().catch((err) => console.log(err));
 }
 
 /**
@@ -95,17 +192,26 @@ module.exports = {
             /*2*/ myGuild.roles.cache.find((r) => r.name === ids.wRank3),
         ];
 
-        // make sure passed arg is a mention, and that the first arg is 'reset'
-        if (
-            args.length === 2 &&
-            args[1].startsWith("<@") &&
-            args[1].endsWith(">") &&
-            args[0] === "reset"
-        ) {
-            let thisUser = msg.mentions.members.first();
-            resetProfile(msg, thisUser, roleNames);
-        } else {
-            incorrectUsage(prefix, msg);
+        let thisUser = msg.mentions.members.first();
+
+        
+        if (thisUser !== undefined && args[1].startsWith("<@") && args[1].endsWith(">")){
+            
+            // +w reset <user>
+            if (args.length === 2 && args[0] === "reset"){
+                resetProfile(msg, thisUser, roleNames);
+            }
+            // +w invalidate <user>
+            if (args.length === 2 && args[0] === "invalidate"){
+                invalidate(msg, thisUser);
+            }
+            // +w setstreak <user> <streak>
+            else if (args.length === 3 && args[0] === "setstreak" && !isNaN(args[2])){
+                setStreak(msg, thisUser, args[2]);
+            }
+            else {
+                incorrectUsage(prefix, msg);
+            }
         }
     },
 };
