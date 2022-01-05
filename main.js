@@ -23,7 +23,7 @@ let usedQuestionRecently = new Set();
 
 // Live '59 23 * * Sun' - Runs every week at Sunday 11:59 PM EST
 // Test '* * * * *' - Runs every minute
-cron.schedule("59 23 * * Sun", function () {
+cron.schedule("* * * * *", function () {
     bot.commands.get("weeklyCron").execute(bot);
 });
 
