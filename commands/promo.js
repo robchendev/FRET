@@ -50,7 +50,7 @@ module.exports = {
     name: "promo",
     description:
         "this command is passively invoked whenever a user sends a message into the promotion channel.",
-    execute(msg) {
+    execute(prefixMod, msg) {
         
         // Makes sure this command only runs outside of threads
         if (
@@ -58,8 +58,14 @@ module.exports = {
             !(msg.channel.type == "GUILD_PRIVATE_THREAD")
         ) {
             // message contains valid link
-            if (msg.content.includes("https://" || "http://")) {
+            if (msg.content.includes("https://" || "http://") && !msg.content.includes("discord.gg")) {
                 createThread(msg);
+            }
+
+            // When the message is a mod command
+            else if (msg.content.startsWith(prefixMod)) {
+                //do nothing
+                return;
             }
 
             // When the message does not contain a link

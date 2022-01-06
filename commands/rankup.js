@@ -84,7 +84,7 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
         const embedMsg = new Discord.MessageEmbed().setColor(ids.thanksColor);
         if (index === 5) {
             embedMsg.setDescription(
-                `${msg.member} has ranked up to ${roleNames[index]}!\nCongrats, you now have access to the members chats!`
+                `${msg.member} has ranked up to ${roleNames[index]}!\nCongrats, you have reached the highest rank!`
             );
         } else {
             embedMsg.setDescription(

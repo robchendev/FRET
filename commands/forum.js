@@ -70,7 +70,7 @@ module.exports = {
     name: "forum",
     description:
         "this command is passively invoked whenever a user sends a message into the promotion channel. It ensures that all the messages sent start with a '-q' and creates threads for them.",
-    execute(prefix, msg) {
+    execute(prefix, prefixMod, msg) {
         // Makes sure this command only runs outside of threads
         if (
             !(msg.channel.type == "GUILD_PUBLIC_THREAD") &&
@@ -88,7 +88,12 @@ module.exports = {
                     if (!args.length) noArgs(prefix, msg);
                     else createThread(msg);
                 }
-            } else {
+            } 
+            else if (msg.content.startsWith(prefixMod)) {
+                //do nothing
+                return;
+            }
+            else {
                 incorrectUsage(prefix, msg);
             }
         }

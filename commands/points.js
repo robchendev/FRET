@@ -51,10 +51,10 @@ function howManyPoints(userID, cb) {
 function incorrectUsage(prefix, msg) {
     const embedMsg1 = new Discord.MessageEmbed()
         .setColor(ids.incorrectUsageColor)
-        .addField("View your points", `\`${prefix}points\``, false)
+        .addField(`\`${prefix}points\``, "View your points", false)
         .addField(
-            "View someone else's points",
             `\`${prefix}points <user>\``,
+            "View someone else's points",
             false
         );
     msg.channel.send({ embeds: [embedMsg1] });

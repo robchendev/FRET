@@ -1,6 +1,12 @@
 const Discord = require("discord.js");
 const ids = require(`../ids.json`);
+var tools = require(`../tools/functions.js`);
 
+/**
+ * Displays a list of moderator commands
+ * @param {String} prefix - the user prefix
+ * @param {Message} msg - the original message 
+ */
 function showModCommands(prefix, msg) {
     const embedMsg = new Discord.MessageEmbed()
         .setColor(ids.transparentColor)
@@ -30,7 +36,12 @@ function showModCommands(prefix, msg) {
             "Resets user's weekly streak and rank",
             false
         );
-    msg.channel.send({ embeds: [embedMsg] });
+    msg.channel.send({ embeds: [embedMsg] })
+    .then((sentMsg) => {
+        tools.deleteMsg(sentMsg, 10);
+        tools.deleteMsg(msg, 10);
+    })
+    .catch();;
 }
 
 module.exports = {

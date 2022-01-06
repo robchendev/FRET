@@ -76,32 +76,32 @@ function incorrectUsage(prefix, msg) {
     const embedMsg = new Discord.MessageEmbed()
         .setColor(ids.incorrectUsageColor)
         .addField(
-            "Increase points",
-            `\`${prefix}points <user> inc <points>\``,
+            `\`${prefix}points inc <user> <points>\``,
+            "Increase user's points by amount",
             false
         )
         .addField(
-            "Decrease points",
-            `\`${prefix}points <user> dec <points>\``,
+            `\`${prefix}points dec <user> <points>\``,
+            "Decrease user's points by amount",
             false
         )
         .addField(
-            "Set points",
-            `\`${prefix}points <user> set <points>\``,
+            `\`${prefix}points set <user> <points>\``,
+            "Set user's points to amount",
             false
         )
         .addField(
-            "Default penalty (-1000)",
-            `\`${prefix}points <user> pen\``,
+            `\`${prefix}points pen <user>\``,
+            "Decrease user's points by 1000",
             false
         );
     msg.channel
-        .send({ embeds: [embedMsg] })
-        .then((sentMsg) => {
-            tools.deleteMsg(sentMsg, 10);
-            tools.deleteMsg(msg, 10);
-        })
-        .catch();
+    .send({ embeds: [embedMsg] })
+    .then((sentMsg) => {
+        tools.deleteMsg(sentMsg, 10);
+        tools.deleteMsg(msg, 10);
+    })
+    .catch();
 }
 
 module.exports = {
@@ -111,40 +111,66 @@ module.exports = {
         if (args.length > 0) {
             // Removes nickname ! in ID
             let mention = String(msg.mentions.users.first()).replace("!", "");
-            let doCommand = args[2];
+            let doCommand = args[0];
             switch (doCommand) {
                 case "inc":
-                    let increment = args[1];
+                    let increment = args[2];
                     if (!isNaN(parseInt(increment))) {
                         decPoints(msg, mention, increment * -1);
                     } else {
                         msg.channel.send(
-                            `Correct usage: \`${prefix}points <user> inc <points>\``
-                        );
+                            `Correct usage: \`${prefix}points inc <user> <points>\``
+                        )
+                        .then((sentMsg) => {
+                            tools.deleteMsg(sentMsg, 10);
+                            tools.deleteMsg(msg, 10);
+                        })
+                        .catch();
                     }
                     break;
                 case "dec":
-                    let deincrement = args[1];
+                    let deincrement = args[2];
                     if (!isNaN(parseInt(deincrement))) {
                         decPoints(msg, mention, deincrement);
                     } else {
                         msg.channel.send(
-                            `Correct usage: \`${prefix}points <user> dec <points>\``
-                        );
+                            `Correct usage: \`${prefix}points dec <user> <points>\``
+                        )
+                        .then((sentMsg) => {
+                            tools.deleteMsg(sentMsg, 10);
+                            tools.deleteMsg(msg, 10);
+                        })
+                        .catch();
                     }
                     break;
                 case "set":
-                    let set = args[1];
+                    let set = args[2];
                     if (!isNaN(parseInt(set))) {
                         setPoints(msg, mention, set);
                     } else {
                         msg.channel.send(
-                            `Correct usage: \`${prefix}points <user> set <points>\``
-                        );
+                            `Correct usage: \`${prefix}points set <user> <points>\``
+                        )
+                        .then((sentMsg) => {
+                            tools.deleteMsg(sentMsg, 10);
+                            tools.deleteMsg(msg, 10);
+                        })
+                        .catch();
                     }
                     break;
                 case "pen":
-                    decPoints(msg, mention, 1000);
+                    if(mention != "undefined"){
+                        decPoints(msg, mention, 1000);
+                    } else {
+                        msg.channel.send(
+                            `Correct usage: \`${prefix}points pen <user>\``
+                        )
+                        .then((sentMsg) => {
+                            tools.deleteMsg(sentMsg, 10);
+                            tools.deleteMsg(msg, 10);
+                        })
+                        .catch();
+                    }
                     break;
                 default:
                     incorrectUsage(prefix, msg);
