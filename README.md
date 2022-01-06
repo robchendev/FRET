@@ -162,21 +162,21 @@ F.R.E.T. needs the permission to manage messages since it will be deleting messa
 
 Since this was a personal project, my variables will be different from what you would need. `ids.json` is provided for you to make changes to the identification of roles and channels. Here are what they mean:
 
-    botName - The name the bot will refer to itself as
-    DBmanager - ID of a role. Anyone with this role will be able to use F.R.E.T.'s mod commands
-    serverGuild - ID of your discord server
-    promoChannel - ID of the channel promo.js passively runs in
-    helpForumChannel - ID of the channel where forum.js passively runs in can be invoked
-    impersonateChannel - ID of the channel that forwards messages to targeted channels
-    weeklyGuideChannel - ID of the channel where the weekly submission criteria are listed
-    weeklyChannel - ID of the channel for weekly submissions
-    ...Color - The colors of embeds depending on their usage 
-    rank1...6 - Leveled forum rank names
-    rank1Points...6Points - Leveled forum rank point thresholds
-    wRank1...3 - Temporary weekly submission rank names
-    wRank1Streak...3Streak - Temporary weekly submission rank streak thresholds
-    wRankPerma - Permanent "trophy" weekly submission rank name
-    wRankPermaStreak - Permanent "trophy" weekly submission rank streak threshold
+* botName <br>The name the bot will refer to itself as
+* DBmanager <br>ID of a role. Anyone with this role will be able to use F.R.E.T.'s mod commands
+* serverGuild <br>ID of your discord server
+* promoChannel <br>ID of the channel promo.js passively runs in
+* helpForumChannel <br>ID of the channel where forum.js passively runs in can be invoked
+* impersonateChannel <br>ID of the channel that forwards messages to targeted channels
+* weeklyGuideChannel <br>ID of the channel where the weekly submission criteria are listed
+* weeklyChannel <br>ID of the channel for weekly submissions
+* ...Color <br>The colors of embeds depending on their usage 
+* rank1...6 <br>Leveled forum rank names
+* rank1Points...6Points <br>Leveled forum rank point thresholds
+* wRank1...3 <br>Temporary weekly submission rank names
+* wRank1Streak...3Streak <br>Temporary weekly submission rank streak thresholds
+* wRankPerma <br>Permanent "trophy" weekly submission rank name
+* wRankPermaStreak <br>Permanent "trophy" weekly submission rank streak threshold
 
 ## Future Plans
 
