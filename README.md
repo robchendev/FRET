@@ -44,9 +44,9 @@ I'm making some gifs and videos that demonstrate this bot's functionality.
 
 ## Getting Started
 
-For personal development purposes, clone this repository to your system, install Node.js v16.6+, npm, and Discord.js v13.
+Clone this repository to your system, install Node.js v16.6+, npm, and Discord.js v13.
     
-Because this is a Discord bot, you need to create your Discord application [here](https://discord.com/developers/applications).
+If you plan on using this F.R.E.T.'s code for contributing/testing, or for your own purposes, you need to create your Discord application [here](https://discord.com/developers/applications).
 
 F.R.E.T. uses MongooseJS to store it's data in MongoDB as a JSON schema. You only need to provide a secrets.json (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
 
@@ -171,7 +171,7 @@ Resets a user's weekly streak and weekly rank.
 
 ## Deployment
 
-The method of deployment is up to you, I'm personally self-hosting F.R.E.T. on a VPS.
+If you want to use this bot for your own personal use, the method of deployment is up to you. I'm personally self-hosting F.R.E.T. on a VPS.
 
 Do note: Make sure F.R.E.T.'s role is higher than any of the roles you plan to give using F.R.E.T., I haven't yet made any error checking for this so your F.R.E.T. will just terminate if it encounters this error. The hierarchy of F.R.E.T. won't affect your server because it'll only have the permissions you set for it, no matter how high it is on the role hierarchy.
 
