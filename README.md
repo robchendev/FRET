@@ -162,6 +162,8 @@ F.R.E.T. needs the permission to manage messages since it will be deleting messa
 
 Since this was a personal project, my variables will be different from what you would need. `ids.json` is provided for you to make changes to the identification of roles and channels. Here are what they mean:
 
+* **userPrefix**<br>The prefix used for user commands
+* **moderatorPrefix**<br>The prefix used for moderator commands
 * **botName**<br>The name the bot will refer to itself as
 * **DBmanager**<br>ID of a role. Anyone with this role will be able to use F.R.E.T.'s mod commands
 * **serverGuild**<br>ID of your discord server
