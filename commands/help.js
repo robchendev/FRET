@@ -121,51 +121,50 @@ module.exports = {
     description: "this command shows embeds for user commands",
     execute(bot, prefix, msg, args) {
         // arg was passed
-        if (args.length === 1) {
-            // -help f
-            // -help forums
-            // -help forum
-            if (
-                args[0] === "f" ||
-                args[0] === "forums" ||
-                args[0] === "forum"
-            ) {
-                showForumCommands(prefix, msg);
-            }
+        
+        // -help f
+        // -help forums
+        // -help forum
+        if (args.length === 1 && 
+            (args[0] === "f" ||
+            args[0] === "forums" ||
+            args[0] === "forum")
+        ) {
+            showForumCommands(prefix, msg);
+        }
 
-            // -help w
-            // -help weeklies
-            // -help weekly
-            if (
-                args[0] === "w" ||
-                args[0] === "weeklies" ||
-                args[0] === "weekly"
-            ) {
-                showWeeklyCommands(prefix, msg);
-            }
+        // -help w
+        // -help weeklies
+        // -help weekly
+        else if (args.length === 1 && 
+            (args[0] === "w" ||
+            args[0] === "weeklies" ||
+            args[0] === "weekly")
+        ) {
+            showWeeklyCommands(prefix, msg);
+        }
 
-            // -help i
-            // -help info
-            if (args[0] === "i" || args[0] === "info") {
-                showBotInfo(msg);
-            }
+        // -help i
+        // -help info
+        else if (args.length === 1 && 
+            (args[0] === "i" || 
+            args[0] === "info")) {
+            showBotInfo(msg);
+        }
 
-            // -help c
-            // -help commands
-            if (args[0] === "c" || args[0] === "commands") {
-                whichCommand(bot, prefix, msg);
-            }
-
-            else{
-                whichCommand(bot, prefix, msg);
-            }
+        // -help c
+        // -help commands
+        else if (args.length === 1 && 
+            (args[0] === "c" ||
+            args[0] === "commands")) {
+            whichCommand(bot, prefix, msg);
         }
 
         // -help (inside Help Forum)
         else if (msg.channel.id === ids.helpForumChannel) {
             showForumCommands(prefix, msg);
         }
-
+        
         // -help (inside Weekly Submissions)
         else if (msg.channel.id === ids.weeklyChannel) {
             showWeeklyCommands(prefix, msg);
