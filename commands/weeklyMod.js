@@ -180,12 +180,12 @@ function incorrectUsage(prefix, msg) {
             false
         );;
     msg.channel
-        .send({ embeds: [embedMsg] })
-        .then((sentMsg) => {
-            tools.deleteMsg(sentMsg, 10);
-            tools.deleteMsg(msg, 10);
-        })
-        .catch();
+    .send({ embeds: [embedMsg] })
+    .then((sentMsg) => {
+        tools.deleteMsg(sentMsg, 10);
+        tools.deleteMsg(msg, 10);
+    })
+    .catch();
 }
 
 module.exports = {
@@ -222,6 +222,9 @@ module.exports = {
             else {
                 incorrectUsage(prefix, msg);
             }
+        }
+        else {
+            incorrectUsage(prefix, msg);
         }
     },
 };

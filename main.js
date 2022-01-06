@@ -5,8 +5,8 @@ const bot = new Discord.Client({
 const secrets = require(`./secrets.json`);
 const ids = require(`./ids.json`);
 var tools = require(`./tools/functions.js`);
-const prefix = "-";
-const prefixMod = "+";
+const prefix = ids.userPrefix;
+const prefixMod = ids.moderatorPrefix;
 var serverID = "";
 const fs = require("fs");
 const cron = require("node-cron");
@@ -23,7 +23,7 @@ let usedQuestionRecently = new Set();
 
 // Live '59 23 * * Sun' - Runs every week at Sunday 11:59 PM EST
 // Test '* * * * *' - Runs every minute
-cron.schedule("* * * * *", function () {
+cron.schedule("59 23 * * Sun", function () {
     bot.commands.get("weeklyCron").execute(bot);
 });
 
@@ -40,12 +40,12 @@ bot.on("messageCreate", async (msg) => {
 
         //Monitors #promotion channel only and creates threads for it
         if (msg.channel.id === ids.promoChannel && !msg.author.bot) {
-            bot.commands.get("promo").execute(msg);
+            bot.commands.get("promo").execute(prefixMod, msg);
         }
 
         //Monitors #help-forum channel only and creates threads for it
         if (msg.channel.id === ids.helpForumChannel && !msg.author.bot) {
-            bot.commands.get("forum").execute(prefix, msg);
+            bot.commands.get("forum").execute(prefix, prefixMod, msg);
         }
 
         if (msg.channel.id === ids.impersonateChannel && !msg.author.bot) {
