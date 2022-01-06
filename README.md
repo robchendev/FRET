@@ -146,9 +146,9 @@ Only works in the channel whose ID is written in `impersonateChannel` in the `id
 
 Displays all the moderator commands listed here (except +help) and their intended use.
 
-    +points <@user> inc <points>
-    +points <@user> dec <points>
-    +points <@user> set <points>
+    +points inc <@user> <points>
+    +points dec <@user> <points>
+    +points set <@user> <points>
 
 Increases, decreases or sets a user's points by a certain amount.
 
