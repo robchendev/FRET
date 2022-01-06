@@ -134,7 +134,7 @@ These happen automatically without any command being sent in the chat.
 
     <link>
 
-Only works in the channel whose ID is written in `promotionChannel` in the `ids.JSON` file. Creates a thread under the message. The purpose of this is to avoid these promotional links from getting buried due to people who talk about the promoted link (usually a video). The thread is auto-archived in 24 hours and can be un-archived by anyone who writes a message in the thread. Automatically handles thread titling. Any message that isnt a link is removed and the user is reminded that discussion is only allowed in the threads.
+Only works in the channel whose ID is written in `shareYourMusicChannel` in the `ids.JSON` file. Creates a thread under the message. The purpose of this is to avoid these promotional links from getting buried due to people who talk about the promoted link (usually a video). The thread is auto-archived in 24 hours and can be un-archived by anyone who writes a message in the thread. Automatically handles thread titling. Any message that isnt a link is removed and the user is reminded that discussion is only allowed in the threads.
 
     <#channel> <message>
 
