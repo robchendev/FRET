@@ -19,37 +19,23 @@ async function createThread(msg) {
  * @param {Message} msg - the original command message
  */
 function incorrectUsage(msg) {
-    let time = 10;
-    if (msg.content.includes("discord.gg")) {
-        msg.delete();
-        msg.channel
-            .send(
-                `**${msg.member}**` +
-                    ", discord invite links are not allowed in promotion."
-            )
-            .then((sentMsg) => {
-                tools.deleteMsg(sentMsg, time);
-            })
-            .catch();
-    } else {
-        let time = 15;
-        msg.channel
-            .send(
-                `**${msg.member}**` +
-                    `, discussions in <#${ids.promoChannel}> are only allowed in threads. If you're promoting your work, include a link. Your message will be deleted in ${time} seconds. `
-            )
-            .then((sentMsg) => {
-                tools.deleteMsg(sentMsg, time);
-                tools.deleteMsg(msg, time);
-            })
-            .catch();
-    }
+    let time = 15;
+    msg.channel
+    .send(
+        `**${msg.member}**` +
+            `, discussions in <#${ids.shareMusicChannel}> are only allowed in threads. If you're sharing your music, include a link or file Your message will be deleted in ${time} seconds. `
+    )
+    .then((sentMsg) => {
+        tools.deleteMsg(sentMsg, time);
+        tools.deleteMsg(msg, time);
+    })
+    .catch();
 }
 
 module.exports = {
-    name: "promo",
+    name: "shareYourMusic",
     description:
-        "this command is passively invoked whenever a user sends a message into the promotion channel.",
+        "this command is passively invoked whenever a user sends a message into the share-your-music channel.",
     execute(prefixMod, msg) {
         
         // Makes sure this command only runs outside of threads
@@ -58,7 +44,7 @@ module.exports = {
             !(msg.channel.type == "GUILD_PRIVATE_THREAD")
         ) {
             // message contains valid link
-            if (msg.content.includes("https://" || "http://") && !msg.content.includes("discord.gg")) {
+            if ((msg.attachments.size > 0 || msg.content.includes("https://" || "http://"))) {
                 createThread(msg);
             }
 

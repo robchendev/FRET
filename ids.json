@@ -1,10 +1,10 @@
 {
-   "userPrefix": "-",
+   "userPrefix": "/",
    "moderatorPrefix": "+",
    "botName": "F.R.E.T.",
    "DBmanager": "737445717823586375",
    "serverGuild": "595032134792511490",
-   "promoChannel": "926876888125812786",
+   "shareMusicChannel": "926876888125812786",
    "helpForumChannel": "926931655766179890",
    "impersonateChannel": "926901332818939954",
    "weeklyGuideChannel": "926901332818939954",

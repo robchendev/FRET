@@ -19,7 +19,6 @@ for (const file of commandFiles) {
     bot.commands.set(command.name, command);
 }
 let usedThanksRecently = new Set();
-let usedQuestionRecently = new Set();
 
 // Live '59 23 * * Sun' - Runs every week at Sunday 11:59 PM EST
 // Test '* * * * *' - Runs every minute
@@ -28,7 +27,7 @@ cron.schedule("59 23 * * Sun", function () {
 });
 
 bot.once("ready", () => {
-    console.log("FretBot is online!");
+    console.log("F.R.E.T started");
 });
 
 bot.on("messageCreate", async (msg) => {
@@ -38,17 +37,17 @@ bot.on("messageCreate", async (msg) => {
     } else {
         serverID = msg.guild.id;
 
-        //Monitors #promotion channel only and creates threads for it
-        if (msg.channel.id === ids.promoChannel && !msg.author.bot) {
-            bot.commands.get("promo").execute(prefixMod, msg);
+        //Monitors #share-your-music channel only and creates threads for it
+        if (msg.channel.id === ids.shareMusicChannel && !msg.author.bot) {
+            bot.commands.get("shareYourMusic").execute(prefixMod, msg);
         }
 
         //Monitors #help-forum channel only and creates threads for it
-        if (msg.channel.id === ids.helpForumChannel && !msg.author.bot) {
+        else if (msg.channel.id === ids.helpForumChannel && !msg.author.bot) {
             bot.commands.get("forum").execute(prefix, prefixMod, msg);
         }
 
-        if (msg.channel.id === ids.impersonateChannel && !msg.author.bot) {
+        else if (msg.channel.id === ids.impersonateChannel && !msg.author.bot) {
             bot.commands.get("impersonate").execute(bot, msg);
         }
 
@@ -97,6 +96,8 @@ bot.on("messageCreate", async (msg) => {
                 case "help":
                     bot.commands.get("help").execute(bot, prefix, msg, args);
                     break;
+                case "contribute":
+                    bot.commands.get("contribute").execute(msg);
             }
         } else if (msg.content.startsWith(prefixMod) && !msg.author.bot) {
             if (msg.member.roles.cache.has(ids.DBmanager)) {

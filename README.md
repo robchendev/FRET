@@ -1,10 +1,26 @@
 # F.R.E.T. - Fragile Remains of the Eternal ThankBot
 
-F.R.E.T. is a multipurpose Javascript Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment using threads, self-moderating channels and by managing databases to store and retrieve information. F.R.E.T. makes use of Mongoose JS to store and retrieve data from a MongoDB database. The goal is to encourage an active and organized community help forum similar to StackOverflow but on Discord. F.R.E.T. also manages a self-sufficient weekly submission system that grants roles based on the number of weeks in a row a user has participated in. To encourage discussion, users can reward points to each other for helping them on the forum, which can be used to grant roles. Moderator-specific commands to change data in the database on-demand are also included. F.R.E.T. is currently self-hosted and used in the guitar community Discord server [Fingerstyle Central](https://discord.com/invite/ZXKrfB2).
+[![Contributors][contributors-shield]][contributors-link]
+[![Issues][issues-shield]][issues-link]
+[![License][license-shield]][license-link]
+[![Stars][stars-shield]][stars-link]
 
-## Why the cheesy name?
+F.R.E.T. is a multipurpose Javascript Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment using threads, self-moderating channels and by managing databases to store and retrieve information. F.R.E.T. makes use of Mongoose JS to store and retrieve data from a MongoDB database. The goal is to encourage an active and organized community help forum similar to StackOverflow but on Discord. F.R.E.T. also manages a self-sufficient weekly submission system that grants roles based on the number of weeks in a row a user has participated in. To encourage discussion, users can reward points to each other for helping them on the forum, which can be used to grant roles. Moderator-specific commands to change data in the database on-demand are also included. F.R.E.T. is currently self-hosted and used in a guitar community Discord server **(Name and invite link will be provided later)**.
 
-I named it F.R.E.T. first and had to think of what it could be an acronym of.
+## Contributing
+
+Your contributions are very welcome and appreciated. Following are the things you can do to contribute to this project.
+
+1. **Report a bug** <br>
+If you think you've encountered a bug, please inform me by creating an issue [here](https://github.com/chendumpling/F.R.E.T./issues).
+
+2. **Request a feature** <br>
+You can request for a feature by creating an issue [here](https://github.com/chendumpling/F.R.E.T./issues).
+
+3. **Create a pull request** <br>
+If you improved the bot yourself and would like to contribute to this project, I really appreciate it!
+
+> If you are new to open-source, make sure to check read more about it [here](https://www.digitalocean.com/community/tutorial_series/an-introduction-to-open-source) and learn more about creating a pull request [here](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github).
 
 ## Summary
 
@@ -19,7 +35,6 @@ I named it F.R.E.T. first and had to think of what it could be an acronym of.
   - [Deployment](#deployment)
     - [Customization](#customization)
   - [Future Plans](#future-plans)
-  - [Contributing](#contributing)
   - [Authors](#authors)
   - [License](#license)
 
@@ -50,6 +65,10 @@ Run F.R.E.T. by using the command:
 
 ### Help Commands
 
+    -contribute
+
+Shows links for users to help out with the development of F.R.E.T. by reporting bugs, requesting features and developing code.
+    
     -help
 
 Displays all the user commands for the channel it was invoked in (Forum or Weekly Submissions). If it was invoked anywhere else, it displays a list of usable help command variants (f, w, i) that are listed below.
@@ -167,7 +186,7 @@ Since this was a personal project, my variables will be different from what you 
 * **botName**<br>The name the bot will refer to itself as
 * **DBmanager**<br>ID of a role. Anyone with this role will be able to use F.R.E.T.'s mod commands
 * **serverGuild**<br>ID of your discord server
-* **promoChannel**<br>ID of the channel promo.js passively runs in
+* **shareMusicChannel**<br>ID of the channel shareYourMusic.js passively runs in
 * **helpForumChannel**<br>ID of the channel where forum.js passively runs in can be invoked
 * **impersonateChannel**<br>ID of the channel that forwards messages to targeted channels
 * **weeklyGuideChannel**<br>ID of the channel where the weekly submission criteria are listed
@@ -184,21 +203,6 @@ Since this was a personal project, my variables will be different from what you 
 
 I will be further improving on F.R.E.T. if something on the guitar community server needs to be automated.
 
-## Contributing
-
-Your contributions are very welcome and appreciated. Following are the things you can do to contribute to this project.
-
-1. **Report a bug** <br>
-If you think you've encountered a bug, please inform me by creating an issue [here](https://github.com/chendumpling/F.R.E.T./issues).
-
-2. **Request a feature** <br>
-You can request for a feature by creating an issue [here](https://github.com/chendumpling/F.R.E.T./issues)., and if it is viable, it will be picked for development.
-
-3. **Create a pull request** <br>
-If you improved the bot yourself and would like to contribute to this project, I really appreciate it!
-
-> If you are new to open-source, make sure to check read more about it [here](https://www.digitalocean.com/community/tutorial_series/an-introduction-to-open-source) and learn more about creating a pull request [here](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github).
-
 ## License
 
 See the [LICENSE](https://github.com/chendumpling/F.R.E.T./blob/master/LICENSE) file for details.
@@ -211,3 +215,14 @@ See the [LICENSE](https://github.com/chendumpling/F.R.E.T./blob/master/LICENSE) 
 See also the list of
 [contributors](https://github.com/chendumpling/F.R.E.T./contributors)
 who participated in this project.
+
+<!-- Shields, images, and links  -->
+
+[contributors-shield]: https://img.shields.io/github/contributors/chendumpling/F.R.E.T.?style=flat
+[contributors-link]: https://github.com/chendumpling/F.R.E.T./graphs/contributors
+[issues-shield]: https://img.shields.io/github/issues/chendumpling/F.R.E.T.
+[issues-link]: https://github.com/chendumpling/F.R.E.T./issues
+[license-shield]: https://img.shields.io/github/license/chendumpling/F.R.E.T.
+[license-link]: https://github.com/chendumpling/F.R.E.T./blob/master/LICENSE
+[stars-shields]: https://img.shields.io/github/stars/chendumpling/F.R.E.T.
+[stars-link]: https://github.com/chendumpling/F.R.E.T./stargazers
