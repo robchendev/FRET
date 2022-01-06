@@ -224,5 +224,5 @@ who participated in this project.
 [issues-link]: https://github.com/chendumpling/F.R.E.T./issues
 [license-shield]: https://img.shields.io/github/license/chendumpling/F.R.E.T.
 [license-link]: https://github.com/chendumpling/F.R.E.T./blob/master/LICENSE
-[stars-shields]: https://img.shields.io/github/stars/chendumpling/F.R.E.T.
+[stars-shield]: https://img.shields.io/github/stars/chendumpling/F.R.E.T.
 [stars-link]: https://github.com/chendumpling/F.R.E.T./stargazers
