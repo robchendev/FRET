@@ -45,67 +45,31 @@ function updatePointsForUser(message, userid, amount, options) {
         }
     });
 }
-/**
- * Sends embed message on how to use the command properly then deletes it
- * @param {String} prefix - the prefix of the command
- * @param {Message} msg - the original command message
- */
-function incorrectUsage(prefix, msg) {
-    const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.incorrectUsageColor)
-        .addField(
-            `\`${prefix}points inc <user> <points>\``,
-            "Increase user's points by amount",
-            false
-        )
-        .addField(
-            `\`${prefix}points dec <user> <points>\``,
-            "Decrease user's points by amount",
-            false
-        )
-        .addField(
-            `\`${prefix}points set <user> <points>\``,
-            "Set user's points to amount",
-            false
-        )
-        .addField(
-            `\`${prefix}points pen <user>\``,
-            "Decrease user's points by 1000",
-            false
-        );
-    msg.channel
-        .send({ embeds: [embedMsg] })
-        .then((sentMsg) => {
-            tools.deleteMsg(sentMsg, 10);
-            tools.deleteMsg(msg, 10);
-        })
-        .catch((error) => { console.error(error); });
-}
-function sendCorrectUsageMessage(prefix) {
-    msg.channel
+function sendCorrectUsageMessage(message, prefix) {
+    message.channel
         .send(`Correct Usage: \`${prefix}points <@user> <amount> [options: set]\`.`)
         .then((sentMessage) => {
             tools.deleteMsg(sentMessage, 10);
-            tools.deleteMsg(msg, 10);
+            tools.deleteMsg(message, 10);
         })
         .catch((error) => { console.error(error); });
 }
-function getAmountArgument(prefix, args) {
+function getAmountArgument(message, prefix, args) {
     let result = undefined;
     if (isNaN(parseInt(args[1])))
-        sendCorrectUsageMessage(prefix);
+        sendCorrectUsageMessage(message, prefix);
     else
         result = args[1];
     return result;
 }
-function getOptionsArgument(prefix, args) {
+function getOptionsArgument(message, prefix, args) {
     let result = UpdateOptions.Add;
     if (args.length === 3) {
         if (args[2] === "set")
             updateOptions = UpdateOptions.Set;
         else {
             result = undefined;
-            sendCorrectUsageMessage(prefix);
+            sendCorrectUsageMessage(message, prefix);
         }
     }
     return result;
@@ -115,7 +79,7 @@ module.exports = {
     description: "this mod command changes the points of a user",
     execute(prefix, msg, args) {
         if (args.length < 2)
-            incorrectUsage(prefix, msg);
+            sendCorrectUsageMessage(msg, prefix);
         else {
             let amount = getAmountArgument(prefix, args);
             if (amount !== undefined) {
