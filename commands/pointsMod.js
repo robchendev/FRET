@@ -46,8 +46,18 @@ function updatePointsForUser(message, userid, amount, options) {
     });
 }
 function sendCorrectUsageMessage(message, prefix) {
-    message.channel
-        .send(`Correct Usage: \`${prefix}points <@user> <amount> [options: set]\`.`)
+    const embed = new Discord.MessageEmbed()
+        .setColor(ids.dataChangeColor)
+        .setTitle(`Correct Usage for the \`${prefix}points\` Command`)
+        .setDescription(`The syntax for the \`${prefix}points\` command is: \`\`\`${prefix}points <@user> <amount> [options: set]\`\`\`.`)
+        .addFields(
+            { name: "`<@user>`", value: "This is the mention of the user the command should target." },
+            { name: "`<amount>`", value: "This is the integer value of the amount of points the targeted user should recieve. This value should be positive to add points, or negative to remove points." },
+            { name: "`[options]`", value: "The only supported value for this is `set`. Supplying this option will set the targeted user's points to the specified amount." }
+        )
+        .addFooter("This message will self destruct in 10 seconds.")
+        .addTimestamp();
+    message.channel.send({ embeds: [embed] })
         .then((sentMessage) => {
             tools.deleteMsg(sentMessage, 10);
             tools.deleteMsg(message, 10);
