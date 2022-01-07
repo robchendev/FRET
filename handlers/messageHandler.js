@@ -1,4 +1,11 @@
+const configuration = require(`../ids.json`);
 module.exports = {
+    invokingModule: undefined,
+    /**
+     * Registers the specified module as the invoking module of the handler.
+     * @param {Module} module The module to register with the handler.
+     */
+    register: function(module) { this.invokingModule = module; },
     /**
      * Deletes the specified message (whether by user or by FretBot), after the specified amount of time, while handling any errors.
      * @param {Message} message - The message that should be deleted.
@@ -11,14 +18,14 @@ module.exports = {
     },
     /**
      * Sends the standardized command usage message embed in response to a specified message.
-     * @param {DiscordMessage} message - The message to 
-     * @param {String} prefix 
-     * @param {String} commandKey 
-     * @param {String} syntax 
-     * @param {DiscordEmbedFieldArray} fields - The fields 
-     * @param {Number} destroyIn - The number of seconds to wait before destroying the usage and triggering messages.
+     * @param {DiscordMessage} message - The message this embed is in response of.
      */
-    sendCommandUsageMessage(message, prefix, commandKey, syntax, fields, destroyIn) {
+    sendCommandUsageMessage(message) {
+        let prefix = this.invokingModule.isModeratorCommand ? configuration.moderatorPrefix : configuration.userPrefix;
+        let commandKey = this.invokingModule.key;
+        let syntax = this.invokingModule.syntax;
+        let fields = this.invokingModule.fieldDescriptions;
+        let lifetime = configuration.correctUsageMessageLifetimeInSeconds;
         const embed = new Discord.MessageEmbed()
             .setColor(ids.dataChangeColor)
             .setTitle(`Correct Usage for \`${prefix}${commandKey}\``)
@@ -28,8 +35,8 @@ module.exports = {
             .setTimestamp();
         message.channel.send({ embeds: [embed] })
             .then((sentMessage) => {
-                this.deleteMessage(sentMessage, destroyIn);
-                this.deleteMessage(message, destroyIn);
+                this.deleteMessage(sentMessage, lifetime);
+                this.deleteMessage(message, lifetime);
             })
             .catch((error) => { console.error(error); });
     }

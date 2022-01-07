@@ -32,5 +32,6 @@
    "wRank2Streak": 3,
    "wRank3Streak": 7,
    "wRankPerma": "weeklyPerma",
-   "wRankPermaStreak": 10
+   "wRankPermaStreak": 10,
+   "correctUsageMessageLifetimeInSeconds": 10
 }
