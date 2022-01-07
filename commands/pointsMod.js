@@ -45,34 +45,6 @@ function updatePointsForUser(message, userid, amount, options) {
         }
     });
 }
-
-/**
- * Sets users points in database and sends an embed message
- * @param {Message} msg - the original message sent
- * @param {String} usersID - a single user's ID
- * @param {Number} set - the points amount to be set to
- */
-function setPoints(msg, usersID, set) {
-    const embedMsg = new Discord.MessageEmbed().setColor(ids.dataChangeColor);
-
-    pointsChange.findOne({ userid: usersID }, (err, pointdata) => {
-        if (err) console.log(err);
-        if (!pointdata) {
-            tools.createPointdata(pointsChange, usersID, set);
-            embedMsg.setDescription(
-                `${usersID}'s points have been changed from 0 to ${set}`
-            );
-            msg.channel.send({ embeds: [embedMsg] });
-        } else {
-            beforeChange = pointdata.points;
-            tools.setPointdata(pointdata, set);
-            embedMsg.setDescription(
-                `${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`
-            );
-            msg.channel.send({ embeds: [embedMsg] });
-        }
-    });
-}
 /**
  * Sends embed message on how to use the command properly then deletes it
  * @param {String} prefix - the prefix of the command
