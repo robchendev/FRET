@@ -10,6 +10,7 @@ mongoose.connect(secrets.Mongo, {
     useNewUrlParser: true,
 });
 
+// TODO: Rename to PointUpdateOptions instead so it can be shared for other points commands.
 const UpdateOptions = Object.freeze({
     Add: 0,
     Set: 1
