@@ -63,7 +63,7 @@ module.exports = {
      */
      savePointData: function(pointData) {
         pointData.save().catch((error) => console.log(error));
-    }
+    },
     /**
      * Creates weeklyUpdate schema for user by adding their score.
      * @param {Schema} updateWeekly - the schema that stores submission data
