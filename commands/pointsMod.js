@@ -9,6 +9,34 @@ mongoose.connect(secrets.Mongo, {
     useNewUrlParser: true,
 });
 
+function addPoints(message, userId, amount) {
+    pointsChange.findOne({ userid: userId }, (findError, pointData) => {
+        if (findError !== undefined)
+            console.error(error);
+        else {
+            let pointsUpdated = false;
+            let incomingPointData = pointData;
+            try {
+                if (pointData === undefined) {
+                    pointData = tools.createPointDataForUser(pointsChange, userId);
+                    pointData.points = amount;
+                } else
+                    pointData.points += amount;
+
+                tools.savePointData(pointData);
+                pointsUpdated = incomingPointData !== pointData;
+            } catch (error) { console.error(exception.message); }
+
+            if (pointsUpdated) {
+                const embed = new Discord.MessageEmbed()
+                    .setColor(ids.dataChangeColor)
+                    .setDescription(`${userId}'s points have been changed to ${pointData.points}`);
+                message.channel.send({ embeds: [embed] });
+            }
+        }
+    });
+}
+
 /**
  * Decreases users points in database and sends an embed message
  * @param {Message} msg - the original message sent
@@ -96,14 +124,13 @@ function incorrectUsage(prefix, msg) {
             false
         );
     msg.channel
-    .send({ embeds: [embedMsg] })
-    .then((sentMsg) => {
-        tools.deleteMsg(sentMsg, 10);
-        tools.deleteMsg(msg, 10);
-    })
-    .catch();
+        .send({ embeds: [embedMsg] })
+        .then((sentMsg) => {
+            tools.deleteMsg(sentMsg, 10);
+            tools.deleteMsg(msg, 10);
+        })
+        .catch();
 }
-
 module.exports = {
     name: "pointsMod",
     description: "this mod command changes the points of a user",
@@ -121,11 +148,11 @@ module.exports = {
                         msg.channel.send(
                             `Correct usage: \`${prefix}points inc <user> <points>\``
                         )
-                        .then((sentMsg) => {
-                            tools.deleteMsg(sentMsg, 10);
-                            tools.deleteMsg(msg, 10);
-                        })
-                        .catch();
+                            .then((sentMsg) => {
+                                tools.deleteMsg(sentMsg, 10);
+                                tools.deleteMsg(msg, 10);
+                            })
+                            .catch();
                     }
                     break;
                 case "dec":
@@ -136,11 +163,11 @@ module.exports = {
                         msg.channel.send(
                             `Correct usage: \`${prefix}points dec <user> <points>\``
                         )
-                        .then((sentMsg) => {
-                            tools.deleteMsg(sentMsg, 10);
-                            tools.deleteMsg(msg, 10);
-                        })
-                        .catch();
+                            .then((sentMsg) => {
+                                tools.deleteMsg(sentMsg, 10);
+                                tools.deleteMsg(msg, 10);
+                            })
+                            .catch();
                     }
                     break;
                 case "set":
@@ -151,25 +178,25 @@ module.exports = {
                         msg.channel.send(
                             `Correct usage: \`${prefix}points set <user> <points>\``
                         )
-                        .then((sentMsg) => {
-                            tools.deleteMsg(sentMsg, 10);
-                            tools.deleteMsg(msg, 10);
-                        })
-                        .catch();
+                            .then((sentMsg) => {
+                                tools.deleteMsg(sentMsg, 10);
+                                tools.deleteMsg(msg, 10);
+                            })
+                            .catch();
                     }
                     break;
                 case "pen":
-                    if(mention != "undefined"){
+                    if (mention != "undefined") {
                         decPoints(msg, mention, 1000);
                     } else {
                         msg.channel.send(
                             `Correct usage: \`${prefix}points pen <user>\``
                         )
-                        .then((sentMsg) => {
-                            tools.deleteMsg(sentMsg, 10);
-                            tools.deleteMsg(msg, 10);
-                        })
-                        .catch();
+                            .then((sentMsg) => {
+                                tools.deleteMsg(sentMsg, 10);
+                                tools.deleteMsg(msg, 10);
+                            })
+                            .catch();
                     }
                     break;
                 default:
