@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const configuration = require(`../config.json`);
+const config = require(`../config.json`);
 const secrets = require(`../secrets.json`);
 const messageHandler = require(`../handlers/messageHandler.js`);
 const pointHandler = require(`../handlers/pointHandler.js`);
@@ -48,7 +48,7 @@ function updatePointsForUser(message, userId, amount, options) {
 
             if (pointsUpdated) {
                 const embed = new Discord.MessageEmbed()
-                    .setColor(configuration.dataChangeColor)
+                    .setColor(config.dataChangeColor)
                     .setDescription(`${userId}'s points have been changed to ${pointData.points}`);
                 message.channel.send({ embeds: [embed] });
             }
@@ -93,7 +93,7 @@ module.exports = {
     name: "pointsMod",
     isModeratorCommand: true,
     description: "this mod command changes the points of a user",
-    syntax: `${configuration.moderatorPrefix}points <@user> <amount> [options: set]`,
+    syntax: `${config.moderatorPrefix}points <@user> <amount> [options: set]`,
     fieldDescriptions: [
         { name: "`<@user>`", value: "This is the mention of the user the command should target." },
         { name: "`<amount>`", value: "This is the integer value of the amount of points the targeted user should recieve. This value should be positive to add points, or negative to remove points." },
