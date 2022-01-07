@@ -27,6 +27,19 @@ module.exports = {
         addPoints.save().catch((err) => console.log(err));
     },
     /**
+     * Creates an entry in the point system for the specified user with a zero score.
+     * @param {Schema} pointsModel - the schema that stores point data
+     * @param {String} userId - the user this schema should be created for.
+     */
+    createPointDataForUser: function (pointsModel, userId) {
+        const data = new pointsModel({
+            userid: userId,
+            points: 0
+        });
+        data.save().catch((error) => console.log(error));
+        return data;
+    },
+    /**
      * Updates addPoints schema for user by adding their score.
      * @param {Callback} pointdata - the point data callback
      * @param {Number} score - the amount of points to be added
@@ -80,9 +93,9 @@ module.exports = {
         msg.channel
             .send(
                 `**${msg.author}**` +
-                    `, you can only ` +
-                    reminder +
-                    ` once every ${cd} minute.`
+                `, you can only ` +
+                reminder +
+                ` once every ${cd} minute.`
             )
             .then((sentMsg) => {
                 setTimeout(
