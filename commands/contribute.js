@@ -24,7 +24,7 @@ function showContribute(msg) {
             true
         )
         .addField(
-            "Help develop F.R.E.T",
+            "Help develop F.R.E.T.",
             "[View open issues](https://github.com/chendumpling/F.R.E.T./issues) on GitHub",
             false
         );
