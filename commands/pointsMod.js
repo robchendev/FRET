@@ -10,31 +10,31 @@ mongoose.connect(secrets.Mongo, {
 });
 
 const UpdateOptions = Object.freeze({
-    Add = 0,
-    Set = 1
+    Add: 0, // was Add = 0,
+    Set: 1  // was Set = 0
 });
-
-function updatePointsForUser(message, userid, amount, options) {
+                                
+function updatePointsForUser(message, userId, amount, options) { // was (message, userid, amount, options)
     pointsChange.findOne({ userid: userId }, (findError, pointData) => {
-        if (findError !== undefined)
-            console.error(error);
+        if (findError === null) // It's better to be explicit, so check for a null value.
+            console.error(findError);
         else {
-            let pointsUpdated = false;
-            let incomingPointData = pointData;
+            let pointsUpdated = false; 
+            let incomingPointData = pointData; 
             try {
                 if (pointData === undefined) {
                     pointData = tools.createPointDataForUser(pointsChange, userId);
                     pointData.points = amount;
                 } else {
                     if (options === UpdateOptions.Add)
-                        pointData.points += amount;
+                        pointData.points += amount; 
                     else if (options === UpdateOptions.Set)
                         pointData.points = amount;
                 }
-
+                
                 tools.savePointData(pointData);
                 pointsUpdated = incomingPointData !== pointData;
-            } catch (error) { console.error(exception.message); }
+            } catch (error) { console.error(error); }
 
             if (pointsUpdated) {
                 const embed = new Discord.MessageEmbed()
@@ -55,8 +55,8 @@ function sendCorrectUsageMessage(message, prefix) {
             { name: "`<amount>`", value: "This is the integer value of the amount of points the targeted user should recieve. This value should be positive to add points, or negative to remove points." },
             { name: "`[options]`", value: "The only supported value for this is `set`. Supplying this option will set the targeted user's points to the specified amount." }
         )
-        .addFooter("This message will self destruct in 10 seconds.")
-        .addTimestamp();
+        .setFooter({text: "This message will self destruct in 10 seconds."}) 
+        .setTimestamp();
     message.channel.send({ embeds: [embed] })
         .then((sentMessage) => {
             tools.deleteMsg(sentMessage, 10);
@@ -76,7 +76,7 @@ function getOptionsArgument(message, prefix, args) {
     let result = UpdateOptions.Add;
     if (args.length === 3) {
         if (args[2] === "set")
-            updateOptions = UpdateOptions.Set;
+            result = UpdateOptions.Set;
         else {
             result = undefined;
             sendCorrectUsageMessage(message, prefix);
@@ -91,9 +91,9 @@ module.exports = {
         if (args.length < 2)
             sendCorrectUsageMessage(msg, prefix);
         else {
-            let amount = getAmountArgument(prefix, args);
+            let amount = getAmountArgument(msg, prefix, args);
             if (amount !== undefined) {
-                let updateOptions = getOptionsArgument(prefix, args);
+                let updateOptions = getOptionsArgument(msg, prefix, args);
                 if (updateOptions != undefined) {
                     let userId = String(msg.mentions.users.first()).replace("!", "");
                     updatePointsForUser(msg, userId, amount, updateOptions);
