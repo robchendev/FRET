@@ -16,6 +16,14 @@ const commandFiles = fs
     .filter((file) => file.endsWith(".js"));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
+
+    // Not all commands have this ability yet. Provide a warning for those who fail.
+    try {
+        command.registerWithHandlers();
+    } catch (error) {
+        console.warn(`Unable to regiser ${command.name} with handlers.`);
+    }
+    
     bot.commands.set(command.name, command);
 }
 let usedThanksRecently = new Set();
