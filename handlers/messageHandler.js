@@ -1,4 +1,4 @@
-const configuration = require(`../ids.json`);
+const configuration = require(`../config.json`);
 module.exports = {
     invokingModule: undefined,
     /**

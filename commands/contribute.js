@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const ids = require(`../ids.json`);
+const ids = require(`../config.json`);
 
 /**
  * Displays an embed message to show ways to contribute on GitHub

@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const ids = require(`../ids.json`);
+const ids = require(`../config.json`);
 const updateWeekly = require("../models/weeklyUpdate.js");
 const secrets = require(`../secrets.json`);
 var tools = require(`../tools/functions.js`);
@@ -244,7 +244,7 @@ function getCurrentRole(bot, thisUser) {
  * Retrieves permanent role object if the user has it
  * @param {Client} bot - the client that lets F.R.E.T. use discordJS methods
  * @param {User} thisUser - the user object of the role to retrieve
- * @return {Role} the permanent role as described in ids.json
+ * @return {Role} the permanent role as described in config.json
  */
 function getPermaRole(bot, thisUser) {
     // retrieves guild object

@@ -3,7 +3,7 @@ const bot = new Discord.Client({
     intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_PRESENCES"],
 });
 const secrets = require(`./secrets.json`);
-const ids = require(`./ids.json`);
+const ids = require(`./config.json`);
 var tools = require(`./tools/functions.js`);
 const prefix = ids.userPrefix;
 const prefixMod = ids.moderatorPrefix;
