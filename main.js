@@ -23,7 +23,7 @@ for (const file of commandFiles) {
     } catch (error) {
         console.warn(`Unable to regiser ${command.name} with handlers.`);
     }
-    
+
     bot.commands.set(command.name, command);
 }
 let usedThanksRecently = new Set();
@@ -35,7 +35,7 @@ cron.schedule("59 23 * * Sun", function () {
 });
 
 bot.once("ready", () => {
-    console.log("F.R.E.T started");
+    console.log("F.R.E.T. started");
 });
 
 bot.on("messageCreate", async (msg) => {
