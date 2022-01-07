@@ -10,13 +10,13 @@ mongoose.connect(secrets.Mongo, {
 });
 
 const UpdateOptions = Object.freeze({
-    Add: 0, // was Add = 0,
-    Set: 1  // was Set = 0
+    Add: 0,
+    Set: 1
 });
                                 
-function updatePointsForUser(message, userId, amount, options) { // was (message, userid, amount, options)
+function updatePointsForUser(message, userId, amount, options) 
     pointsChange.findOne({ userid: userId }, (findError, pointData) => {
-        if (findError === null) // It's better to be explicit, so check for a null value.
+        if (findError === null)
             console.error(findError);
         else {
             let pointsUpdated = false; 
