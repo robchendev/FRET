@@ -47,36 +47,6 @@ function updatePointsForUser(message, userid, amount, options) {
 }
 
 /**
- * Decreases users points in database and sends an embed message
- * @param {Message} msg - the original message sent
- * @param {String} usersID - a single user's ID
- * @param {Number} deincrement - the amount of points to subtract by
- */
-function decPoints(msg, usersID, deincrement) {
-    pointsChange.findOne({ userid: usersID }, (err, pointdata) => {
-        if (err) console.log(err);
-        if (!pointdata) {
-            tools.createPointdata(pointsChange, usersID, -deincrement);
-            const embedMsg = new Discord.MessageEmbed()
-                .setColor(ids.dataChangeColor)
-                .setDescription(
-                    `${usersID}'s points have been changed from 0 to ${-deincrement}`
-                );
-            msg.channel.send({ embeds: [embedMsg] });
-        } else {
-            beforeChange = pointdata.points;
-            tools.updatePointdata(pointdata, -deincrement);
-            const embedMsg = new Discord.MessageEmbed()
-                .setColor(ids.dataChangeColor)
-                .setDescription(
-                    `${usersID}'s points have been changed from ${beforeChange} to ${pointdata.points}`
-                );
-            msg.channel.send({ embeds: [embedMsg] });
-        }
-    });
-}
-
-/**
  * Sets users points in database and sends an embed message
  * @param {Message} msg - the original message sent
  * @param {String} usersID - a single user's ID
