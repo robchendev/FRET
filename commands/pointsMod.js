@@ -2,6 +2,8 @@ const Discord = require("discord.js");
 const mongoose = require("mongoose");
 const ids = require(`../ids.json`);
 const secrets = require(`../secrets.json`);
+
+// Shouldn't this be `const` too?
 var tools = require(`../tools/functions.js`);
 const messageHandler = require(`../handlers/messageHandler.js`);
 const pointsChange = require("../models/addPoints.js");
