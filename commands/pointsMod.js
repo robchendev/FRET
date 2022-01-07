@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const ids = require(`../ids.json`);
 const secrets = require(`../secrets.json`);
 var tools = require(`../tools/functions.js`);
+const messageHandler = require(`../handlers/messageHandler.js`);
 const pointsChange = require("../models/addPoints.js");
 mongoose.connect(secrets.Mongo, {
     useUnifiedTopology: true,
@@ -13,8 +14,15 @@ const UpdateOptions = Object.freeze({
     Add: 0,
     Set: 1
 });
+
+const commandSyntax = `${prefix}points <@user> <amount> [options: set]`;
+const commandFieldDescriptions = [
+    { name: "`<@user>`", value: "This is the mention of the user the command should target." },
+    { name: "`<amount>`", value: "This is the integer value of the amount of points the targeted user should recieve. This value should be positive to add points, or negative to remove points." },
+    { name: "`[options]`", value: "The only supported value for this is `set`. Supplying this option will set the targeted user's points to the specified amount." }
+];
                                 
-function updatePointsForUser(message, userId, amount, options) 
+function updatePointsForUser(message, userId, amount, options) {
     pointsChange.findOne({ userid: userId }, (findError, pointData) => {
         if (findError === null)
             console.error(findError);
@@ -45,29 +53,10 @@ function updatePointsForUser(message, userId, amount, options)
         }
     });
 }
-function sendCorrectUsageMessage(message, prefix) {
-    const embed = new Discord.MessageEmbed()
-        .setColor(ids.dataChangeColor)
-        .setTitle(`Correct Usage for the \`${prefix}points\` Command`)
-        .setDescription(`The syntax for the \`${prefix}points\` command is: \`\`\`${prefix}points <@user> <amount> [options: set]\`\`\`.`)
-        .addFields(
-            { name: "`<@user>`", value: "This is the mention of the user the command should target." },
-            { name: "`<amount>`", value: "This is the integer value of the amount of points the targeted user should recieve. This value should be positive to add points, or negative to remove points." },
-            { name: "`[options]`", value: "The only supported value for this is `set`. Supplying this option will set the targeted user's points to the specified amount." }
-        )
-        .setFooter({text: "This message will self destruct in 10 seconds."}) 
-        .setTimestamp();
-    message.channel.send({ embeds: [embed] })
-        .then((sentMessage) => {
-            tools.deleteMsg(sentMessage, 10);
-            tools.deleteMsg(message, 10);
-        })
-        .catch((error) => { console.error(error); });
-}
 function getAmountArgument(message, prefix, args) {
     let result = undefined;
     if (isNaN(parseInt(args[1])))
-        sendCorrectUsageMessage(message, prefix);
+        messageHandler.sendCommandUsageMessage(message, prefix, "points", commandSyntax, commandFieldDescriptions, 10);
     else
         result = args[1];
     return result;
@@ -79,7 +68,7 @@ function getOptionsArgument(message, prefix, args) {
             result = UpdateOptions.Set;
         else {
             result = undefined;
-            sendCorrectUsageMessage(message, prefix);
+            messageHandler.sendCommandUsageMessage(message, prefix, "points", commandSyntax, commandFieldDescriptions, 10);
         }
     }
     return result;
