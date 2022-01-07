@@ -15,6 +15,7 @@ const UpdateOptions = Object.freeze({
     Set: 1
 });
 
+// TODO: See if this can be defined on the command module and loaded from the handlers somehow (perhaps passing "this" should work).
 const commandSyntax = `${prefix}points <@user> <amount> [options: set]`;
 const commandFieldDescriptions = [
     { name: "`<@user>`", value: "This is the mention of the user the command should target." },
