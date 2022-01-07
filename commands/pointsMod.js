@@ -79,82 +79,52 @@ function incorrectUsage(prefix, msg) {
             tools.deleteMsg(sentMsg, 10);
             tools.deleteMsg(msg, 10);
         })
-        .catch();
+        .catch((error) => { console.error(error); });
+}
+function sendCorrectUsageMessage(prefix) {
+    msg.channel
+        .send(`Correct Usage: \`${prefix}points <@user> <amount> [options: set]\`.`)
+        .then((sentMessage) => {
+            tools.deleteMsg(sentMessage, 10);
+            tools.deleteMsg(msg, 10);
+        })
+        .catch((error) => { console.error(error); });
+}
+function getAmountArgument(prefix, args) {
+    let result = undefined;
+    if (isNaN(parseInt(args[1])))
+        sendCorrectUsageMessage(prefix);
+    else
+        result = args[1];
+    return result;
+}
+function getOptionsArgument(prefix, args) {
+    let result = UpdateOptions.Add;
+    if (args.length === 3) {
+        if (args[2] === "set")
+            updateOptions = UpdateOptions.Set;
+        else {
+            result = undefined;
+            sendCorrectUsageMessage(prefix);
+        }
+    }
+    return result;
 }
 module.exports = {
     name: "pointsMod",
     description: "this mod command changes the points of a user",
     execute(prefix, msg, args) {
-        if (args.length > 0) {
-            // Removes nickname ! in ID
-            let mention = String(msg.mentions.users.first()).replace("!", "");
-            let doCommand = args[0];
-            switch (doCommand) {
-                case "inc":
-                    let increment = args[2];
-                    if (!isNaN(parseInt(increment))) {
-                        decPoints(msg, mention, increment * -1);
-                    } else {
-                        msg.channel.send(
-                            `Correct usage: \`${prefix}points inc <user> <points>\``
-                        )
-                            .then((sentMsg) => {
-                                tools.deleteMsg(sentMsg, 10);
-                                tools.deleteMsg(msg, 10);
-                            })
-                            .catch();
-                    }
-                    break;
-                case "dec":
-                    let deincrement = args[2];
-                    if (!isNaN(parseInt(deincrement))) {
-                        decPoints(msg, mention, deincrement);
-                    } else {
-                        msg.channel.send(
-                            `Correct usage: \`${prefix}points dec <user> <points>\``
-                        )
-                            .then((sentMsg) => {
-                                tools.deleteMsg(sentMsg, 10);
-                                tools.deleteMsg(msg, 10);
-                            })
-                            .catch();
-                    }
-                    break;
-                case "set":
-                    let set = args[2];
-                    if (!isNaN(parseInt(set))) {
-                        setPoints(msg, mention, set);
-                    } else {
-                        msg.channel.send(
-                            `Correct usage: \`${prefix}points set <user> <points>\``
-                        )
-                            .then((sentMsg) => {
-                                tools.deleteMsg(sentMsg, 10);
-                                tools.deleteMsg(msg, 10);
-                            })
-                            .catch();
-                    }
-                    break;
-                case "pen":
-                    if (mention != "undefined") {
-                        decPoints(msg, mention, 1000);
-                    } else {
-                        msg.channel.send(
-                            `Correct usage: \`${prefix}points pen <user>\``
-                        )
-                            .then((sentMsg) => {
-                                tools.deleteMsg(sentMsg, 10);
-                                tools.deleteMsg(msg, 10);
-                            })
-                            .catch();
-                    }
-                    break;
-                default:
-                    incorrectUsage(prefix, msg);
-                    break;
-            }
-        } else {
+        if (args.length < 2)
             incorrectUsage(prefix, msg);
+        else {
+            let amount = getAmountArgument(prefix, args);
+            if (amount !== undefined) {
+                let updateOptions = getOptionsArgument(prefix, args);
+                if (updateOptions != undefined) {
+                    let userId = String(msg.mentions.users.first()).replace("!", "");
+                    updatePointsForUser(msg, userId, amount, updateOptions);
+                }
+            }
         }
-    },
+    }
 };
