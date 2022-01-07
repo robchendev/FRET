@@ -9,7 +9,12 @@ mongoose.connect(secrets.Mongo, {
     useNewUrlParser: true,
 });
 
-function addPoints(message, userId, amount) {
+const UpdateOptions = Object.freeze({
+    Add = 0,
+    Set = 1
+});
+
+function updatePointsForUser(message, userid, amount, options) {
     pointsChange.findOne({ userid: userId }, (findError, pointData) => {
         if (findError !== undefined)
             console.error(error);
@@ -20,8 +25,12 @@ function addPoints(message, userId, amount) {
                 if (pointData === undefined) {
                     pointData = tools.createPointDataForUser(pointsChange, userId);
                     pointData.points = amount;
-                } else
-                    pointData.points += amount;
+                } else {
+                    if (options === UpdateOptions.Add)
+                        pointData.points += amount;
+                    else if (options === UpdateOptions.Set)
+                        pointData.points = amount;
+                }
 
                 tools.savePointData(pointData);
                 pointsUpdated = incomingPointData !== pointData;
@@ -94,7 +103,6 @@ function setPoints(msg, usersID, set) {
         }
     });
 }
-
 /**
  * Sends embed message on how to use the command properly then deletes it
  * @param {String} prefix - the prefix of the command
