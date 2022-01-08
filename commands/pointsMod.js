@@ -9,7 +9,6 @@ mongoose.connect(secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 });
-
 /** Options describing how a user's points should be updated. */
 const PointUpdateOptions = Object.freeze({
     /** Add to the user's points. */
@@ -26,13 +25,13 @@ const PointUpdateOptions = Object.freeze({
  */
 function updatePointsForUser(message, userId, amount, options) {
     pointsChange.findOne({ userid: userId }, (findError, pointData) => {
-        if (findError === null)
+        if (findError !== null)
             console.error(findError);
         else {
             let pointsUpdated = false; 
-            let incomingPointData = pointData; 
+            let incomingPointData = JSON.parse(JSON.stringify(pointData));
             try {
-                if (pointData === undefined) {
+                if (pointData === null) {
                     pointData = pointHandler.createPointDataForUser(pointsChange, userId);
                     pointData.points = amount;
                 } else {
@@ -43,7 +42,7 @@ function updatePointsForUser(message, userId, amount, options) {
                 }
                 
                 pointHandler.savePointData(pointData);
-                pointsUpdated = incomingPointData !== pointData;
+                pointsUpdated = incomingPointData.points !== pointData.points;
             } catch (error) { console.error(error); }
 
             if (pointsUpdated) {
@@ -66,7 +65,7 @@ function getAmountArgument(message, args) {
     if (isNaN(parseInt(args[1])))
         messageHandler.sendCommandUsageMessage(message);
     else
-        result = args[1];
+        result = parseInt(args[1]);
     return result;
 }
 /**
