@@ -152,7 +152,7 @@ Displays all the moderator commands listed here (except +help) and their intende
 
 Increases, decreases or sets a user's points by a certain amount.
 
-    +points <@user> pen
+    +penalty
 
 Penalizes user for 1000 points.
 
