@@ -172,26 +172,26 @@ function incorrectUsage(prefix, msg) {
     msg.channel.send({ embeds: [embedMsg] });
 }
 function warnOfHelpOrThread(msg, usedInHelp, usedInThread) {
+    let lifetime = ids.correctUsageMessageLifetimeInSeconds;
     let embed = new Discord.MessageEmbed()
         .setColor(ids.incorrectUsageColor)
-        .setFooter({ text: `This message will self destruct in ${ids.correctUsageMessageLifetimeInSeconds} seconds.` })
-        .addTimestamp();
+        .setFooter({ text: `This message will self destruct in ${lifetime} seconds.` })
+        .setTimestamp();
 
     if (usedInHelp) {
-        let channelMention = message.guild.channels.cache.get(ids.helpForumChannel).toString();
-        embed.addField(`The help command cannot be used in ${channelMention}.`);
+        let channelMention = msg.guild.channels.cache.get(ids.helpForumChannel).toString();
+        embed.addField("Invalid Channel", `The help command cannot be used in ${channelMention}.`, false);
     }
     if (!usedInThread)
-        embed.addField("The help command must be used within a thread.");
+        embed.addField("Thread Notice", "The help command must be used within a thread.", false);
 
-    embed.addField("Try again in 1 minute.");
+    embed.addField("Cooldown Time", "Try again in 1 minute.", false);
     msg.channel.send({ embeds: [embed] })
         .then((sentMessage) => {
             messageHandler.deleteMessage(sentMessage, lifetime);
-            messageHandler.deleteMessage(message, lifetime);
+            messageHandler.deleteMessage(msg, lifetime);
         })
         .catch((error) => { console.error(error); });
-
 }
 
 module.exports = {
