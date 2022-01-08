@@ -21,7 +21,7 @@ module.exports = {
         messageHandler.register(this);
     },
     execute(prefix, msg, args) {
-        if (msg.mentions.users.length < 0)
+        if (msg.mentions.users.size < 1)
             messageHandler.sendCommandUsageMessage(msg);
         else {
             let userId = String(msg.mentions.users.first()).replace("!", "");
