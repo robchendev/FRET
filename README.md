@@ -146,13 +146,11 @@ Only works in the channel whose ID is written in `impersonateChannel` in the `co
 
 Displays all the moderator commands listed here (except +help) and their intended use.
 
-    +points inc <@user> <points>
-    +points dec <@user> <points>
-    +points set <@user> <points>
+    +points <@user> <amount> [options: set]
 
-Increases, decreases or sets a user's points by a certain amount.
+Increases, decreases or sets a user's points by a certain amount. The amount can be any valid integer, negative values will decrease the user's score while positive values will increase it. Specifying `set` at the end of the command will set the user's points to the exact amount specified.
 
-    +points <@user> pen
+    +penalty <@user>
 
 Penalizes user for 1000 points.
 
