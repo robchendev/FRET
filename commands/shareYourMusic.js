@@ -1,4 +1,4 @@
-const ids = require(`../ids.json`);
+const ids = require(`../config.json`);
 var tools = require(`../tools/functions.js`);
 
 /**

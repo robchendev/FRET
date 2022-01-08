@@ -1,4 +1,4 @@
-const ids = require(`../ids.json`);
+const ids = require(`../config.json`);
 const secrets = require(`../secrets.json`);
 const mongoose = require("mongoose");
 const updateWeekly = require("../models/weeklyUpdate.js");
@@ -112,7 +112,7 @@ function doRankUp(bot, myGuild, thread, submitdata, roleNames, index) {
 }
 
 /**
- * Permanently grants role once reached threshold described in ids.json
+ * Permanently grants role once reached threshold described in config.json
  * @param {Client} bot - the client that lets F.R.E.T. use discordJS methods
  * @param {Guild} myGuild - the server object
  * @param {Channel} thread - the thread to send messages in

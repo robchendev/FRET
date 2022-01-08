@@ -3,7 +3,7 @@ const bot = new Discord.Client({
     intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_PRESENCES"],
 });
 const secrets = require(`./secrets.json`);
-const ids = require(`./ids.json`);
+const ids = require(`./config.json`);
 var tools = require(`./tools/functions.js`);
 const prefix = ids.userPrefix;
 const prefixMod = ids.moderatorPrefix;
@@ -16,6 +16,14 @@ const commandFiles = fs
     .filter((file) => file.endsWith(".js"));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
+
+    // Not all commands have this ability yet. Provide a warning for those who fail.
+    try {
+        command.registerWithHandlers();
+    } catch (error) {
+        console.warn(`Unable to regiser ${command.name} with handlers.`);
+    }
+
     bot.commands.set(command.name, command);
 }
 let usedThanksRecently = new Set();
@@ -27,7 +35,7 @@ cron.schedule("59 23 * * Sun", function () {
 });
 
 bot.once("ready", () => {
-    console.log("F.R.E.T started");
+    console.log("F.R.E.T. started");
 });
 
 bot.on("messageCreate", async (msg) => {

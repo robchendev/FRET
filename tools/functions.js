@@ -80,9 +80,9 @@ module.exports = {
         msg.channel
             .send(
                 `**${msg.author}**` +
-                    `, you can only ` +
-                    reminder +
-                    ` once every ${cd} minute.`
+                `, you can only ` +
+                reminder +
+                ` once every ${cd} minute.`
             )
             .then((sentMsg) => {
                 setTimeout(

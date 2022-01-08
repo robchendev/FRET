@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const ids = require(`../ids.json`);
+const ids = require(`../config.json`);
 const { update } = require("../models/weeklyUpdate.js");
 const updateWeekly = require("../models/weeklyUpdate.js");
 const secrets = require(`../secrets.json`);

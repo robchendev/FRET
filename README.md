@@ -134,11 +134,11 @@ These happen automatically without any command being sent in the chat.
 
     <link>
 
-Only works in the channel whose ID is written in `shareMusicChannel` in the `ids.JSON` file. Creates a thread under the message. The purpose of this is to avoid these promotional links from getting buried due to people who talk about the promoted link (usually a video). The thread is auto-archived in 24 hours and can be un-archived by anyone who writes a message in the thread. Automatically handles thread titling. Any message that isnt a link is removed and the user is reminded that discussion is only allowed in the threads.
+Only works in the channel whose ID is written in `shareMusicChannel` in the `config.JSON` file. Creates a thread under the message. The purpose of this is to avoid these promotional links from getting buried due to people who talk about the promoted link (usually a video). The thread is auto-archived in 24 hours and can be un-archived by anyone who writes a message in the thread. Automatically handles thread titling. Any message that isnt a link is removed and the user is reminded that discussion is only allowed in the threads.
 
     <#channel> <message>
 
-Only works in the channel whose ID is written in `impersonateChannel` in the `ids.JSON` file. Impersonates yourself as F.R.E.T. and remotely sends a message as F.R.E.T. into another channel it has access to. F.R.E.T. also checks to make sure it has permissions to view and send messages in the channel and will log an error in the `impersonateChannel`.
+Only works in the channel whose ID is written in `impersonateChannel` in the `config.JSON` file. Impersonates yourself as F.R.E.T. and remotely sends a message as F.R.E.T. into another channel it has access to. F.R.E.T. also checks to make sure it has permissions to view and send messages in the channel and will log an error in the `impersonateChannel`.
 
 ### Moderator Commands
 
@@ -179,7 +179,7 @@ F.R.E.T. needs the permission to manage messages since it will be deleting messa
 
 ### Customization
 
-Since this was a personal project, my variables will be different from what you would need. `ids.json` is provided for you to make changes to the identification of roles and channels. Here are what they mean:
+Since this was a personal project, my variables will be different from what you would need. `config.json` is provided for you to make changes to the identification of roles and channels. Here are what they mean:
 
 * **userPrefix**<br>The prefix used for user commands
 * **moderatorPrefix**<br>The prefix used for moderator commands

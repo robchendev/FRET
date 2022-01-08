@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const ids = require(`../ids.json`);
+const ids = require(`../config.json`);
 
 /**
  * '-help' or '-help c'
