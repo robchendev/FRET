@@ -5,6 +5,7 @@ const pointsAdd = require("../models/addPoints.js");
 const secrets = require(`../secrets.json`);
 const { schemaAddPoints } = require("../tools/functions.js");
 var tools = require(`../tools/functions.js`);
+const messageHandler = require(`../handlers/messageHandler.js`);
 mongoose.connect(secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
@@ -170,6 +171,28 @@ function incorrectUsage(prefix, msg) {
         .addField("Careful", "Do not include < and >. Use @", false);
     msg.channel.send({ embeds: [embedMsg] });
 }
+function warnOfHelpOrThread(msg, usedInHelp, usedInThread) {
+    let embed = new Discord.MessageEmbed()
+        .setColor(ids.incorrectUsageColor)
+        .setFooter({ text: `This message will self destruct in ${ids.correctUsageMessageLifetimeInSeconds} seconds.` })
+        .addTimestamp();
+
+    if (usedInHelp) {
+        let channelMention = message.guild.channels.cache.get(ids.helpForumChannel).toString();
+        embed.addField(`The help command cannot be used in ${channelMention}.`);
+    }
+    if (!usedInThread)
+        embed.addField("The help command must be used within a thread.");
+
+    embed.addField("Try again in 1 minute.");
+    msg.channel.send({ embeds: [embed] })
+        .then((sentMessage) => {
+            messageHandler.deleteMessage(sentMessage, lifetime);
+            messageHandler.deleteMessage(message, lifetime);
+        })
+        .catch((error) => { console.error(error); });
+
+}
 
 module.exports = {
     name: "thanks",
@@ -184,6 +207,13 @@ module.exports = {
         } else {
             //Uncomment this if you want the user's comment to be deleted
             //msg.delete();
+
+            let usedInHelp = msg.channel.id == ids.helpForumChannel;
+            let usedInThread = msg.channel.isThread();
+            if (usedInHelp || !usedInThread) {
+                warnOfHelpOrThread(msg, usedInHelp, usedInThread);
+                return;
+            }
 
             const numUsers = args.length;
             const score = Math.ceil(100 / Math.pow(numUsers, 0.5));
