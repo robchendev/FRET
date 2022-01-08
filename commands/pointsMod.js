@@ -105,7 +105,7 @@ module.exports = {
     },
     execute(prefix, msg, args) {
         if (args.length < 2)
-            sendCorrectUsageMessage(msg);
+            messageHandler.sendCommandUsageMessage(msg);
         else {
             let amount = getAmountArgument(msg, args);
             if (amount !== undefined) {
