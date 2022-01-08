@@ -42,7 +42,8 @@ function updatePointsForUser(message, userId, amount, options) {
                 }
                 
                 pointHandler.savePointData(pointData);
-                pointsUpdated = incomingPointData.points !== pointData.points;
+                pointsUpdated = (incomingPointData === null && pointData !== null) ||
+                                (incomingPointData.points !== pointData.points);
             } catch (error) { console.error(error); }
 
             if (pointsUpdated) {
@@ -104,7 +105,7 @@ module.exports = {
     },
     execute(prefix, msg, args) {
         if (args.length < 2)
-            sendCorrectUsageMessage(msg);
+            messageHandler.sendCommandUsageMessage(msg);
         else {
             let amount = getAmountArgument(msg, args);
             if (amount !== undefined) {
