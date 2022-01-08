@@ -120,6 +120,7 @@ bot.on("messageCreate", async (msg) => {
                     case "ping":
                         msg.channel.send(`${ids.botName} is online`);
                         break;
+                    case "penalty": bot.commands.get("Penalty").execute(prefixMod, msg, args); break;
                     case "points":
                         bot.commands
                             .get("pointsMod")
