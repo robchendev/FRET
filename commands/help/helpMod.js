@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
-const ids = require(`../config.json`);
-var tools = require(`../tools/functions.js`);
+const ids = require(`../../config.json`);
+var tools = require(`../../tools/functions.js`);
 
 /**
  * Displays a list of moderator commands

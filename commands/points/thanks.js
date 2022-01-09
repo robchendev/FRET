@@ -1,11 +1,11 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const ids = require(`../config.json`);
-const pointsAdd = require("../models/addPoints.js");
-const secrets = require(`../secrets.json`);
-const { schemaAddPoints } = require("../tools/functions.js");
-var tools = require(`../tools/functions.js`);
-const messageHandler = require(`../handlers/messageHandler.js`);
+const ids = require(`../../config.json`);
+const pointsAdd = require("../../models/addPoints.js");
+const secrets = require(`../../secrets.json`);
+const { schemaAddPoints } = require("../../tools/functions.js");
+var tools = require(`../../tools/functions.js`);
+const messageHandler = require(`../../handlers/messageHandler.js`);
 mongoose.connect(secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
