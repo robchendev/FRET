@@ -46,7 +46,7 @@ I'm making some gifs and videos that demonstrate this bot's functionality.
 
 Clone this repository to your system, install Node.js v16.6+, npm, and Discord.js v13.
     
-If you plan on using this F.R.E.T.'s code for contributing/testing, or for your own purposes, you need to create your Discord application [here](https://discord.com/developers/applications).
+If you plan on using this F.R.E.T.'s code for contributing/testing, or for your own purposes, you need to create your Discord application [here](https://discord.com/developers/applications). Additionally, you can always lean on the [documentation for Discord.js](https://discord.js.org/#/docs/discord.js/stable/general/welcome), or [the guide](https://discordjs.guide/#before-you-begin).
 
 F.R.E.T. uses MongooseJS to store it's data in MongoDB as a JSON schema. You only need to provide a secrets.json (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
 
@@ -146,13 +146,11 @@ Only works in the channel whose ID is written in `impersonateChannel` in the `co
 
 Displays all the moderator commands listed here (except +help) and their intended use.
 
-    +points inc <@user> <points>
-    +points dec <@user> <points>
-    +points set <@user> <points>
+    +points <@user> <amount> [options: set]
 
-Increases, decreases or sets a user's points by a certain amount.
+Increases, decreases or sets a user's points by a certain amount. The amount can be any valid integer, negative values will decrease the user's score while positive values will increase it. Specifying `set` at the end of the command will set the user's points to the exact amount specified.
 
-    +points <@user> pen
+    +penalty <@user>
 
 Penalizes user for 1000 points.
 

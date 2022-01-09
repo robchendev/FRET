@@ -1,4 +1,5 @@
 const config = require(`../config.json`);
+const Discord = require("discord.js");
 module.exports = {
     invokingModule: undefined,
     /**
@@ -27,11 +28,11 @@ module.exports = {
         let fields = this.invokingModule.fieldDescriptions;
         let lifetime = config.correctUsageMessageLifetimeInSeconds;
         const embed = new Discord.MessageEmbed()
-            .setColor(ids.dataChangeColor)
+            .setColor(config.dataChangeColor)
             .setTitle(`Correct Usage for \`${prefix}${commandKey}\``)
             .setDescription(`The syntax for the \`${prefix}${commandKey}\` command is: \`\`\`${syntax}\`\`\`.`)
             .addFields(fields)
-            .setFooter({ text: `This message will self destruct in ${destroyIn} seconds.` })
+            .setFooter({ text: `This message will self destruct in ${lifetime} seconds.` })
             .setTimestamp();
         message.channel.send({ embeds: [embed] })
             .then((sentMessage) => {
