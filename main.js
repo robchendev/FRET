@@ -11,11 +11,12 @@ var serverID = "";
 const fs = require("fs");
 const cron = require("node-cron");
 bot.commands = new Discord.Collection();
-const commandFiles = fs
-    .readdirSync("./commands/")
-    .filter((file) => file.endsWith(".js"));
+
+// Load commands through the directory handler.
+const directoryHandler = require(`./handlers/directoryHandler.js`);
+const commandFiles = directoryHandler.loadFilesRecursive(`commands`, `js`);
 for (const file of commandFiles) {
-    const command = require(`./commands/${file}`);
+    const command = require(`./${file}`);
 
     // Not all commands have this ability yet. Provide a warning for those who fail.
     try {
