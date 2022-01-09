@@ -14,7 +14,7 @@ bot.commands = new Discord.Collection();
 
 // Load commands through the directory handler.
 const directoryHandler = require(`./handlers/directoryHandler.js`);
-const commandFiles = directoryHandler.loadFilesRecursive(`commands`);
+const commandFiles = directoryHandler.loadFilesRecursive(`commands`, `js`);
 for (const file of commandFiles) {
     const command = require(`./${file}`);
 
