@@ -82,7 +82,7 @@ function weeklyInfo(msg) {
     let datetimeToday = dateTimeString(dateToday);
 
     // This week's deadline
-    let deadline = setDeadline(dateToday, 6);
+    let deadline = setDeadline(dateToday, 0);
     deadline.setHours(23, 59);
     let datetimeDeadline = dateTimeString(deadline);
 
