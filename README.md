@@ -39,27 +39,34 @@ If you improved the bot yourself and would like to contribute to this project, I
   - [License](#license)
 
 ## Demonstration
-
 I'm making some gifs and videos that demonstrate this bot's functionality.
 
 ## Getting Started
-
 Clone this repository to your system, install Node.js v16.6+, npm, and Discord.js v13.
     
 If you plan on using this F.R.E.T.'s code for contributing/testing, or for your own purposes, you need to create your Discord application [here](https://discord.com/developers/applications). Additionally, you can always lean on the [documentation for Discord.js](https://discord.js.org/#/docs/discord.js/stable/general/welcome), or [the guide](https://discordjs.guide/#before-you-begin).
 
-F.R.E.T. uses MongooseJS to store it's data in MongoDB as a JSON schema. You only need to provide a secrets.json (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
+### Secrets
+F.R.E.T. uses MongooseJS to store it's data in MongoDB as a JSON schema. You only need to provide a `secrets.json` (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
 
-This code uses two tokens, "Token" and "Mongo", as described in secrets-example.json. Rename this file secrets.json and edit the fields:
+This code uses two tokens, "Token" and "Mongo", as described in `secrets-example.json`. Create a copy of this file and name it `secrets.json`, then, edit the fields:
 
-1. Replace the "Token" value in that file with your application's bot token - it is what the F.R.E.T. will use to sign into Discord. 
-2. Replace the "Mongo" value with your MongoDB's database connection string. 
+1. Replace the `Token` value in that file with your application's bot token - it is what the F.R.E.T. will use to sign into Discord. 
+2. Replace the `Mongo` value with your MongoDB's database connection string. 
 
-If you are to use this code in your public github repositories, do not share your secrets.json file. It will give other people access to your Discord bot and your database. Though, github will likely recognize this and warn you before anyone does.
+If you are to use this code in your public github repositories, do not share your `secrets.json` file. It will give other people access to your Discord bot and your database. Though, github will likely recognize this and warn you before anyone does.
 
-Run F.R.E.T. by using the command:
+### Developer's Configuration
+Under the folder `configurations` you'll notice a file named `flux.prod.json`. This file contains IDs used in Discord for your bot, guild, roles, channels, etc. You may create a `flux.dev.json` file in the same folder by copying `flux.prod.json` to change all of the IDs and test everything in your own server. This is your personal development configuration and it will be ignored. Be careful not to modify the `flux.prod.json` file. Any pull requests modifying it without explicit permission in the focal issue of the PR will be closed without merging.
+
+### Configuration Handler
+In the module defined in `commandHandler.js`, you'll notice a property named `isDebug`, this should be set to true for local development, and false when deploying. This determines which flux configuration is loaded at runtime.
+
+### Run F.R.E.T. Locally
+Run F.R.E.T. by using one of the following commands:
 
     node .
+    npm start
 
 ## Commands
 
@@ -196,6 +203,9 @@ Since this was a personal project, my variables will be different from what you 
 * **wRank1Streak...3Streak**<br>Temporary weekly submission rank streak thresholds
 * **wRankPerma**<br>Permanent "trophy" weekly submission rank name
 * **wRankPermaStreak**<br>Permanent "trophy" weekly submission rank streak threshold
+
+## Local Configurations
+
 
 ## Future Plans
 
