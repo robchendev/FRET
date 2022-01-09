@@ -46,7 +46,7 @@ I'm making some gifs and videos that demonstrate this bot's functionality.
 
 Clone this repository to your system, install Node.js v16.6+, npm, and Discord.js v13.
     
-If you plan on using this F.R.E.T.'s code for contributing/testing, or for your own purposes, you need to create your Discord application [here](https://discord.com/developers/applications). Additionally, you can always lean on the [documentation for Discord.js](https://discord.js.org/#/docs/discord.js/stable/general/welcome).
+If you plan on using this F.R.E.T.'s code for contributing/testing, or for your own purposes, you need to create your Discord application [here](https://discord.com/developers/applications). Additionally, you can always lean on the [documentation for Discord.js](https://discord.js.org/#/docs/discord.js/stable/general/welcome), or [the guide](https://discordjs.guide/#before-you-begin).
 
 F.R.E.T. uses MongooseJS to store it's data in MongoDB as a JSON schema. You only need to provide a secrets.json (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
 
