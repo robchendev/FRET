@@ -1,5 +1,5 @@
-const ids = require(`../config.json`);
-var tools = require(`../tools/functions.js`);
+const ids = require(`../../config.json`);
+var tools = require(`../../tools/functions.js`);
 
 /**
  * Creates a thread using the original message author's username

@@ -1,10 +1,10 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const ids = require(`../config.json`);
-const { update } = require("../models/weeklyUpdate.js");
-const updateWeekly = require("../models/weeklyUpdate.js");
-const secrets = require(`../secrets.json`);
-var tools = require(`../tools/functions.js`);
+const ids = require(`../../config.json`);
+const { update } = require("../../models/weeklyUpdate.js");
+const updateWeekly = require("../../models/weeklyUpdate.js");
+const secrets = require(`../../secrets.json`);
+var tools = require(`../../tools/functions.js`);
 mongoose.connect(secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
