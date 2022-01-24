@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 const bot = new Discord.Client({
     intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_PRESENCES"],
 });
-const secrets = require(`./secrets.json`);
 const ids = require(`./config.json`);
 var tools = require(`./tools/functions.js`);
 const prefix = ids.userPrefix;
@@ -12,21 +11,18 @@ const fs = require("fs");
 const cron = require("node-cron");
 bot.commands = new Discord.Collection();
 
-// Load commands through the directory handler.
-const directoryHandler = require(`./handlers/directoryHandler.js`);
-const commandFiles = directoryHandler.loadFilesRecursive(`commands`, `js`);
-for (const file of commandFiles) {
-    const command = require(`./${file}`);
+// Discover commands.
+const commandHandler = require(`./handlers/commandHandler.js`);
 
-    // Not all commands have this ability yet. Provide a warning for those who fail.
-    try {
-        command.registerWithHandlers();
-    } catch (error) {
-        console.warn(`Unable to regiser ${command.name} with handlers.`);
-    }
+console.log("Discovering commands.");
+commandHandler.discover();
 
-    bot.commands.set(command.name, command);
-}
+console.log("Registering slash commands.");
+commandHandler.registerCommands(bot);
+
+// console.log("Restricting moderator slash commands.");
+// commandHandler.restrictModeratorCommands(bot);
+
 let usedThanksRecently = new Set();
 
 // Live '59 23 * * Sun' - Runs every week at Sunday 11:59 PM EST
@@ -35,9 +31,11 @@ cron.schedule("59 23 * * Sun", function () {
     bot.commands.get("weeklyCron").execute(bot);
 });
 
-bot.once("ready", () => {
-    console.log("F.R.E.T. started");
-});
+const clientHandler = require(`./handlers/clientHandler.js`);
+bot.once("ready", clientHandler.ready);
+bot.on("guildCreate", clientHandler.joinGuild);
+bot.on("guildDelete", clientHandler.leaveGuild);
+bot.on("interactionCreate", async interaction => clientHandler.processInteraction(bot, interaction));
 
 bot.on("messageCreate", async (msg) => {
     // If user DMs, do nothing
@@ -149,4 +147,5 @@ bot.on("messageCreate", async (msg) => {
 });
 
 //keep this at the last line of the file
-bot.login(secrets.Token);
+const configHandler = require(`./handlers/configurationHandler.js`);
+bot.login(configHandler.secrets.Token);
