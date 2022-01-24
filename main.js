@@ -54,6 +54,11 @@ bot.on("messageCreate", async (msg) => {
             bot.commands.get("forum").execute(prefix, prefixMod, msg);
         }
 
+        //Monitors competitions channel only and creates threads for it
+        else if (msg.channel.id === ids.competitionChannel && !msg.author.bot) {
+            bot.commands.get("competition").execute(prefix, prefixMod, msg);
+        }
+
         else if (msg.channel.id === ids.impersonateChannel && !msg.author.bot) {
             bot.commands.get("impersonate").execute(bot, msg);
         }
