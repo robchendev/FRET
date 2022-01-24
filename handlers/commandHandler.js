@@ -30,9 +30,10 @@ module.exports = {
             }
 
             // Determine what type of command this is.
-            if (file.indexOf(`.mod.slash.js`) > 0)
-                this.moderatorSlashCommands.push(command);
-            else if (file.indexOf(`.slash.js`) > 0)
+            // if (file.indexOf(`.mod.slash.js`) > 0)
+            //     this.moderatorSlashCommands.push(command);
+            // else
+            if (file.indexOf(`.slash.js`) > 0)
                 this.slashCommands.push(command);
             else
                 this.commands.push(command);
