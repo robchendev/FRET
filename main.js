@@ -17,7 +17,7 @@ const commandHandler = require(`./handlers/commandHandler.js`);
 console.log("Discovering commands.");
 commandHandler.discover();
 
-console.log("Registering slash commands.");
+console.log("Registering commands.");
 commandHandler.registerCommands(bot);
 
 // console.log("Restricting moderator slash commands.");

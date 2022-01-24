@@ -42,6 +42,8 @@ module.exports = {
     /** Register all standard commands with the Discord client. */
     registerCommands: function (client) {
         client.commands = new Collection();
+        for (let command of this.commands)
+            client.commands.set(command.name, command);
         for (let command of this.slashCommands)
             client.commands.set(command.name, command);
         for (let command of this.moderatorSlashCommands)
