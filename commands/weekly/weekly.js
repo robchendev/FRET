@@ -73,7 +73,6 @@ function weeklySubmit(msg) {
     let hasLink = msg.content.includes(
         "https://" || "http://" || "youtube.com" || "youtu.be"
     );
-
     // message is valid (contains attachment or link)
     if (hasAttach || hasLink) {
         updateProfile(msg);
@@ -331,8 +330,8 @@ module.exports = {
             !(msg.channel.type == "GUILD_PRIVATE_THREAD")
         ) {
             if (msg.content.startsWith(prefix)) {
-                //Splices via space (ie "-thanks @robert")
-                const withoutPrefix = msg.content.slice(prefix.length);
+                //Splices via space (ie "-thanks @robert") and replaces newlines with space
+                const withoutPrefix = msg.content.replace(/\n/g, " ").slice(prefix.length);
                 const split = withoutPrefix.split(/ +/);
                 const command = split[0];
                 const args = split.slice(1);

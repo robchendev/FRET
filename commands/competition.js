@@ -72,8 +72,8 @@ module.exports = {
         ) {
             
             if (msg.content.startsWith(prefix) && !msg.author.bot) {
-                //Splices via space (ie "-thanks @robert")
-                const withoutPrefix = msg.content.slice(prefix.length);
+                //Splices via space (ie "-thanks @robert") and replaces newlines with space
+                const withoutPrefix = msg.content.replace(/\n/g, " ").slice(prefix.length);
                 const split = withoutPrefix.split(/ +/);
                 const command = split[0];
                 const args = split.slice(1);
