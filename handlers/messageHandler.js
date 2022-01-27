@@ -1,4 +1,6 @@
-const config = require(`../config.json`);
+const configHandler = require(`./configurationHandler.js`);
+configHandler.initialize();
+
 const Discord = require("discord.js");
 module.exports = {
     invokingModule: undefined,
@@ -22,13 +24,13 @@ module.exports = {
      * @param {DiscordMessage} message - The message this embed is in response of.
      */
     sendCommandUsageMessage(message) {
-        let prefix = this.invokingModule.isModeratorCommand ? config.moderatorPrefix : config.userPrefix;
+        let prefix = this.invokingModule.isModeratorCommand ? configHandler.data.moderatorPrefix : configHandler.data.userPrefix;
         let commandKey = this.invokingModule.key;
         let syntax = this.invokingModule.syntax;
         let fields = this.invokingModule.fieldDescriptions;
-        let lifetime = config.correctUsageMessageLifetimeInSeconds;
+        let lifetime = configHandler.data.correctUsageMessageLifetimeInSeconds;
         const embed = new Discord.MessageEmbed()
-            .setColor(config.dataChangeColor)
+            .setColor(configHandler.data.dataChangeColor)
             .setTitle(`Correct Usage for \`${prefix}${commandKey}\``)
             .setDescription(`The syntax for the \`${prefix}${commandKey}\` command is: \`\`\`${syntax}\`\`\`.`)
             .addFields(fields)
