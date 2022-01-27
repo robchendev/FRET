@@ -116,7 +116,7 @@ bot.on("messageCreate", async (msg) => {
                         msg.channel !== configHandler.flux.shareMusicChannel ||
                         msg.channel !== configHandler.flux.helpForumChannel
                     ){
-                        bot.commands.get("leaderboard").execute(msg);
+                        bot.commands.get("leaderboard").execute(bot, msg);
                     }
                     break;
             }
