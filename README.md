@@ -33,7 +33,7 @@ If you improved the bot yourself and would like to contribute to this project, I
     - [Passive Commands](#passive-commands)
     - [Moderator Commands](#moderator-commands)
   - [Deployment](#deployment)
-    - [Developer's Configuration](#developer's-configuration)
+    - [Developer's Configuration](#developers-configuration)
     - [Configuration Handler](#configuration-handler)
     - [Customization](#customization)
     - [Secrets](#secrets)
