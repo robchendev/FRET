@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const ids = require(`../../config.json`);
+const configHandler = require(`../../handlers/configurationHandler.js`);
 const updateWeekly = require("../../models/weeklyUpdate.js");
 const secrets = require(`../../secrets.json`);
 var tools = require(`../../tools/functions.js`);
@@ -91,7 +91,7 @@ function weeklyInfo(msg) {
 
     // send embedded msg with all the date / time info.
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.transparentColor)
+        .setColor(configHandler.data.transparentColor)
         .addField(`Current time`, `${datetimeToday}`, false)
         .addField(`Next finalization`, `${datetimeDeadline}`, false)
         .addField(`Time remaining`, `${secondsToDHM(timeLeft)}`, false);
@@ -106,7 +106,7 @@ function weeklyInfo(msg) {
  */
 function makeProfile(bot, msg, thisUser) {
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.thanksColor)
+        .setColor(configHandler.data.thanksColor)
         .setAuthor({
             name: `Profile for ${thisUser.user.username}`,
         })
@@ -218,22 +218,22 @@ function setDeadline(date, dayOfWeek) {
  */
 function getCurrentRole(bot, thisUser) {
     // retrieves guild object
-    let myGuild = bot.guilds.cache.get(ids.serverGuild);
+    let myGuild = bot.guilds.cache.get(configHandler.flux.serverGuild);
     let currentRole = undefined;
 
     // Get current rank of member
     if (thisUser != undefined) {
-        if (thisUser.roles.cache.some((r) => r.name === ids.wRank1)) {
+        if (thisUser.roles.cache.some((r) => r.name === configHandler.data.wRank1)) {
             currentRole = myGuild.roles.cache.find(
-                (r) => r.name === ids.wRank1
+                (r) => r.name === configHandler.data.wRank1
             );
-        } else if (thisUser.roles.cache.some((r) => r.name === ids.wRank2)) {
+        } else if (thisUser.roles.cache.some((r) => r.name === configHandler.data.wRank2)) {
             currentRole = myGuild.roles.cache.find(
-                (r) => r.name === ids.wRank2
+                (r) => r.name === configHandler.data.wRank2
             );
-        } else if (thisUser.roles.cache.some((r) => r.name === ids.wRank3)) {
+        } else if (thisUser.roles.cache.some((r) => r.name === configHandler.data.wRank3)) {
             currentRole = myGuild.roles.cache.find(
-                (r) => r.name === ids.wRank3
+                (r) => r.name === configHandler.data.wRank3
             );
         }
     }
@@ -248,14 +248,14 @@ function getCurrentRole(bot, thisUser) {
  */
 function getPermaRole(bot, thisUser) {
     // retrieves guild object
-    let myGuild = bot.guilds.cache.get(ids.serverGuild);
+    let myGuild = bot.guilds.cache.get(configHandler.flux.serverGuild);
     let permaRole = undefined;
 
     // Get current perma rank of member
     if (thisUser != undefined) {
-        if (thisUser.roles.cache.some((r) => r.name === ids.wRankPerma)) {
+        if (thisUser.roles.cache.some((r) => r.name === configHandler.data.wRankPerma)) {
             permaRole = myGuild.roles.cache.find(
-                (r) => r.name === ids.wRankPerma
+                (r) => r.name === configHandler.data.wRankPerma
             );
         }
     }
@@ -287,7 +287,7 @@ function incorrectSubmit(msg) {
  */
 function incorrectUsage(prefix, msg) {
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.incorrectUsageColor)
+        .setColor(configHandler.data.incorrectUsageColor)
         .addField(`\`${prefix}w submit <link/file>\``, "Submit weekly", false)
         .addField(`\`${prefix}w info\``, "Check deadline", false)
         .addField(`\`${prefix}w profile\``, "View your profile", false)
