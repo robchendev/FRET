@@ -37,7 +37,7 @@ function incorrectUsage(msg) {
 module.exports = {
     name: "shareYourMusic",
     description:
-        "this command is passively invoked whenever a user sends a message into the share-your-music channel.",
+        "this passive command creates threads underneath messages in shareMusicChannel.",
     execute(prefixMod, msg) {
         
         // Makes sure this command only runs outside of threads

@@ -76,7 +76,7 @@ function checkMissingPermissions(bot, msg, targetChannel) {
 module.exports = {
     name: "impersonate",
     description:
-        "this command gives a moderator remote message-control of the bot. This bot is not listed in help because other people may see it, and that would spoil the fun.",
+        "this command gives a moderator remote message-control of the bot.",
     execute(bot, msg) {
         // get numbers from the channel ID (don't want <#...>)
         const args = msg.content.split(/ +/);

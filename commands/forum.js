@@ -71,7 +71,7 @@ function noArgs(prefix, msg) {
 module.exports = {
     name: "forum",
     description:
-        "this command is passively invoked whenever a user sends a message into the promotion channel. It ensures that all the messages sent start with a '-q' and creates threads for them.",
+        "this passive command creates threads underneath messages starting with a -q.",
     execute(prefix, prefixMod, msg) {
         // Makes sure this command only runs outside of threads
         if (

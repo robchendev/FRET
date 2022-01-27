@@ -223,7 +223,7 @@ function startNewWeek(submitdata) {
 module.exports = {
     name: "weeklyCron",
     description:
-        "this command is passively invoked on Monday 12:00 AM EST every week to update roles for the weekly submissions.",
+        "this passive command runs every Monday 12:00 AM EST to update roles for the weekly submissions.",
     execute(bot) {
         // retrieves guild object
         let myGuild = bot.guilds.cache.get(configHandler.flux.serverGuild);

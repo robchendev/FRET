@@ -178,7 +178,7 @@ function hasNoRank(msg, thisUser, roleNames, rolePoints) {
 module.exports = {
     name: "rankup",
     description:
-        "this command determines if a user is ready to rank up. If so, they will rank up. Also repairs ranks if the points are below threshold.",
+        "this command determines if a user should rank up, down, or stay the same",
     execute(msg) {
         //the roles in the server that are to be used for this bot
         var roleNames = [
