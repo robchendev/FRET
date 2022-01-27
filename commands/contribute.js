@@ -12,22 +12,27 @@ function showContribute(msg) {
         .setColor(configHandler.data.transparentColor)
         .setTitle("Contribute to F.R.E.T.")
         .setDescription(
-            "F.R.E.T. is mostly developed by one person right now, so we really appreciate any help we can get in finding bugs, thinking of new features, and developing."
+            "F.R.E.T. is being developed by two people right now, so we really appreciate any help we can get in finding bugs, thinking of new features, and developing."
         )
         .addField(
             "Something not working?",
-            "[Report bug](https://github.com/chendumpling/F.R.E.T./issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D) on GitHub",
+            "[Report bug](https://github.com/chendumpling/FRET/issues/new?assignees=&labels=bug&template=bug_report.md&title=%5BBUG%5D) on GitHub",
             true
         )
         .addField(
             "Want a certain feature?",
-            "[Request feature](https://github.com/chendumpling/F.R.E.T./issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D) on GitHub",
+            "[Request feature](https://github.com/chendumpling/FRET/issues/new?assignees=&labels=enhancement&template=feature_request.md&title=%5BFEATURE%5D) on GitHub",
             true
         )
         .addField(
             "Help develop F.R.E.T.",
-            "[View open issues](https://github.com/chendumpling/F.R.E.T./issues) on GitHub",
-            false
+            "[View open issues](https://github.com/chendumpling/FRET/issues) on GitHub",
+            true
+        )
+        .addField(
+            "See the developers",
+            "[View contributors](https://github.com/chendumpling/FRET/graphs/contributors) on GitHub",
+            true
         );
     msg.channel.send({ embeds: [embedMsg] });
 }
