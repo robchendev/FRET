@@ -170,8 +170,26 @@ function incorrectUsage(prefix, msg) {
             false
         )
         .addField("Careful", "Do not include < and >. Use @", false);
-    msg.channel.send({ embeds: [embedMsg] });
+    msg.channel.send({ embeds: [embedMsg] })
+    .then((sentMsg) => {
+        tools.deleteMsg(sentMsg, 10);
+        tools.deleteMsg(msg, 10);
+    })
+    .catch();;
 }
+
+function sendInThreadUsage(prefix, msg) {
+    const embedMsg = new Discord.MessageEmbed()
+        .setColor(configHandler.data.incorrectUsageColor)
+        .setDescription(`${msg.author}, you can only thank people inside threads!`)
+    msg.channel.send({ embeds: [embedMsg] })
+    .then((sentMsg) => {
+        tools.deleteMsg(sentMsg, 10);
+        tools.deleteMsg(msg, 10);
+    })
+    .catch();;
+}
+
 function warnOfHelpOrThread(msg, usedInHelp, usedInThread) {
     let lifetime = configHandler.data.correctUsageMessageLifetimeInSeconds;
     let embed = new Discord.MessageEmbed()
@@ -203,56 +221,70 @@ module.exports = {
         var hasThanked = Boolean(false);
         //When argument command doesnt have any arguments,
         //or not all command arguments are mentions
-        if (!args.length || !isAllMentions(args)) {
-            incorrectUsage(prefix, msg);
-        } else {
-            //Uncomment this if you want the user's comment to be deleted
-            //msg.delete();
-
-            let usedInHelp = msg.channel.id == configHandler.flux.helpForumChannel;
-            let usedInThread = msg.channel.isThread();
-            if (usedInHelp || !usedInThread) {
-                warnOfHelpOrThread(msg, usedInHelp, usedInThread);
-                return;
-            }
-
-            const numUsers = args.length;
-            const score = Math.ceil(100 / Math.pow(numUsers, 0.5));
-
-            //An map of user IDs (ie <@189549341642326018>)
-            const allUsersID = [...msg.mentions.users.values()];
-
-            //An array of user names (ie chendumpling)
-            const allUsersName = idToName(allUsersID);
-
-            //User is thanking themselves
-            if (checkIfThankThemself(msg, allUsersID)) {
-                msg.channel.send("You cannot thank yourself.");
-            }
-
-            //More than one user being thanked
-            else if (numUsers > 1) {
-                //Make sure there are no duplicated mentions
-                if (getDuplicateArrayElements(args)) {
-                    msg.channel.send("Please thank each user only once");
-                } else {
-                    thankMoreThanOne(
-                        msg,
-                        numUsers,
-                        allUsersID,
-                        allUsersName,
-                        score
-                    );
+        
+        // thanks command can only be used in threads
+        if (
+            (msg.channel.type == "GUILD_PUBLIC_THREAD") ||
+            (msg.channel.type == "GUILD_PRIVATE_THREAD")
+        ){
+            if (!args.length || !isAllMentions(args)) {
+                incorrectUsage(prefix, msg);
+            } 
+            //-thanks command should be invoked in a thread only
+            else {
+                //Uncomment this if you want the user's comment to be deleted
+                //msg.delete();
+    
+                let usedInHelp = msg.channel.id == configHandler.flux.helpForumChannel;
+                let usedInThread = msg.channel.isThread();
+                if (usedInHelp || !usedInThread) {
+                    warnOfHelpOrThread(msg, usedInHelp, usedInThread);
+                    return;
+                }
+    
+                const numUsers = args.length;
+                const score = Math.ceil(100 / Math.pow(numUsers, 0.5));
+    
+                //An map of user IDs (ie <@189549341642326018>)
+                const allUsersID = [...msg.mentions.users.values()];
+    
+                //An array of user names (ie chendumpling)
+                const allUsersName = idToName(allUsersID);
+    
+                //User is thanking themselves
+                if (checkIfThankThemself(msg, allUsersID)) {
+                    msg.channel.send("You cannot thank yourself.");
+                }
+    
+                //More than one user being thanked
+                else if (numUsers > 1) {
+                    //Make sure there are no duplicated mentions
+                    if (getDuplicateArrayElements(args)) {
+                        msg.channel.send("Please thank each user only once");
+                    } else {
+                        thankMoreThanOne(
+                            msg,
+                            numUsers,
+                            allUsersID,
+                            allUsersName,
+                            score
+                        );
+                        hasThanked = true;
+                    }
+                }
+    
+                //Only one user being thanked
+                else {
+                    thankOnlyOne(msg, allUsersID[0], allUsersName[0], score);
                     hasThanked = true;
                 }
             }
-
-            //Only one user being thanked
-            else {
-                thankOnlyOne(msg, allUsersID[0], allUsersName[0], score);
-                hasThanked = true;
-            }
+            return hasThanked;
         }
-        return hasThanked;
+
+        // message was not sent in a thread
+        else {
+            sendInThreadUsage(prefix, msg);
+        }
     },
 };

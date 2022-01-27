@@ -52,6 +52,19 @@ function updateProfile(msg) {
 }
 
 /**
+ * Creates a thread using the original message author's username
+ * @param {Message} msg - the original command message
+ */
+async function createThread(msg) {
+    let threadTitle = msg.author.username + "'s weekly submission - Discussion";
+    const thread = await msg.startThread({
+        name: threadTitle,
+        autoArchiveDuration: 60,
+    })
+    thread.send(`Talk about ${msg.author}'s submission on this thread.`);;
+}
+
+/**
  * Submits weekly as long as it's an attachment or link.
  * @param {Message} msg - the original command message
  */
@@ -64,6 +77,7 @@ function weeklySubmit(msg) {
     // message is valid (contains attachment or link)
     if (hasAttach || hasLink) {
         updateProfile(msg);
+        createThread(msg);
     }
 
     // When the message does not contain and attachment nor link
@@ -308,21 +322,53 @@ function incorrectUsage(prefix, msg) {
 
 module.exports = {
     name: "weekly",
-    description: "this command submits an entry to the weekly counter",
-    execute(bot, prefix, msg, args) {
-        switch (true) {
-            case args[0] === "submit":
-                weeklySubmit(msg, args);
-                break;
-            case args[0] === "info":
-                weeklyInfo(msg);
-                break;
-            case args[0] === "profile":
-                weeklyProfile(bot, msg, args);
-                break;
-            default:
+    description: "this command submits an entry to the weekly counter, shows info, or shows user profile",
+    execute(bot, prefix, prefixMod, msg) {
+
+        // Makes sure this command only runs outside of threads
+        if (
+            !(msg.channel.type == "GUILD_PUBLIC_THREAD") &&
+            !(msg.channel.type == "GUILD_PRIVATE_THREAD")
+        ) {
+            if (msg.content.startsWith(prefix)) {
+                //Splices via space (ie "-thanks @robert")
+                const withoutPrefix = msg.content.slice(prefix.length);
+                const split = withoutPrefix.split(/ +/);
+                const command = split[0];
+                const args = split.slice(1);
+
+                //if command is "-w"
+                if (command === "w") {
+                    if (!args.length) incorrectUsage(prefix, msg);
+                    else {
+                        switch (true) {
+                            case args[0] === "submit":
+                                weeklySubmit(msg, args);
+                                break;
+                            case args[0] === "info":
+                                weeklyInfo(msg);
+                                break;
+                            case args[0] === "profile":
+                                weeklyProfile(bot, msg, args);
+                                break;
+                            default:
+                                incorrectUsage(prefix, msg);
+                                break;
+                        }
+                    }
+                }
+                //command is something else, eg "-p"
+                else {
+                    incorrectUsage(prefix, msg);
+                }
+            } 
+            else if (msg.content.startsWith(prefixMod)) {
+                //do nothing
+                return;
+            }
+            else {
                 incorrectUsage(prefix, msg);
-                break;
+            }
         }
     },
 };

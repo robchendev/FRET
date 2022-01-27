@@ -113,7 +113,9 @@ function showBotInfo(msg) {
             configHandler.data.botName +
                 ' "Fragile Remains of the Eternal ThankBot" is a multipurpose Javascript Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment and by managing databases to store and retrieve information.'
         )
-        .addField("Developer", "Robert Chen", false);
+        .addField(
+            "Developers", 
+            "[Robert Chen](https://github.com/chendumpling)\n[Taco (タコス)](https://github.com/tacosontitan)", false);
     msg.channel.send({ embeds: [embedMsg] });
 }
 

@@ -18,7 +18,19 @@ async function createThread(msg) {
     const thread = await msg.startThread({
         name: threadTitle,
     });
-    thread.send(`Answer ${msg.author.username}'s question on this thread.`);
+    const embedMsg = new Discord.MessageEmbed()
+        .setColor(configHandler.data.transparentColor)
+        .setDescription(
+            `${msg.author}, make sure you thank the people who answer your question.`
+        )
+        .addField(`\`-thanks <user>\``, "Thank one user", false)
+        .addField(
+            `\`-thanks <user1> <user2> <user3>\``,
+            "Thank multiple users",
+            false
+        )
+    thread.send({ embeds: [embedMsg] });
+    thread.send(`Answer ${msg.author}'s question on this thread.`);
 }
 
 /**
@@ -71,24 +83,42 @@ function noArgs(prefix, msg) {
 module.exports = {
     name: "forum",
     description:
-        "this command is passively invoked whenever a user sends a message into the promotion channel. It ensures that all the messages sent start with a '-q' and creates threads for them.",
+        "this passive command creates threads underneath messages starting with a -q.",
     execute(prefix, prefixMod, msg) {
         // Makes sure this command only runs outside of threads
         if (
             !(msg.channel.type == "GUILD_PUBLIC_THREAD") &&
             !(msg.channel.type == "GUILD_PRIVATE_THREAD")
         ) {
-            if (msg.content.startsWith(prefix) && !msg.author.bot) {
+            if (msg.content.startsWith(prefix)) {
                 //Splices via space (ie "-thanks @robert")
                 const withoutPrefix = msg.content.slice(prefix.length);
                 const split = withoutPrefix.split(/ +/);
                 const command = split[0];
                 const args = split.slice(1);
 
-                //if command === q
+                //if command is "-q"
                 if (command === "q") {
                     if (!args.length) noArgs(prefix, msg);
                     else createThread(msg);
+                }
+                //crude fix for now, dont want multiple error messages
+                //popping up for every command in helpforum
+                else if (
+                    command === "thanks" ||
+                    command === "rankup" ||
+                    command === "points" ||
+                    command === "help" ||
+                    command === "contribute" ||
+                    command === "w" ||
+                    command === "thank"
+                ){
+                    // do nothing
+                }
+
+                //command is something else, eg "-p"
+                else {
+                    incorrectUsage(prefix, msg);
                 }
             } 
             else if (msg.content.startsWith(prefixMod)) {
