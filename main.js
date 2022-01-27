@@ -68,6 +68,11 @@ bot.on("messageCreate", async (msg) => {
             bot.commands.get("weekly").execute(bot, prefix, prefixMod, msg);
         }
 
+        //Monitors #weekly-submission channel only and creates threads for it
+        else if (msg.channel.id === configHandler.flux.impersonateChannel && !msg.author.bot && msg.member.roles.cache.has(configHandler.flux.DBmanager)) {
+            bot.commands.get("impersonate").execute(bot, msg);
+        }
+
         //When message doesnt start with '-', '+' or author is bot
         else if (
             (!msg.content.startsWith(prefix) &&
