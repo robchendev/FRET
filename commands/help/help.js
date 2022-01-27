@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
-const ids = require(`../../config.json`);
+const configHandler = require(`../../handlers/configurationHandler.js`);
+configHandler.initialize();
 
 /**
  * '-help' or '-help c'
@@ -8,10 +9,10 @@ const ids = require(`../../config.json`);
  * @param {Message} msg - the original command message
  */
 function whichCommand(bot, prefix, msg) {
-    let weekly = bot.channels.cache.get(ids.weeklyChannel);
-    let helpForum = bot.channels.cache.get(ids.helpForumChannel);
+    let weekly = bot.channels.cache.get(configHandler.flux.weeklyChannel);
+    let helpForum = bot.channels.cache.get(configHandler.flux.helpForumChannel);
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.incorrectUsageColor)
+        .setColor(configHandler.data.incorrectUsageColor)
         .setTitle("Commands")
         .addField(
             `\`${prefix}help f\``,
@@ -21,7 +22,7 @@ function whichCommand(bot, prefix, msg) {
         .addField(`\`${prefix}help w\``, `Shows commands for ${weekly}`, false)
         .addField(
             `\`${prefix}help i\``,
-            `Shows info about ${ids.botName}`,
+            `Shows info about ${configHandler.data.botName}`,
             false
         );
     msg.channel.send({ embeds: [embedMsg] });
@@ -35,7 +36,7 @@ function whichCommand(bot, prefix, msg) {
  */
 function showForumCommands(prefix, msg) {
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.transparentColor)
+        .setColor(configHandler.data.transparentColor)
         .setTitle("Help Forum Commands")
         .setDescription(
             `Type \`${prefix}help c\` to commands for other channels`
@@ -82,7 +83,7 @@ function showForumCommands(prefix, msg) {
  */
 function showWeeklyCommands(prefix, msg) {
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.transparentColor)
+        .setColor(configHandler.data.transparentColor)
         .setTitle("Weekly Submission Commands")
         .setDescription(
             `Type \`${prefix}help c\` to commands for other channels`
@@ -105,11 +106,11 @@ function showWeeklyCommands(prefix, msg) {
  */
 function showBotInfo(msg) {
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.transparentColor)
+        .setColor(configHandler.data.transparentColor)
         .setTitle("Github Repository")
         .setURL("https://github.com/chendumpling/FretBot")
         .setDescription(
-            ids.botName +
+            configHandler.data.botName +
                 ' "Fragile Remains of the Eternal ThankBot" is a multipurpose Javascript Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment and by managing databases to store and retrieve information.'
         )
         .addField("Developer", "Robert Chen", false);
@@ -161,12 +162,12 @@ module.exports = {
         }
 
         // -help (inside Help Forum)
-        else if (msg.channel.id === ids.helpForumChannel) {
+        else if (msg.channel.id === configHandler.flux.helpForumChannel) {
             showForumCommands(prefix, msg);
         }
         
         // -help (inside Weekly Submissions)
-        else if (msg.channel.id === ids.weeklyChannel) {
+        else if (msg.channel.id === configHandler.flux.weeklyChannel) {
             showWeeklyCommands(prefix, msg);
         }
 

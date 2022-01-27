@@ -1,9 +1,9 @@
-const ids = require(`../../config.json`);
-const secrets = require(`../../secrets.json`);
+const configHandler = require(`../../handlers/configurationHandler.js`);
+configHandler.initialize();
 const mongoose = require("mongoose");
 const updateWeekly = require("../../models/weeklyUpdate.js");
 const { Channel } = require("diagnostics_channel");
-mongoose.connect(secrets.Mongo, {
+mongoose.connect(configHandler.secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 });
@@ -28,11 +28,11 @@ async function createThread(bot, myGuild, roleNames, roleStreak) {
 
     // Start message to create thread
     bot.channels.cache
-        .get(ids.weeklyChannel)
+        .get(configHandler.flux.weeklyChannel)
         .send("Streaks have been updated.")
         .then(async (sentMsg) => {
             if (
-                sentMsg.channel.id === ids.weeklyChannel &&
+                sentMsg.channel.id === configHandler.flux.weeklyChannel &&
                 sentMsg.author.bot
             ) {
                 const thread = await sentMsg.startThread({
@@ -125,7 +125,7 @@ function permaRank(bot, myGuild, thread, submitdata) {
 
     // retrieve rank
     let permaRankRole = myGuild.roles.cache.find(
-        (r) => r.name === ids.wRankPerma
+        (r) => r.name === configHandler.data.wRankPerma
     );
 
     // if user exists
@@ -136,7 +136,7 @@ function permaRank(bot, myGuild, thread, submitdata) {
         if (!user.roles.cache.has(permaRankRole.id)) {
             user.roles.add(permaRankRole.id);
             thread.send(
-                `**${name}** has achieved the permanent :trophy: **${permaRankRole.name}** rank for reaching ${ids.wRankPermaStreak} streaks in a row!`
+                `**${name}** has achieved the permanent :trophy: **${permaRankRole.name}** rank for reaching ${configHandler.data.wRankPermaStreak} streaks in a row!`
             );
         }
     }
@@ -164,7 +164,7 @@ function rankupCheck(bot, myGuild, thread, submitdata, roleNames, roleStreak) {
             doRankUp(bot, myGuild, thread, submitdata, roleNames, 0);
             break;
     }
-    if (submitdata.highestStreak >= ids.wRankPermaStreak) {
+    if (submitdata.highestStreak >= configHandler.data.wRankPermaStreak) {
         permaRank(bot, myGuild, thread, submitdata);
     }
 }
@@ -218,7 +218,7 @@ function startNewWeek(submitdata) {
 /**
  * This doesnt error check for permissions, so make sure the bot
  * has permission to view, send messages, and create threads in
- * ids.weeklyChannel.
+ * configHandler.data.weeklyChannel.
  */
 module.exports = {
     name: "weeklyCron",
@@ -226,20 +226,20 @@ module.exports = {
         "this command is passively invoked on Monday 12:00 AM EST every week to update roles for the weekly submissions.",
     execute(bot) {
         // retrieves guild object
-        let myGuild = bot.guilds.cache.get(ids.serverGuild);
+        let myGuild = bot.guilds.cache.get(configHandler.flux.serverGuild);
 
         // Weekly streak roles
         var roleNames = [
-            /*0*/ myGuild.roles.cache.find((r) => r.name === ids.wRank1),
-            /*1*/ myGuild.roles.cache.find((r) => r.name === ids.wRank2),
-            /*2*/ myGuild.roles.cache.find((r) => r.name === ids.wRank3),
+            /*0*/ myGuild.roles.cache.find((r) => r.name === configHandler.data.wRank1),
+            /*1*/ myGuild.roles.cache.find((r) => r.name === configHandler.data.wRank2),
+            /*2*/ myGuild.roles.cache.find((r) => r.name === configHandler.data.wRank3),
         ];
 
         // the points that are required to get each streak role
         var roleStreak = [
-            /*0*/ ids.wRank1Streak,
-            /*1*/ ids.wRank2Streak,
-            /*2*/ ids.wRank3Streak,
+            /*0*/ configHandler.data.wRank1Streak,
+            /*1*/ configHandler.data.wRank2Streak,
+            /*2*/ configHandler.data.wRank3Streak,
         ];
 
         createThread(bot, myGuild, roleNames, roleStreak);

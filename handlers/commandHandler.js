@@ -1,13 +1,15 @@
 const { Collection } = require('discord.js');
 const { Routes } = require('discord-api-types/v9');
 const { REST } = require('@discordjs/rest');
-const secrets = require(`../secrets.json`);
-const rest = new REST({ version: '9' }).setToken(secrets.Token);
-const directoryHandler = require(`../handlers/directoryHandler.js`);
 
 // Initialize the configuration handler.
 const configHandler = require(`./configurationHandler`);
 configHandler.initialize();
+
+const rest = new REST({ version: '9' }).setToken(configHandler.secrets.Token);
+const directoryHandler = require(`../handlers/directoryHandler.js`);
+
+
 
 module.exports = {
     /** The standard commands being handled. */
@@ -62,14 +64,14 @@ module.exports = {
             for (let command of this.moderatorSlashCommands)
                 commandsToRegister.push(command.data.toJSON());
 
-            await rest.put(Routes.applicationGuildCommands(secrets.discordClientId, configHandler.flux.serverGuild), { body: commandsToRegister });
+            await rest.put(Routes.applicationGuildCommands(configHandler.secrets.discordClientId, configHandler.flux.serverGuild), { body: commandsToRegister });
             console.log(`Successfully registered all slash commands.`);
         } catch (error) { console.error(`There was an issue registering slash commands: ${error}`); }
     },
     /** Unregister all slash commands with the Discord client. */
     unregisterSlashCommands: async function () {
         try {
-            await rest.put(Routes.applicationGuildCommands(secrets.discordClientId, configHandler.flux.serverGuild), { body: [] });
+            await rest.put(Routes.applicationGuildCommands(configHandler.secrets.discordClientId, configHandler.flux.serverGuild), { body: [] });
         } catch (error) { console.error(`There was an issue unregistering slash commands: ${error}`) };
     },
     // restrictModeratorCommands: function (client) {

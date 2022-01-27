@@ -1,9 +1,9 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const ids = require(`../../config.json`);
-const secrets = require(`../../secrets.json`);
+const configHandler = require(`../../handlers/configurationHandler.js`);
+configHandler.initialize();
 const pointsAdd = require("../../models/addPoints.js");
-mongoose.connect(secrets.Mongo, {
+mongoose.connect(configHandler.secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 });
@@ -19,7 +19,7 @@ function findPoints(msg, userID) {
             console.log(err);
         } else if (pointdata) {
             const embedMsg = new Discord.MessageEmbed()
-                .setColor(ids.transparentColor)
+                .setColor(configHandler.data.transparentColor)
                 .setDescription(`${userID} has **${pointdata}** points.`);
             msg.channel.send({ embeds: [embedMsg] });
         } else {
@@ -50,7 +50,7 @@ function howManyPoints(userID, cb) {
  */
 function incorrectUsage(prefix, msg) {
     const embedMsg1 = new Discord.MessageEmbed()
-        .setColor(ids.incorrectUsageColor)
+        .setColor(configHandler.data.incorrectUsageColor)
         .addField(`\`${prefix}points\``, "View your points", false)
         .addField(
             `\`${prefix}points <user>\``,

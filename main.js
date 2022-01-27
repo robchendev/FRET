@@ -2,10 +2,14 @@ const Discord = require("discord.js");
 const bot = new Discord.Client({
     intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_PRESENCES"],
 });
-const ids = require(`./config.json`);
+
+// Load configurations.
+const configHandler = require(`./handlers/configurationHandler.js`);
+configHandler.initialize();
+
 var tools = require(`./tools/functions.js`);
-const prefix = ids.userPrefix;
-const prefixMod = ids.moderatorPrefix;
+const prefix = configHandler.data.userPrefix;
+const prefixMod = configHandler.data.moderatorPrefix;
 var serverID = "";
 const fs = require("fs");
 const cron = require("node-cron");
@@ -45,21 +49,21 @@ bot.on("messageCreate", async (msg) => {
         serverID = msg.guild.id;
 
         //Monitors #share-your-music channel only and creates threads for it
-        if (msg.channel.id === ids.shareMusicChannel && !msg.author.bot) {
+        if (msg.channel.id === configHandler.flux.shareMusicChannel && !msg.author.bot) {
             bot.commands.get("shareYourMusic").execute(prefixMod, msg);
         }
 
         //Monitors #help-forum channel only and creates threads for it
-        else if (msg.channel.id === ids.helpForumChannel && !msg.author.bot) {
+        else if (msg.channel.id === configHandler.flux.helpForumChannel && !msg.author.bot) {
             bot.commands.get("forum").execute(prefix, prefixMod, msg);
         }
 
         //Monitors competitions channel only and creates threads for it
-        else if (msg.channel.id === ids.competitionChannel && !msg.author.bot) {
+        else if (msg.channel.id === configHandler.flux.competitionChannel && !msg.author.bot) {
             bot.commands.get("competition").execute(prefix, prefixMod, msg);
         }
 
-        else if (msg.channel.id === ids.impersonateChannel && !msg.author.bot) {
+        else if (msg.channel.id === configHandler.flux.impersonateChannel && !msg.author.bot) {
             bot.commands.get("impersonate").execute(bot, msg);
         }
 
@@ -99,7 +103,7 @@ bot.on("messageCreate", async (msg) => {
                     break;
                 case "w":
                     // Will only work when used in weekly
-                    if (msg.channel.id === ids.weeklyChannel) {
+                    if (msg.channel.id === configHandler.flux.weeklyChannel) {
                         bot.commands
                             .get("weekly")
                             .execute(bot, prefix, msg, args);
@@ -112,7 +116,7 @@ bot.on("messageCreate", async (msg) => {
                     bot.commands.get("contribute").execute(msg);
             }
         } else if (msg.content.startsWith(prefixMod) && !msg.author.bot) {
-            if (msg.member.roles.cache.has(ids.DBmanager)) {
+            if (msg.member.roles.cache.has(configHandler.flux.DBmanager)) {
                 //Splices via space (ie "+thanks @robert")
                 const withoutPrefix = msg.content.slice(prefixMod.length);
                 const split = withoutPrefix.split(/ +/);
@@ -122,7 +126,7 @@ bot.on("messageCreate", async (msg) => {
                 //Reads commands and does stuff
                 switch (command) {
                     case "ping":
-                        msg.channel.send(`${ids.botName} is online`);
+                        msg.channel.send(`${configHandler.data.botName} is online`);
                         break;
                     case "penalty": bot.commands.get("Penalty").execute(prefixMod, msg, args); break;
                     case "points":
@@ -147,5 +151,4 @@ bot.on("messageCreate", async (msg) => {
 });
 
 //keep this at the last line of the file
-const configHandler = require(`./handlers/configurationHandler.js`);
 bot.login(configHandler.secrets.Token);

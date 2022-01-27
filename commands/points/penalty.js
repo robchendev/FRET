@@ -1,11 +1,11 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const config = require(`../../config.json`);
-const secrets = require(`../../secrets.json`);
+const configHandler = require(`../../handlers/configurationHandler.js`);
+configHandler.initialize();
 const messageHandler = require(`../../handlers/messageHandler.js`);
 const pointHandler = require(`../../handlers/pointHandler.js`);
 const pointsChange = require("../../models/addPoints.js");
-mongoose.connect(secrets.Mongo, {
+mongoose.connect(configHandler.secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 });
@@ -14,7 +14,7 @@ module.exports = {
     name: "Penalty",
     isModeratorCommand: true,
     description: "This command penalizes the specified user by reducing their points by 1,000.",
-    syntax: `${config.moderatorPrefix}penalty <@user>`,
+    syntax: `${configHandler.data.moderatorPrefix}penalty <@user>`,
     fieldDescriptions: [{ name: "`<@user>`", value: "This is the mention of the user the command should target." }],
     registerWithHandlers() {
         pointHandler.register(this);
@@ -45,7 +45,7 @@ module.exports = {
 
                     if (pointsUpdated) {
                         const embed = new Discord.MessageEmbed()
-                            .setColor(config.dataChangeColor)
+                            .setColor(configHandler.data.dataChangeColor)
                             .setDescription(`${userId}'s points have been changed to ${pointData.points}`);
                         msg.channel.send({ embeds: [embed] });
                     }

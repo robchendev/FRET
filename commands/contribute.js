@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
-const ids = require(`../config.json`);
+const configHandler = require(`../handlers/configurationHandler.js`);
+configHandler.initialize();
 
 /**
  * Displays an embed message to show ways to contribute on GitHub
@@ -8,7 +9,7 @@ const ids = require(`../config.json`);
  */
 function showContribute(msg) {
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.transparentColor)
+        .setColor(configHandler.data.transparentColor)
         .setTitle("Contribute to F.R.E.T.")
         .setDescription(
             "F.R.E.T. is mostly developed by one person right now, so we really appreciate any help we can get in finding bugs, thinking of new features, and developing."

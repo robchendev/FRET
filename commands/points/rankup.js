@@ -1,9 +1,9 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const ids = require(`../../config.json`);
-const secrets = require(`../../secrets.json`);
+const configHandler = require(`../../handlers/configurationHandler.js`);
+configHandler.initialize();
 const pointsAdd = require("../../models/addPoints.js");
-mongoose.connect(secrets.Mongo, {
+mongoose.connect(configHandler.secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 });
@@ -81,7 +81,7 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
         repairRoles(msg.member, rolePoints, roleNames);
 
         msg.member.roles.add(roleNames[index].id);
-        const embedMsg = new Discord.MessageEmbed().setColor(ids.thanksColor);
+        const embedMsg = new Discord.MessageEmbed().setColor(configHandler.data.thanksColor);
         if (index === 5) {
             embedMsg.setDescription(
                 `${msg.member} has ranked up to ${roleNames[index]}!\nCongrats, you have reached the highest rank!`
@@ -101,7 +101,7 @@ function doRankUp(msg, thisUser, roleNames, rolePoints, index) {
                 if (err) console.log(err);
                 else if (points) {
                     const embedMsg = new Discord.MessageEmbed()
-                        .setColor(ids.transparentColor)
+                        .setColor(configHandler.data.transparentColor)
                         .setDescription(
                             `${thisUser}, you need **${
                                 rolePoints[index + 1] - points
@@ -164,7 +164,7 @@ function hasNoRank(msg, thisUser, roleNames, rolePoints) {
         if (err) console.log(err);
         else if (points) {
             const embedMsg = new Discord.MessageEmbed()
-                .setColor(ids.transparentColor)
+                .setColor(configHandler.data.transparentColor)
                 .setDescription(
                     `${thisUser}, you need **${
                         rolePoints[0] - points
@@ -182,22 +182,22 @@ module.exports = {
     execute(msg) {
         //the roles in the server that are to be used for this bot
         var roleNames = [
-            /*0*/ msg.guild.roles.cache.find((r) => r.name === ids.rank1),
-            /*1*/ msg.guild.roles.cache.find((r) => r.name === ids.rank2),
-            /*2*/ msg.guild.roles.cache.find((r) => r.name === ids.rank3),
-            /*3*/ msg.guild.roles.cache.find((r) => r.name === ids.rank4),
-            /*4*/ msg.guild.roles.cache.find((r) => r.name === ids.rank5),
-            /*5*/ msg.guild.roles.cache.find((r) => r.name === ids.rank6),
+            /*0*/ msg.guild.roles.cache.find((r) => r.name === configHandler.data.rank1),
+            /*1*/ msg.guild.roles.cache.find((r) => r.name === configHandler.data.rank2),
+            /*2*/ msg.guild.roles.cache.find((r) => r.name === configHandler.data.rank3),
+            /*3*/ msg.guild.roles.cache.find((r) => r.name === configHandler.data.rank4),
+            /*4*/ msg.guild.roles.cache.find((r) => r.name === configHandler.data.rank5),
+            /*5*/ msg.guild.roles.cache.find((r) => r.name === configHandler.data.rank6),
         ];
 
         //the points that are required to get each role
         var rolePoints = [
-            /*0*/ ids.rank1Points,
-            /*1*/ ids.rank2Points,
-            /*2*/ ids.rank3Points,
-            /*3*/ ids.rank4Points,
-            /*4*/ ids.rank5Points,
-            /*5*/ ids.rank6Points,
+            /*0*/ configHandler.data.rank1Points,
+            /*1*/ configHandler.data.rank2Points,
+            /*2*/ configHandler.data.rank3Points,
+            /*3*/ configHandler.data.rank4Points,
+            /*4*/ configHandler.data.rank5Points,
+            /*5*/ configHandler.data.rank6Points,
         ];
 
         rankupCheck(msg, roleNames, rolePoints);
