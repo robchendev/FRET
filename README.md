@@ -33,7 +33,10 @@ If you improved the bot yourself and would like to contribute to this project, I
     - [Passive Commands](#passive-commands)
     - [Moderator Commands](#moderator-commands)
   - [Deployment](#deployment)
+    - [Developer's Configuration](#developer's-configuration)
+    - [Configuration Handler](#configuration-handler)
     - [Customization](#customization)
+    - [Secrets](#secrets)
   - [Future Plans](#future-plans)
   - [Authors](#authors)
   - [License](#license)
@@ -45,22 +48,6 @@ I'm making some gifs and videos that demonstrate this bot's functionality.
 Clone this repository to your system, install Node.js v16.6+, npm, and Discord.js v13.
     
 If you plan on using this F.R.E.T.'s code for contributing/testing, or for your own purposes, you need to create your Discord application [here](https://discord.com/developers/applications). Additionally, you can always lean on the [documentation for Discord.js](https://discord.js.org/#/docs/discord.js/stable/general/welcome), or [the guide](https://discordjs.guide/#before-you-begin).
-
-### Secrets
-F.R.E.T. uses MongooseJS to store it's data in MongoDB as a JSON schema. You only need to provide a `secrets.json` (described below) your MongoDB database connection string to use the database, given that you've made one for free already.
-
-This code uses two tokens, "Token" and "Mongo", as described in `secrets-example.json`. Create a copy of this file and name it `secrets.json`, then, edit the fields:
-
-1. Replace the `Token` value in that file with your application's bot token - it is what the F.R.E.T. will use to sign into Discord. 
-2. Replace the `Mongo` value with your MongoDB's database connection string. 
-
-If you are to use this code in your public github repositories, do not share your `secrets.json` file. It will give other people access to your Discord bot and your database. Though, github will likely recognize this and warn you before anyone does.
-
-### Developer's Configuration
-Under the folder `configurations` you'll notice a file named `flux.prod.json`. This file contains IDs used in Discord for your bot, guild, roles, channels, etc. You may create a `flux.dev.json` file in the same folder by copying `flux.prod.json` to change all of the IDs and test everything in your own server. This is your personal development configuration and it will be ignored. Be careful not to modify the `flux.prod.json` file. Any pull requests modifying it without explicit permission in the focal issue of the PR will be closed without merging.
-
-### Configuration Handler
-In the module defined in `commandHandler.js`, you'll notice a property named `isDebug`, this should be set to true for local development, and false when deploying. This determines which flux configuration is loaded at runtime.
 
 ### Run F.R.E.T. Locally
 Run F.R.E.T. by using one of the following commands:
@@ -118,13 +105,20 @@ Ranks up the user if they have enough points for a role. Otherwise, show how man
 
 Displays the number of points a user has.
 
+    -top
+    -leaderboard
+    -top <rows>
+    -leaderbaord <rows>
+
+Displays a leaderboard of 10 rows by default, showing the users with the most amount of points first. The person who used the command also has their rank placement and points shown at the bottom of the leaderboard underneath a divider. If the user specifies a number for the rows, it will show that many rows. Maximum rows that can be shown, regardless of the rows specified, is the size of the set of users with pointdata documents in the database.
+
 ### Weekly Submission Commands
 
 A CronJob task occurs every Sunday 11:59 PM EST to finalize the submissions for a week, creates the data for the users who submitted a weekly for the first time, updates the data of each user with an existing weekly submission history, and assigns temporary or permanent "trophy" roles if the user has submitted enough weeks in a row. If the user has a weekly submission history and a streak but they did not submit for that week, the streaks are reset and temporary roles are removed.
 
     -w submit <link/file>
 
-Submits a link or attachment for the Weekly Submissions. This logs the user's submitted date in the database which will be used to increase their streak at the weekly finalization.
+Submits a link or attachment for the Weekly Submissions. This logs the user's submitted date in the database which will be used to increase their streak at the weekly finalization. Also creates a thread under the message. The thread is auto-archived in 1 hour and can be un-archived by anyone who writes a message in the thread.
 
     -w info
 
@@ -141,7 +135,7 @@ These happen automatically without any command being sent in the chat.
 
     <link>
 
-Only works in the channel whose ID is written in `shareMusicChannel` in the `config.JSON` file. Creates a thread under the message. The purpose of this is to avoid these promotional links from getting buried due to people who talk about the promoted link (usually a video). The thread is auto-archived in 24 hours and can be un-archived by anyone who writes a message in the thread. Automatically handles thread titling. Any message that isnt a link is removed and the user is reminded that discussion is only allowed in the threads.
+Only works in the channel whose ID is written in `shareMusicChannel` in the `config.JSON` file. Creates a thread under the message. The purpose of this is to avoid these promotional links from getting buried due to people who talk about the promoted link (usually a video). The thread is auto-archived in 1 hour and can be un-archived by anyone who writes a message in the thread. Automatically handles thread titling. Any message that isnt a link is removed and the user is reminded that discussion is only allowed in the threads.
 
     <#channel> <message>
 
@@ -182,20 +176,28 @@ Do note: Make sure F.R.E.T.'s role is higher than any of the roles you plan to g
 
 F.R.E.T. needs the permission to manage messages since it will be deleting messages to clear up the chat whenever someone invokes a command incorrectly or sends a message in the wrong channel.
 
-### Customization
+### Developer's Configuration
+Under the folder `configurations` you'll notice a file named `flux.prod.json`. This file contains IDs used in Discord for your bot, guild, roles, channels, etc. You may create a `flux.dev.json` file in the same folder by copying `flux.prod.json` to change all of the IDs and test everything in your own server. This is your personal development configuration and it will be ignored. Be careful not to modify the `flux.prod.json` file. Any pull requests modifying it without explicit permission in the focal issue of the PR will be closed without merging.
 
-Since this was a personal project, my variables will be different from what you would need. `config.json` is provided for you to make changes to the identification of roles and channels. Here are what they mean:
-
-* **userPrefix**<br>The prefix used for user commands
-* **moderatorPrefix**<br>The prefix used for moderator commands
-* **botName**<br>The name the bot will refer to itself as
-* **DBmanager**<br>ID of a role. Anyone with this role will be able to use F.R.E.T.'s mod commands
 * **serverGuild**<br>ID of your discord server
+* **moderatorRoleId**<br>ID of the moderator role in your server
+* **everyoneRoleId**<br>ID of the everyone role in your discord server
+* **DBmanager**<br>ID of a role. Anyone with this role will be able to use F.R.E.T.'s mod commands
 * **shareMusicChannel**<br>ID of the channel shareYourMusic.js passively runs in
 * **helpForumChannel**<br>ID of the channel where forum.js passively runs in can be invoked
 * **impersonateChannel**<br>ID of the channel that forwards messages to targeted channels
 * **weeklyGuideChannel**<br>ID of the channel where the weekly submission criteria are listed
 * **weeklyChannel**<br>ID of the channel for weekly submissions
+
+### Configuration Handler
+In the module defined in `commandHandler.js`, you'll notice a property named `isDebug`, this should be set to true for local development, and false when deploying. This determines which flux configuration is loaded at runtime.
+
+### Customization
+Since this was a personal project, my variables will be different from what you would need. There are two files you may need to customize for this bot to work on your local machine or server. `config.json` is provided for you to make changes to the prefixes, names, colors and leveled-ranks.
+
+* **userPrefix**<br>The prefix used for user commands
+* **moderatorPrefix**<br>The prefix used for moderator commands
+* **botName**<br>The name the bot will refer to itself as
 * **...Color**<br>The colors of embeds depending on their usage 
 * **rank1...6**<br>Leveled forum rank names
 * **rank1Points...6Points**<br>Leveled forum rank point thresholds
@@ -204,8 +206,13 @@ Since this was a personal project, my variables will be different from what you 
 * **wRankPerma**<br>Permanent "trophy" weekly submission rank name
 * **wRankPermaStreak**<br>Permanent "trophy" weekly submission rank streak threshold
 
-## Local Configurations
+### Secrets
+F.R.E.T. uses MongooseJS to store it's data in MongoDB as a JSON schema. You only need to provide a `secrets.json` (described below) your MongoDB database connection string to use the database, given that you've made one for free already. This code uses two tokens, "Token" and "Mongo", as described in `secrets-example.json`. Create a copy of this file and name it `secrets.json`, then, edit the fields:
 
+* **Token**<br>The token your applications bot will be using to sign into Discord.
+* **Mongo**<br>The string used to connect to your MongoDB database.
+
+If you are to use this code in your public github repositories, do not share your `secrets.json` file. It will give other people access to your Discord bot and your database. Though, github will likely recognize this and warn you before anyone does.
 
 ## Future Plans
 
@@ -215,10 +222,15 @@ I will be further improving on F.R.E.T. if something on the guitar community ser
 
 See the [LICENSE](https://github.com/chendumpling/F.R.E.T./blob/master/LICENSE) file for details.
 
-## Authors
+## Author
 
   - **Robert Chen** -
     [chendumpling](https://github.com/chendumpling)
+
+## Contributors
+
+  - **Taco (タコス)** -
+    [tacosontitan](https://github.com/tacosontitan)
 
 See also the list of
 [contributors](https://github.com/chendumpling/F.R.E.T./contributors)
