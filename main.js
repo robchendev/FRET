@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client({
-    intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_PRESENCES"],
+    intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_PRESENCES", "GUILD_MEMBERS"],
 });
 
 // Load configurations.
@@ -107,6 +107,18 @@ bot.on("messageCreate", async (msg) => {
                     break;
                 case "contribute":
                     bot.commands.get("contribute").execute(msg);
+                case "top":
+                    // the top/leaderboard command will not work in
+                    // these channels but will still work in child
+                    // threads of these channels
+                    if (
+                        msg.channel !== configHandler.flux.weeklyChannel ||
+                        msg.channel !== configHandler.flux.shareMusicChannel ||
+                        msg.channel !== configHandler.flux.helpForumChannel
+                    ){
+                        bot.commands.get("leaderboard").execute(bot, msg);
+                    }
+                    break;
             }
         } else if (msg.content.startsWith(prefixMod) && !msg.author.bot) {
             if (msg.member.roles.cache.has(configHandler.flux.DBmanager)) {
