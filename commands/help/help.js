@@ -62,8 +62,8 @@ function showForumCommands(prefix, msg) {
             false
         )
         .addField(
-            `\`${prefix}leaderboard\`\n\`${prefix}leaderboard <rows>\``,
-            "Shows the help forum leaderboard and your placement in it",
+            `\`${prefix}top\`\n\`${prefix}top <rows>\`\n\`${prefix}leaderboard\`\n\`${prefix}leaderboard <rows>\``,
+            "Shows the help forum leaderboard",
             false
         )
         .addField(`\`${prefix}about\``, "Shows info about this bot", false);
