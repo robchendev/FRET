@@ -102,6 +102,20 @@ module.exports = {
                     if (!args.length) noArgs(prefix, msg);
                     else createThread(msg);
                 }
+                //crude fix for now, dont want multiple error messages
+                //popping up for every command in helpforum
+                else if (
+                    command === "thanks" ||
+                    command === "rankup" ||
+                    command === "points" ||
+                    command === "help" ||
+                    command === "contribute" ||
+                    command === "w" ||
+                    command === "thank"
+                ){
+                    // do nothing
+                }
+
                 //command is something else, eg "-p"
                 else {
                     incorrectUsage(prefix, msg);
