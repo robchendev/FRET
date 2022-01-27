@@ -308,7 +308,7 @@ function incorrectUsage(prefix, msg) {
 
 module.exports = {
     name: "weekly",
-    description: "this command submits an entry to the weekly counter",
+    description: "this command submits an entry to the weekly counter, shows info, or shows user profile",
     execute(bot, prefix, msg, args) {
         switch (true) {
             case args[0] === "submit":
