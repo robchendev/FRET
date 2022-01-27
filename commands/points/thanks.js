@@ -4,11 +4,10 @@ const configHandler = require(`../../handlers/configurationHandler.js`);
 configHandler.initialize();
 
 const pointsAdd = require("../../models/addPoints.js");
-const secrets = require(`../../secrets.json`);
 const { schemaAddPoints } = require("../../tools/functions.js");
 var tools = require(`../../tools/functions.js`);
 const messageHandler = require(`../../handlers/messageHandler.js`);
-mongoose.connect(secrets.Mongo, {
+mongoose.connect(configHandler.secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 });
