@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const ids = require(`../../config.json`);
+const configHandler = require(`../../handlers/configurationHandler.js`);
 const pointsAdd = require("../../models/addPoints.js");
 const secrets = require(`../../secrets.json`);
 const { schemaAddPoints } = require("../../tools/functions.js");
@@ -114,7 +114,7 @@ function thank(msg, usersID, score) {
  */
 function thankMoreThanOne(msg, numUsers, allUsersID, allUsersName, score) {
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.thanksColor)
+        .setColor(configHandler.data.thanksColor)
         .setDescription(
             `${`${msg.author}`} has thanked ${`${numUsers}`} users!`
         );
@@ -145,7 +145,7 @@ function thankOnlyOne(msg, usersID, usersName, score) {
     let scorePortion = Math.ceil(score * 0.2);
 
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.thanksColor)
+        .setColor(configHandler.data.thanksColor)
         .setDescription(`${msg.author}` + " has thanked 1 user!")
         .addField(`${usersName}`, "+" + `${score}`, true)
         .addField(`${msg.author.username}`, "+" + `${scorePortion}`, true);
@@ -161,7 +161,7 @@ function thankOnlyOne(msg, usersID, usersName, score) {
  */
 function incorrectUsage(prefix, msg) {
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.incorrectUsageColor)
+        .setColor(configHandler.data.incorrectUsageColor)
         .addField(`\`${prefix}thanks <user>\``, "Thank one user", false)
         .addField(
             `\`${prefix}thanks <user1> <user2> <user3>\``,
@@ -172,14 +172,14 @@ function incorrectUsage(prefix, msg) {
     msg.channel.send({ embeds: [embedMsg] });
 }
 function warnOfHelpOrThread(msg, usedInHelp, usedInThread) {
-    let lifetime = ids.correctUsageMessageLifetimeInSeconds;
+    let lifetime = configHandler.data.correctUsageMessageLifetimeInSeconds;
     let embed = new Discord.MessageEmbed()
-        .setColor(ids.incorrectUsageColor)
+        .setColor(configHandler.data.incorrectUsageColor)
         .setFooter({ text: `This message will self destruct in ${lifetime} seconds.` })
         .setTimestamp();
 
     if (usedInHelp) {
-        let channelMention = msg.guild.channels.cache.get(ids.helpForumChannel).toString();
+        let channelMention = msg.guild.channels.cache.get(configHandler.flux.helpForumChannel).toString();
         embed.addField("Invalid Channel", `The help command cannot be used in ${channelMention}.`, false);
     }
     if (!usedInThread)
@@ -208,7 +208,7 @@ module.exports = {
             //Uncomment this if you want the user's comment to be deleted
             //msg.delete();
 
-            let usedInHelp = msg.channel.id == ids.helpForumChannel;
+            let usedInHelp = msg.channel.id == configHandler.flux.helpForumChannel;
             let usedInThread = msg.channel.isThread();
             if (usedInHelp || !usedInThread) {
                 warnOfHelpOrThread(msg, usedInHelp, usedInThread);
