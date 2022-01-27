@@ -4,9 +4,8 @@ const configHandler = require(`../../handlers/configurationHandler.js`);
 configHandler.initialize();
 
 const updateWeekly = require("../../models/weeklyUpdate.js");
-const secrets = require(`../../secrets.json`);
 var tools = require(`../../tools/functions.js`);
-mongoose.connect(secrets.Mongo, {
+mongoose.connect(configHandler.secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 });
