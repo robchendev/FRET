@@ -58,17 +58,22 @@ function showForumCommands(prefix, msg) {
         )
         .addField(
             `\`${prefix}rankup\``,
-            "Ranks you up if you have enough points.",
+            "Ranks you up if you have enough points",
             false
         )
         .addField(
             `\`${prefix}points\``,
-            "Shows how many points you have.",
+            "Shows how many points you have",
             false
         )
         .addField(
             `\`${prefix}points <user>\``,
             "Shows a user's points and amount needed for the next rank",
+            false
+        )
+        .addField(
+            `\`${prefix}points <user>\``,
+            "Shows a leaderboard of user points\nOnly works in threads on help forum",
             false
         )
         .addField(`\`${prefix}about\``, "Shows info about this bot", false);
