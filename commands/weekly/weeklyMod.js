@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
-const ids = require(`../../config.json`);
+const configHandler = require(`../../handlers/configurationHandler.js`);
 const { update } = require("../../models/weeklyUpdate.js");
 const updateWeekly = require("../../models/weeklyUpdate.js");
 const secrets = require(`../../secrets.json`);
@@ -31,7 +31,7 @@ function resetProfile(msg, thisUser, roleNames) {
             resetStreak(submitdata);
             removeRoles(msg, roleNames);
             const embedMsg = new Discord.MessageEmbed()
-                .setColor(ids.dataChangeColor)
+                .setColor(configHandler.data.dataChangeColor)
                 .setDescription(
                     `${thisUser}'s streaks and rank have been reset.`
                 );
@@ -68,7 +68,7 @@ function invalidate(msg, thisUser) {
         }
         else {
             resetThisWeek(submitdata);
-            msg.channel.send(`${thisUser}, your submission for this week has been invalidated. Please read <#${ids.weeklyGuideChannel}> and submit again with the correct criteria.`);
+            msg.channel.send(`${thisUser}, your submission for this week has been invalidated. Please read <#${configHandler.flux.weeklyGuideChannel}> and submit again with the correct criteria.`);
         }
     });
 }
@@ -128,7 +128,7 @@ function setStreak(msg, thisUser, newStreak) {
         } else {
             updateStreak(submitdata, newStreak);
             const embedMsg = new Discord.MessageEmbed()
-                .setColor(ids.dataChangeColor)
+                .setColor(configHandler.data.dataChangeColor)
                 .setDescription(
                     `${thisUser}'s streaks set to ${newStreak}. Last week set as submission date for finalization. Rank will be calculated at finalization. Make sure to submit this week.`
                 );
@@ -163,7 +163,7 @@ function setStreak(msg, thisUser, newStreak) {
  */
 function incorrectUsage(prefix, msg) {
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.incorrectUsageColor)
+        .setColor(configHandler.data.incorrectUsageColor)
         .addField(
             `\`${prefix}w invalidate <user>\``,
             "Invalidates user's submission this week",
@@ -193,13 +193,13 @@ module.exports = {
     description: "this command submits an entry to the weekly counter",
     execute(bot, prefix, msg, args) {
         // retrieves guild object
-        let myGuild = bot.guilds.cache.get(ids.serverGuild);
+        let myGuild = bot.guilds.cache.get(configHandler.flux.serverGuild);
 
         // Weekly streak roles
         var roleNames = [
-            /*0*/ myGuild.roles.cache.find((r) => r.name === ids.wRank1),
-            /*1*/ myGuild.roles.cache.find((r) => r.name === ids.wRank2),
-            /*2*/ myGuild.roles.cache.find((r) => r.name === ids.wRank3),
+            /*0*/ myGuild.roles.cache.find((r) => r.name === configHandler.data.wRank1),
+            /*1*/ myGuild.roles.cache.find((r) => r.name === configHandler.data.wRank2),
+            /*2*/ myGuild.roles.cache.find((r) => r.name === configHandler.data.wRank3),
         ];
 
         let thisUser = msg.mentions.members.first();
