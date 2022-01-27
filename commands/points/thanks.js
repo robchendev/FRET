@@ -99,7 +99,7 @@ function thank(msg, usersID, score) {
     pointsAdd.findOne({ userid: msg.author }, (err, pointdata) => {
         if (err) console.log(err);
         if (!pointdata) {
-            tools.pointdataCreateSchema(pointsAdd, msg.author, scorePortion);
+            tools.createPointdata(pointsAdd, msg.author, scorePortion);
         } else {
             tools.updatePointdata(pointdata, scorePortion);
         }
