@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const ids = require(`../../config.json`);
+const configHandler = require(`../../handlers/configurationHandler.js`);
 var tools = require(`../../tools/functions.js`);
 
 /**
@@ -9,7 +9,7 @@ var tools = require(`../../tools/functions.js`);
  */
 function showModCommands(prefix, msg) {
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.transparentColor)
+        .setColor(configHandler.data.transparentColor)
         .setTitle("Moderator Commands")
         .addField(
             `\`${prefix}points inc|dec|set <user> <points>\``,
