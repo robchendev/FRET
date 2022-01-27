@@ -72,8 +72,8 @@ function showForumCommands(prefix, msg) {
             false
         )
         .addField(
-            `\`${prefix}points <user>\``,
-            "Shows a leaderboard of user points\nOnly works in threads on help forum",
+            `\`${prefix}leaderboard\``,
+            "Shows a leaderboard of user points and your placement in it",
             false
         )
         .addField(`\`${prefix}about\``, "Shows info about this bot", false);
