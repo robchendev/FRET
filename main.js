@@ -107,6 +107,18 @@ bot.on("messageCreate", async (msg) => {
                     break;
                 case "contribute":
                     bot.commands.get("contribute").execute(msg);
+                case "top":
+                    // the top/leaderboard command will not work in
+                    // these channels but will still work in child
+                    // threads of these channels
+                    if (
+                        msg.channel !== configHandler.flux.weeklyChannel ||
+                        msg.channel !== configHandler.flux.shareMusicChannel ||
+                        msg.channel !== configHandler.flux.helpForumChannel
+                    ){
+                        bot.commands.get("leaderboard").execute(msg);
+                    }
+                    break;
             }
         } else if (msg.content.startsWith(prefixMod) && !msg.author.bot) {
             if (msg.member.roles.cache.has(configHandler.flux.DBmanager)) {
