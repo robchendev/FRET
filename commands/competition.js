@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const ids = require(`../config.json`);
+const configHandler = require(`../handlers/configurationHandler.js`);
 var tools = require(`../tools/functions.js`);
 
 /**
@@ -27,7 +27,7 @@ async function createThread(msg) {
 function incorrectUsage(prefix, msg) {
     let time = 10;
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.incorrectUsageColor)
+        .setColor(configHandler.data.incorrectUsageColor)
         .addField("Correct format", `\`${prefix}c <YouTube link>\``, false);
     msg.channel
         .send({ embeds: [embedMsg] })
@@ -47,7 +47,7 @@ function incorrectUsage(prefix, msg) {
 function noArgs(prefix, msg) {
     let time = 10;
     const embedMsg = new Discord.MessageEmbed()
-        .setColor(ids.incorrectUsageColor)
+        .setColor(configHandler.data.incorrectUsageColor)
         .addField("Correct format", `\`${prefix}c <YouTube link>\``, false);
     msg.channel
         .send({ embeds: [embedMsg] })
