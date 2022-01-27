@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const configHandler = require(`../../handlers/configurationHandler.js`);
+configHandler.initialize();
 
 /**
  * '-help' or '-help c'

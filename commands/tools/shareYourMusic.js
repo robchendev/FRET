@@ -1,4 +1,6 @@
 const configHandler = require(`../../handlers/configurationHandler.js`);
+configHandler.initialize();
+
 var tools = require(`../../tools/functions.js`);
 
 /**

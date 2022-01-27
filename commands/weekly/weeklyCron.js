@@ -1,4 +1,6 @@
 const configHandler = require(`../../handlers/configurationHandler.js`);
+configHandler.initialize();
+
 const secrets = require(`../../secrets.json`);
 const mongoose = require("mongoose");
 const updateWeekly = require("../../models/weeklyUpdate.js");

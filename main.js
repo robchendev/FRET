@@ -5,6 +5,8 @@ const bot = new Discord.Client({
 
 // Load configurations.
 const configHandler = require(`./handlers/configurationHandler.js`);
+configHandler.initialize();
+
 var tools = require(`./tools/functions.js`);
 const prefix = configHandler.data.userPrefix;
 const prefixMod = configHandler.data.moderatorPrefix;

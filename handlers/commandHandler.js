@@ -4,6 +4,7 @@ const { REST } = require('@discordjs/rest');
 
 // Initialize the configuration handler.
 const configHandler = require(`./configurationHandler`);
+configHandler.initialize();
 
 const rest = new REST({ version: '9' }).setToken(configHandler.secrets.Token);
 const directoryHandler = require(`../handlers/directoryHandler.js`);

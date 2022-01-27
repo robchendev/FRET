@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 const configHandler = require(`../handlers/configurationHandler.js`);
+configHandler.initialize();
 
 /**
  * Displays an embed message to show ways to contribute on GitHub

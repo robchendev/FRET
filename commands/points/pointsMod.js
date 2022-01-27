@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
 const configHandler = require(`../../handlers/configurationHandler.js`);
+configHandler.initialize();
+
 const secrets = require(`../../secrets.json`);
 const messageHandler = require(`../../handlers/messageHandler.js`);
 const pointHandler = require(`../../handlers/pointHandler.js`);

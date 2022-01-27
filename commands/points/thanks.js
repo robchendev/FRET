@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
 const mongoose = require("mongoose");
 const configHandler = require(`../../handlers/configurationHandler.js`);
+configHandler.initialize();
+
 const pointsAdd = require("../../models/addPoints.js");
 const secrets = require(`../../secrets.json`);
 const { schemaAddPoints } = require("../../tools/functions.js");
