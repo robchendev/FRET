@@ -1,4 +1,4 @@
-const ids = require(`../../config.json`);
+const configHandler = require(`../../handlers/configurationHandler.js`);
 var tools = require(`../../tools/functions.js`);
 
 /**
@@ -23,7 +23,7 @@ function incorrectUsage(msg) {
     msg.channel
     .send(
         `**${msg.member}**` +
-            `, discussions in <#${ids.shareMusicChannel}> are only allowed in threads. If you're sharing your music, include a link or file Your message will be deleted in ${time} seconds. `
+            `, discussions in <#${configHandler.flux.shareMusicChannel}> are only allowed in threads. If you're sharing your music, include a link or file Your message will be deleted in ${time} seconds. `
     )
     .then((sentMsg) => {
         tools.deleteMsg(sentMsg, time);
