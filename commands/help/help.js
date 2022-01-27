@@ -47,13 +47,8 @@ function showForumCommands(prefix, msg) {
             false
         )
         .addField(
-            `\`${prefix}thanks <user>\``,
-            "Thanks a single user and gives them points",
-            false
-        )
-        .addField(
-            `\`${prefix}thanks <user1> <user2> <user3>\``,
-            "Thanks multiple users and gives them points",
+            `\`${prefix}thanks <user>\`\n\`${prefix}thanks <user1> <user2> <user3>\``,
+            "Thanks users and gives them points",
             false
         )
         .addField(
@@ -62,18 +57,13 @@ function showForumCommands(prefix, msg) {
             false
         )
         .addField(
-            `\`${prefix}points\``,
-            "Shows how many points you have",
+            `\`${prefix}points\`\n\`${prefix}points <user>\``,
+            "Shows how many points a user has",
             false
         )
         .addField(
-            `\`${prefix}points <user>\``,
-            "Shows a user's points and amount needed for the next rank",
-            false
-        )
-        .addField(
-            `\`${prefix}leaderboard\``,
-            "Shows a leaderboard of user points and your placement in it",
+            `\`${prefix}leaderboard\`\n\`${prefix}leaderboard <rows>\``,
+            "Shows the help forum leaderboard and your placement in it",
             false
         )
         .addField(`\`${prefix}about\``, "Shows info about this bot", false);
@@ -95,12 +85,7 @@ function showWeeklyCommands(prefix, msg) {
         )
         .addField(`\`${prefix}w submit <link/file>\``, "Submit weekly", false)
         .addField(`\`${prefix}w info\``, "Check deadline", false)
-        .addField(`\`${prefix}w profile\``, "View your profile", false)
-        .addField(
-            `\`${prefix}w profile <user>\``,
-            "View someone else's profile",
-            false
-        );
+        .addField(`\`${prefix}w profile\`\n\`${prefix}w profile <user>\``, "View your or someone else's profile", false);
     msg.channel.send({ embeds: [embedMsg] });
 }
 
