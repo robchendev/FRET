@@ -112,6 +112,7 @@ bot.on("messageCreate", async (msg) => {
                     break;
                 case "contribute":
                     bot.commands.get("contribute").execute(msg);
+                    break;
                 case "top":
                     // the top/leaderboard command will not work in
                     // these channels but will still work in child
@@ -121,7 +122,7 @@ bot.on("messageCreate", async (msg) => {
                         msg.channel !== configHandler.flux.shareMusicChannel ||
                         msg.channel !== configHandler.flux.helpForumChannel
                     ){
-                        bot.commands.get("leaderboard").execute(bot, msg);
+                        bot.commands.get("leaderboard").execute(bot, msg, args);
                     }
                     break;
             }
