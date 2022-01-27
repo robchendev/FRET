@@ -8,6 +8,31 @@ mongoose.connect(configHandler.secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 });
+
+function populateArray(bot, documents) {
+
+    let sortedArray = [];
+    documents.forEach((pointsdata) => {
+        if (pointsdata.points !== 0){
+
+            // gets rid of <@ and > around the ID
+            let userIdRaw = pointsdata.userid.replace(/<|@|>|!/g, "");
+            let name = bot.users.cache.get(userIdRaw);
+            
+            if (name != undefined) {
+                let thisName = name.username.replace(/\*|_|~|\`/g, "");
+                // make the 3-tuple to add to the sortedArray
+                sortedArray.push([
+                    pointsdata.points, 
+                    thisName, 
+                    userIdRaw,
+                ]);
+            }
+        }
+    });
+    return sortedArray;
+}
+
 /** 
  * Generates a leaderboard with the top 10 users with the most
  * help forum points, and also lists the command user's 
@@ -24,34 +49,16 @@ function generateLeaderboard(bot, msg, maxRows){
 
     pointsList.find({}, (err, documents) => {
         if (err) console.log(err);
-        sortedArray = [];
-        let name = "";
+
         let userPlacement = undefined;
         let userPoints = undefined;
         let nameSpacing = 0;
         let placementSpacing = 0;
-        let thisName = undefined;
         let columnPaddingRight = 2;
+        let description = `\`\`\`py\n`;
 
-        documents.forEach((pointsdata) => {
-            if (pointsdata.points !== 0){
-
-                // gets rid of <@ and > around the ID
-                userIdRaw = pointsdata.userid.replace(/<|@|>|!/g, "")
-                name = bot.users.cache.get(userIdRaw);
-                if (name != undefined) {
-                    thisName = name.username.replace(/\*|_|~|\`/g, "")
-
-                    // make the 3-tuple to add to the sortedArray
-                    sortedArray.push([
-                        pointsdata.points, 
-                        thisName, 
-                        userIdRaw,
-                    ]);
-                }
-            }
-        });
-
+        let sortedArray = populateArray(bot, documents);
+        
         // put array elements in order, user with most points shown on top.
         sortedArray.sort(function(a, b){
             return b[0]-a[0];
@@ -73,13 +80,10 @@ function generateLeaderboard(bot, msg, maxRows){
         nameSpacing += columnPaddingRight;
         pointLength = sortedArray[0][0].toString().length - 1;
 
-        // begin making the description string to be added
-        let description = `\`\`\`py\n`;
-
-        // loop through and add rows based on array up to 10
+        // loop through and add rows
         for (let i = 0; i < sortedArray.length; i++) {
 
-            // ensures the table does not print more than 10 rows
+            // Table will only show as many rows as maxRows
             if (i < maxRows){
                 description += `${i+1} ${" ".repeat(placementSpacing - (i+1).toString().length)}`;
                 description += `${sortedArray[i][1]} ${" ".repeat(nameSpacing - sortedArray[i][1].length)}`;
@@ -97,10 +101,8 @@ function generateLeaderboard(bot, msg, maxRows){
         let embedWidth = nameSpacing + columnPaddingRight + placementSpacing + columnPaddingRight + pointLength;
         description += `${"-".repeat(embedWidth)}\nYour server stats:\n`;
 
-        // this will only run when command's user has a pointdata schema
+        // show the command's users stats
         if (userPlacement != undefined){
-            // show the command's users stats
-            
             description += `${userPlacement} ${" ".repeat(placementSpacing - userPlacement.toString().length)}`;
             description += `${msg.author.username} ${" ".repeat(nameSpacing - msg.author.username.length)}`;
             description += `${userPoints}`;
@@ -108,7 +110,6 @@ function generateLeaderboard(bot, msg, maxRows){
             description += `You have 0 points`;
         }
         description += `\n\`\`\``;
-
         const embedMsg = new Discord.MessageEmbed()
             .setColor(configHandler.data.transparentColor)
             .setTitle(`Help Forum Leaderboard`)
