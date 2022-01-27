@@ -63,8 +63,9 @@ bot.on("messageCreate", async (msg) => {
             bot.commands.get("competition").execute(prefix, prefixMod, msg);
         }
 
-        else if (msg.channel.id === configHandler.flux.impersonateChannel && !msg.author.bot) {
-            bot.commands.get("impersonate").execute(bot, msg);
+        //Monitors #weekly-submission channel only and creates threads for it
+        else if (msg.channel.id === configHandler.flux.weeklyChannel && !msg.author.bot) {
+            bot.commands.get("weekly").execute(bot, prefix, prefixMod, msg);
         }
 
         //When message doesnt start with '-', '+' or author is bot
@@ -100,14 +101,6 @@ bot.on("messageCreate", async (msg) => {
                     break;
                 case "points":
                     bot.commands.get("points").execute(prefix, msg, args);
-                    break;
-                case "w":
-                    // Will only work when used in weekly
-                    if (msg.channel.id === configHandler.flux.weeklyChannel) {
-                        bot.commands
-                            .get("weekly")
-                            .execute(bot, prefix, msg, args);
-                    }
                     break;
                 case "help":
                     bot.commands.get("help").execute(bot, prefix, msg, args);
