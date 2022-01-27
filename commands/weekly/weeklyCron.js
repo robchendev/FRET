@@ -1,11 +1,9 @@
 const configHandler = require(`../../handlers/configurationHandler.js`);
 configHandler.initialize();
-
-const secrets = require(`../../secrets.json`);
 const mongoose = require("mongoose");
 const updateWeekly = require("../../models/weeklyUpdate.js");
 const { Channel } = require("diagnostics_channel");
-mongoose.connect(secrets.Mongo, {
+mongoose.connect(configHandler.secrets.Mongo, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
 });
