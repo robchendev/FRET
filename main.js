@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client({
-    intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_PRESENCES"],
+    intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_PRESENCES", "GUILD_MEMBERS"],
 });
 
 // Load configurations.

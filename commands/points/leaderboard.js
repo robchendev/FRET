@@ -17,32 +17,39 @@ function generateLeaderboard(bot, msg){
     pointsList.find({}, (err, documents) => {
         if (err) console.log(err);
 
-        unsortedArray = [];
+        sortedArray = [];
         let name = "";
-        // [[points,user],[points,user]]
-        documents.forEach((pointsdata) => {
-            if (pointsdata.points !== 0){
 
-                // we want to get this into [points,user]
-                // and store it inside unsortedArray
-
-                // gets rid of <@ and > around the ID
-                name = bot.users.cache.get(pointsdata.userid.replace(/<|@|>|!/g, ""));
-
-                if (name != undefined) {
-                    
-                    unsortedArray.push([pointsdata.points,name.username]);
+        // refresh bot's cache
+        msg.guild.members.fetch()
+        .then(() => {
+            documents.forEach((pointsdata) => {
+                if (pointsdata.points !== 0){
+                    // gets rid of <@ and > around the ID
+                    name = bot.users.cache.get(pointsdata.userid.replace(/<|@|>|!/g, ""));
+                    if (name != undefined) {
+                        sortedArray.push([pointsdata.points, name.username]);
+                    }
                 }
+    
+                // Find user's points placement based on user (second element)
+                // while the bot loops through the array to add them to the embed.
+            });
+
+            // put array elements in order of increasing points
+            sortedArray.sort(function(a, b){
+                return b[0]-a[0];
+            })
+            console.log(sortedArray)
+            // for (let i = 0; i < sortedArray.length; i++) {
+
                 
-
-            }
-            console.log(unsortedArray)
-
-
-
-            // Find user's points placement based on user (second element)
-            // while the bot loops through the array to add them to the embed.
+            //     if (sortedArray)
+            // }
+            
         });
+        
+       
     });
 }
 
