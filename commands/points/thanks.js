@@ -170,7 +170,12 @@ function incorrectUsage(prefix, msg) {
             false
         )
         .addField("Careful", "Do not include < and >. Use @", false);
-    msg.channel.send({ embeds: [embedMsg] });
+    msg.channel.send({ embeds: [embedMsg] })
+    .then((sentMsg) => {
+        tools.deleteMsg(sentMsg, 10);
+        tools.deleteMsg(msg, 10);
+    })
+    .catch();;
 }
 function warnOfHelpOrThread(msg, usedInHelp, usedInThread) {
     let lifetime = configHandler.data.correctUsageMessageLifetimeInSeconds;
