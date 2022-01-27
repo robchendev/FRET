@@ -18,7 +18,19 @@ async function createThread(msg) {
     const thread = await msg.startThread({
         name: threadTitle,
     });
-    thread.send(`Answer ${msg.author.username}'s question on this thread.`);
+    const embedMsg = new Discord.MessageEmbed()
+        .setColor(configHandler.data.transparentColor)
+        .setDescription(
+            `${msg.author}, make sure you thank the people who answer your question.`
+        )
+        .addField(`\`-thanks <user>\``, "Thank one user", false)
+        .addField(
+            `\`-thanks <user1> <user2> <user3>\``,
+            "Thank multiple users",
+            false
+        )
+    thread.send({ embeds: [embedMsg] });
+    thread.send(`Answer ${msg.author}'s question on this thread.`);
 }
 
 /**
@@ -85,10 +97,14 @@ module.exports = {
                 const command = split[0];
                 const args = split.slice(1);
 
-                //if command === q
+                //if command is "-q"
                 if (command === "q") {
                     if (!args.length) noArgs(prefix, msg);
                     else createThread(msg);
+                }
+                //command is something else, eg "-p"
+                else {
+                    incorrectUsage(prefix, msg);
                 }
             } 
             else if (msg.content.startsWith(prefixMod)) {
