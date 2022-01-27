@@ -90,7 +90,7 @@ module.exports = {
             !(msg.channel.type == "GUILD_PUBLIC_THREAD") &&
             !(msg.channel.type == "GUILD_PRIVATE_THREAD")
         ) {
-            if (msg.content.startsWith(prefix) && !msg.author.bot) {
+            if (msg.content.startsWith(prefix)) {
                 //Splices via space (ie "-thanks @robert")
                 const withoutPrefix = msg.content.slice(prefix.length);
                 const split = withoutPrefix.split(/ +/);
