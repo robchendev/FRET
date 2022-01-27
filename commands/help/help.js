@@ -97,15 +97,21 @@ function showWeeklyCommands(prefix, msg) {
 function showBotInfo(msg) {
     const embedMsg = new Discord.MessageEmbed()
         .setColor(configHandler.data.transparentColor)
-        .setTitle("Github Repository")
-        .setURL("https://github.com/chendumpling/FretBot")
+        .setTitle(configHandler.data.botName + " \"Fragile Remains of the Eternal ThankBot\"")
         .setDescription(
             configHandler.data.botName +
-                ' "Fragile Remains of the Eternal ThankBot" is a multipurpose Javascript Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment and by managing databases to store and retrieve information.'
+                ' is a multipurpose Javascript Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment and by managing databases to store and retrieve information.'
         )
         .addField(
             "Developers", 
-            "[Robert Chen](https://github.com/chendumpling)\n[Taco (タコス)](https://github.com/tacosontitan)", false);
+            "[Robert Chen](https://github.com/chendumpling), [Taco (タコス)](https://github.com/tacosontitan)", 
+            true
+        )
+        .addField(
+            "GitHub Repository", 
+            "[View code](https://github.com/chendumpling/FRET)", 
+            true
+        );
     msg.channel.send({ embeds: [embedMsg] });
 }
 
