@@ -93,21 +93,26 @@ function weeklySubmit(msg) {
 function weeklyInfo(msg) {
     // Current time
     let dateToday = new Date();
-    let datetimeToday = dateTimeString(dateToday);
+    //let datetimeToday = dateTimeString(dateToday);
 
     // This week's deadline
-    let deadline = setDeadline(dateToday, 6);
+    let deadline = setDeadline(dateToday, 0);
+    console.log(deadline);
+
+    // Why does this change the date????
+    // am disabling Finalization time because it's giving me a headache
     deadline.setHours(23, 59);
+    console.log(deadline);
     let datetimeDeadline = dateTimeString(deadline);
 
     // how many seconds before deadline
     let timeLeft = (deadline.getTime() - dateToday.getTime()) / 1000;
-
+    
     // send embedded msg with all the date / time info.
     const embedMsg = new Discord.MessageEmbed()
         .setColor(configHandler.data.transparentColor)
-        .addField(`Current time`, `${datetimeToday}`, false)
-        .addField(`Next finalization`, `${datetimeDeadline}`, false)
+        //.addField(`Current time`, `${datetimeToday}`, false)
+        //.addField(`Next finalization`, `${datetimeDeadline}`, false)
         .addField(`Time remaining`, `${secondsToDHM(timeLeft)}`, false);
     msg.channel.send({ embeds: [embedMsg] });
 }
@@ -189,6 +194,7 @@ function makeProfile(bot, msg, thisUser) {
  */
 function dateTimeString(datetime) {
     let date = datetime.toISOString().split("T")[0];
+
     let time = datetime.toLocaleString("en-US", {
         hour: "numeric",
         minute: "numeric",
