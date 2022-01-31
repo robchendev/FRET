@@ -18,13 +18,13 @@
    "rank4Points": "2500",
    "rank5Points": "5000",
    "rank6Points": "10000",
-   "wRank1": "weekly1",
-   "wRank2": "weekly2",
-   "wRank3": "weekly3",
+   "wRank1": "Weekly: Weekling",
+   "wRank2": "Weekly: Elite",
+   "wRank3": "Weekly: Challenger",
    "wRank1Streak": 1,
    "wRank2Streak": 3,
    "wRank3Streak": 7,
-   "wRankPerma": "weeklyPerma",
+   "wRankPerma": "Weekly: Trophy",
    "wRankPermaStreak": 10,
    "correctUsageMessageLifetimeInSeconds": 10
 }
