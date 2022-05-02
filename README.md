@@ -1,21 +1,21 @@
-# F.R.E.T. - Fragile Remains of the Eternal ThankBot
+# FRET
 
 [![Contributors][contributors-shield]][contributors-link]
 [![Issues][issues-shield]][issues-link]
 [![License][license-shield]][license-link]
 [![Stars][stars-shield]][stars-link]
 
-F.R.E.T. is a multipurpose Javascript Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment using threads, self-moderating channels and by managing databases to store and retrieve information. F.R.E.T. makes use of Mongoose JS to store and retrieve data from a MongoDB database. The goal is to encourage an active and organized community help forum similar to StackOverflow but on Discord. F.R.E.T. also manages a self-sufficient weekly submission system that grants roles based on the number of weeks in a row a user has participated in. To encourage discussion, users can reward points to each other for helping them on the forum, which can be used to grant roles. Moderator-specific commands to change data in the database on-demand are also included. F.R.E.T. is currently self-hosted and used in a guitar community Discord server [Fingerstyle Central](https://discord.gg/wgyqBZK).
+FRET is a multipurpose Javascript Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment using threads, self-moderating channels and by managing databases to store and retrieve information. FRET makes use of Mongoose JS to store and retrieve data from a MongoDB database. The goal is to encourage an active and organized community help forum similar to StackOverflow but on Discord. FRET also manages a self-sufficient weekly submission system that grants roles based on the number of weeks in a row a user has participated in. To encourage discussion, users can reward points to each other for helping them on the forum, which can be used to grant roles. Moderator-specific commands to change data in the database on-demand are also included. FRET is currently self-hosted and used in a guitar community Discord server [Fingerstyle Central](https://discord.gg/wgyqBZK).
 
 ## Contributing
 
 Your contributions are very welcome and appreciated. Following are the things you can do to contribute to this project.
 
 1. **Report a bug** <br>
-If you think you've encountered a bug, please inform me by creating an issue [here](https://github.com/robchendev/F.R.E.T./issues).
+If you think you've encountered a bug, please inform me by creating an issue [here](https://github.com/robchendev/FRET/issues).
 
 2. **Request a feature** <br>
-You can request for a feature by creating an issue [here](https://github.com/robchendev/F.R.E.T./issues).
+You can request for a feature by creating an issue [here](https://github.com/robchendev/FRET/issues).
 
 3. **Create a pull request** <br>
 If you improved the bot yourself and would like to contribute to this project, I really appreciate it!
@@ -47,10 +47,10 @@ I'm making some gifs and videos that demonstrate this bot's functionality.
 ## Getting Started
 Clone this repository to your system, install Node.js v16.6+, npm, and Discord.js v13.
     
-If you plan on using this F.R.E.T.'s code for contributing/testing, or for your own purposes, you need to create your Discord application [here](https://discord.com/developers/applications). Additionally, you can always lean on the [documentation for Discord.js](https://discord.js.org/#/docs/discord.js/stable/general/welcome), or [the guide](https://discordjs.guide/#before-you-begin).
+If you plan on using this FRET's code for contributing/testing, or for your own purposes, you need to create your Discord application [here](https://discord.com/developers/applications). Additionally, you can always lean on the [documentation for Discord.js](https://discord.js.org/#/docs/discord.js/stable/general/welcome), or [the guide](https://discordjs.guide/#before-you-begin).
 
-### Run F.R.E.T. Locally
-Run F.R.E.T. by using one of the following commands:
+### Run FRET Locally
+Run FRET by using one of the following commands:
 
     node .
     npm start
@@ -61,7 +61,7 @@ Run F.R.E.T. by using one of the following commands:
 
     -contribute
 
-Shows links for users to help out with the development of F.R.E.T. by reporting bugs, requesting features and developing code.
+Shows links for users to help out with the development of FRET by reporting bugs, requesting features and developing code.
     
     -help
 
@@ -81,7 +81,7 @@ Displays all the user commands for the Weekly Submissions channel.
 
     -help i
 
-Displays a description of F.R.E.T.'s purpose and links to this GitHub repository.
+Displays a description of FRET's purpose and links to this GitHub repository.
 
 ### Forum Commands
 
@@ -139,7 +139,7 @@ Only works in the channel whose ID is written in `shareMusicChannel` in the `con
 
     <#channel> <message>
 
-Only works in the channel whose ID is written in `impersonateChannel` in the `config.JSON` file. Impersonates yourself as F.R.E.T. and remotely sends a message as F.R.E.T. into another channel it has access to. F.R.E.T. also checks to make sure it has permissions to view and send messages in the channel and will log an error in the `impersonateChannel`.
+Only works in the channel whose ID is written in `impersonateChannel` in the `config.JSON` file. Impersonates yourself as FRET and remotely sends a message as FRET into another channel it has access to. FRET also checks to make sure it has permissions to view and send messages in the channel and will log an error in the `impersonateChannel`.
 
 ### Moderator Commands
 
@@ -170,11 +170,11 @@ Resets a user's weekly streak and weekly rank.
 
 ## Deployment
 
-If you want to use this bot for your own personal use, the method of deployment is up to you. I'm personally self-hosting F.R.E.T. on a VPS.
+If you want to use this bot for your own personal use, the method of deployment is up to you. I'm personally self-hosting FRET on a VPS.
 
-Do note: Make sure F.R.E.T.'s role is higher than any of the roles you plan to give using F.R.E.T., I haven't yet made any error checking for this so your F.R.E.T. will just terminate if it encounters this error. The hierarchy of F.R.E.T. won't affect your server because it'll only have the permissions you set for it, no matter how high it is on the role hierarchy.
+Do note: Make sure FRET's role is higher than any of the roles you plan to give using FRET, I haven't yet made any error checking for this so your FRET will just terminate if it encounters this error. The hierarchy of FRET won't affect your server because it'll only have the permissions you set for it, no matter how high it is on the role hierarchy.
 
-F.R.E.T. needs the permission to manage messages since it will be deleting messages to clear up the chat whenever someone invokes a command incorrectly or sends a message in the wrong channel.
+FRET needs the permission to manage messages since it will be deleting messages to clear up the chat whenever someone invokes a command incorrectly or sends a message in the wrong channel.
 
 ### Developer's Configuration
 Under the folder `configurations` you'll notice a file named `flux.prod.json`. This file contains IDs used in Discord for your bot, guild, roles, channels, etc. You may create a `flux.dev.json` file in the same folder by copying `flux.prod.json` to change all of the IDs and test everything in your own server. This is your personal development configuration and it will be ignored. Be careful not to modify the `flux.prod.json` file. Any pull requests modifying it without explicit permission in the focal issue of the PR will be closed without merging.
@@ -182,7 +182,7 @@ Under the folder `configurations` you'll notice a file named `flux.prod.json`. T
 * **serverGuild**<br>ID of your discord server
 * **moderatorRoleId**<br>ID of the moderator role in your server
 * **everyoneRoleId**<br>ID of the everyone role in your discord server
-* **DBmanager**<br>ID of a role. Anyone with this role will be able to use F.R.E.T.'s mod commands
+* **DBmanager**<br>ID of a role. Anyone with this role will be able to use FRET's mod commands
 * **shareMusicChannel**<br>ID of the channel shareYourMusic.js passively runs in
 * **helpForumChannel**<br>ID of the channel where forum.js passively runs in can be invoked
 * **impersonateChannel**<br>ID of the channel that forwards messages to targeted channels
@@ -207,7 +207,7 @@ Since this was a personal project, my variables will be different from what you 
 * **wRankPermaStreak**<br>Permanent "trophy" weekly submission rank streak threshold
 
 ### Secrets
-F.R.E.T. uses MongooseJS to store it's data in MongoDB as a JSON schema. You only need to provide a `secrets.json` (described below) your MongoDB database connection string to use the database, given that you've made one for free already. This code uses two tokens, "Token" and "Mongo", as described in `secrets-example.json`. Create a copy of this file and name it `secrets.json`, then, edit the fields:
+FRET uses MongooseJS to store it's data in MongoDB as a JSON schema. You only need to provide a `secrets.json` (described below) your MongoDB database connection string to use the database, given that you've made one for free already. This code uses two tokens, "Token" and "Mongo", as described in `secrets-example.json`. Create a copy of this file and name it `secrets.json`, then, edit the fields:
 
 * **Token**<br>The token your applications bot will be using to sign into Discord.
 * **Mongo**<br>The string used to connect to your MongoDB database.
@@ -216,11 +216,11 @@ If you are to use this code in your public github repositories, do not share you
 
 ## Future Plans
 
-I will be further improving on F.R.E.T. if something on the guitar community server needs to be automated.
+I will be further improving on FRET if something on the guitar community server needs to be automated.
 
 ## License
 
-See the [LICENSE](https://github.com/robchendev/F.R.E.T./blob/master/LICENSE) file for details.
+See the [LICENSE](https://github.com/robchendev/FRET/blob/master/LICENSE) file for details.
 
 ## Author
 
@@ -233,16 +233,16 @@ See the [LICENSE](https://github.com/robchendev/F.R.E.T./blob/master/LICENSE) fi
     [tacosontitan](https://github.com/tacosontitan)
 
 See also the list of
-[contributors](https://github.com/robchendev/F.R.E.T./contributors)
+[contributors](https://github.com/robchendev/FRET/contributors)
 who participated in this project.
 
 <!-- Shields, images, and links  -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/robchendev/F.R.E.T.?style=flat
-[contributors-link]: https://github.com/robchendev/F.R.E.T./graphs/contributors
-[issues-shield]: https://img.shields.io/github/issues/robchendev/F.R.E.T.
-[issues-link]: https://github.com/robchendev/F.R.E.T./issues
-[license-shield]: https://img.shields.io/github/license/robchendev/F.R.E.T.
-[license-link]: https://github.com/robchendev/F.R.E.T./blob/master/LICENSE
-[stars-shield]: https://img.shields.io/github/stars/robchendev/F.R.E.T.
-[stars-link]: https://github.com/robchendev/F.R.E.T./stargazers
+[contributors-shield]: https://img.shields.io/github/contributors/robchendev/FRET?style=flat
+[contributors-link]: https://github.com/robchendev/FRET/graphs/contributors
+[issues-shield]: https://img.shields.io/github/issues/robchendev/FRET
+[issues-link]: https://github.com/robchendev/FRET/issues
+[license-shield]: https://img.shields.io/github/license/robchendev/FRET
+[license-link]: https://github.com/robchendev/FRET/blob/master/LICENSE
+[stars-shield]: https://img.shields.io/github/stars/robchendev/FRET
+[stars-link]: https://github.com/robchendev/FRET/stargazers
