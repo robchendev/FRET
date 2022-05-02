@@ -12,10 +12,10 @@ F.R.E.T. is a multipurpose Javascript Discord bot whose purpose is to encourage 
 Your contributions are very welcome and appreciated. Following are the things you can do to contribute to this project.
 
 1. **Report a bug** <br>
-If you think you've encountered a bug, please inform me by creating an issue [here](https://github.com/chendumpling/F.R.E.T./issues).
+If you think you've encountered a bug, please inform me by creating an issue [here](https://github.com/robchendev/F.R.E.T./issues).
 
 2. **Request a feature** <br>
-You can request for a feature by creating an issue [here](https://github.com/chendumpling/F.R.E.T./issues).
+You can request for a feature by creating an issue [here](https://github.com/robchendev/F.R.E.T./issues).
 
 3. **Create a pull request** <br>
 If you improved the bot yourself and would like to contribute to this project, I really appreciate it!
@@ -220,12 +220,12 @@ I will be further improving on F.R.E.T. if something on the guitar community ser
 
 ## License
 
-See the [LICENSE](https://github.com/chendumpling/F.R.E.T./blob/master/LICENSE) file for details.
+See the [LICENSE](https://github.com/robchendev/F.R.E.T./blob/master/LICENSE) file for details.
 
 ## Author
 
   - **Robert Chen** -
-    [chendumpling](https://github.com/chendumpling)
+    [robchendev](https://github.com/robchendev)
 
 ## Contributors
 
@@ -233,16 +233,16 @@ See the [LICENSE](https://github.com/chendumpling/F.R.E.T./blob/master/LICENSE) 
     [tacosontitan](https://github.com/tacosontitan)
 
 See also the list of
-[contributors](https://github.com/chendumpling/F.R.E.T./contributors)
+[contributors](https://github.com/robchendev/F.R.E.T./contributors)
 who participated in this project.
 
 <!-- Shields, images, and links  -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/chendumpling/F.R.E.T.?style=flat
-[contributors-link]: https://github.com/chendumpling/F.R.E.T./graphs/contributors
-[issues-shield]: https://img.shields.io/github/issues/chendumpling/F.R.E.T.
-[issues-link]: https://github.com/chendumpling/F.R.E.T./issues
-[license-shield]: https://img.shields.io/github/license/chendumpling/F.R.E.T.
-[license-link]: https://github.com/chendumpling/F.R.E.T./blob/master/LICENSE
-[stars-shield]: https://img.shields.io/github/stars/chendumpling/F.R.E.T.
-[stars-link]: https://github.com/chendumpling/F.R.E.T./stargazers
+[contributors-shield]: https://img.shields.io/github/contributors/robchendev/F.R.E.T.?style=flat
+[contributors-link]: https://github.com/robchendev/F.R.E.T./graphs/contributors
+[issues-shield]: https://img.shields.io/github/issues/robchendev/F.R.E.T.
+[issues-link]: https://github.com/robchendev/F.R.E.T./issues
+[license-shield]: https://img.shields.io/github/license/robchendev/F.R.E.T.
+[license-link]: https://github.com/robchendev/F.R.E.T./blob/master/LICENSE
+[stars-shield]: https://img.shields.io/github/stars/robchendev/F.R.E.T.
+[stars-link]: https://github.com/robchendev/F.R.E.T./stargazers
