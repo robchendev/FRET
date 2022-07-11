@@ -12,44 +12,47 @@ FRET is a multipurpose Javascript Discord bot whose purpose is to encourage disc
 Your contributions are very welcome and appreciated. Following are the things you can do to contribute to this project.
 
 1. **Report a bug** <br>
-If you think you've encountered a bug, please inform me by creating an issue [here](https://github.com/robchendev/FRET/issues).
+   If you think you've encountered a bug, please inform me by creating an issue [here](https://github.com/robchendev/FRET/issues).
 
 2. **Request a feature** <br>
-You can request for a feature by creating an issue [here](https://github.com/robchendev/FRET/issues).
+   You can request for a feature by creating an issue [here](https://github.com/robchendev/FRET/issues).
 
 3. **Create a pull request** <br>
-If you improved the bot yourself and would like to contribute to this project, I really appreciate it!
+   If you improved the bot yourself and would like to contribute to this project, I really appreciate it!
 
 > If you are new to open-source, make sure to check read more about it [here](https://www.digitalocean.com/community/tutorial_series/an-introduction-to-open-source) and learn more about creating a pull request [here](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github).
 
 ## Summary
 
-  - [Getting Started](#getting-started)
-  - [Demonstration](#demonstration)
-  - [Commands](#commands)
-    - [Help Commands](#help-commands)
-    - [Forum Commands](#forum-commands)
-    - [Weekly Submission Commands](#weekly-submission-commands)
-    - [Passive Commands](#passive-commands)
-    - [Moderator Commands](#moderator-commands)
-  - [Deployment](#deployment)
-    - [Developer's Configuration](#developers-configuration)
-    - [Configuration Handler](#configuration-handler)
-    - [Customization](#customization)
-    - [Secrets](#secrets)
-  - [Future Plans](#future-plans)
-  - [Authors](#authors)
-  - [License](#license)
+- [Getting Started](#getting-started)
+- [Demonstration](#demonstration)
+- [Commands](#commands)
+  - [Help Commands](#help-commands)
+  - [Forum Commands](#forum-commands)
+  - [Weekly Submission Commands](#weekly-submission-commands)
+  - [Passive Commands](#passive-commands)
+  - [Moderator Commands](#moderator-commands)
+- [Deployment](#deployment)
+  - [Developer's Configuration](#developers-configuration)
+  - [Configuration Handler](#configuration-handler)
+  - [Customization](#customization)
+  - [Secrets](#secrets)
+- [Future Plans](#future-plans)
+- [Authors](#authors)
+- [License](#license)
 
 ## Demonstration
+
 I'm making some gifs and videos that demonstrate this bot's functionality.
 
 ## Getting Started
+
 Clone this repository to your system, install Node.js v16.6+, npm, and Discord.js v13.
-    
+
 If you plan on using this FRET's code for contributing/testing, or for your own purposes, you need to create your Discord application [here](https://discord.com/developers/applications). Additionally, you can always lean on the [documentation for Discord.js](https://discord.js.org/#/docs/discord.js/stable/general/welcome), or [the guide](https://discordjs.guide/#before-you-begin).
 
 ### Run FRET Locally
+
 Run FRET by using one of the following commands:
 
     node .
@@ -62,14 +65,14 @@ Run FRET by using one of the following commands:
     -contribute
 
 Shows links for users to help out with the development of FRET by reporting bugs, requesting features and developing code.
-    
+
     -help
 
 Displays all the user commands for the channel it was invoked in (Forum or Weekly Submissions). If it was invoked anywhere else, it displays a list of usable help command variants (f, w, i) that are listed below.
 
     -help c
 
-Can be called in the Forum or Weekly Submissions channel to display a list of usable help command variants (f, w, i) that are listed below. 
+Can be called in the Forum or Weekly Submissions channel to display a list of usable help command variants (f, w, i) that are listed below.
 
     -help f
 
@@ -95,6 +98,10 @@ Takes a question and creates a thread under the message that invoked the -q comm
     -thank <@user1> <@user2> <@user3>
 
 Takes any number of mentions. The math to divide the points between each user works exponentially (`100/(users^0.5)`). The person who uses this command gets placed on a short cooldown before they can use it again to avoid spam. The person who uses the command also gets 20% of the points they've awarded. Users cannot thank themselves to farm points.
+
+    -pin
+
+Can only be used inside threads and by users with the Mentor role or above. Pins and unpins messages.
 
     -rankup
 
@@ -177,40 +184,44 @@ Do note: Make sure FRET's role is higher than any of the roles you plan to give 
 FRET needs the permission to manage messages since it will be deleting messages to clear up the chat whenever someone invokes a command incorrectly or sends a message in the wrong channel.
 
 ### Developer's Configuration
+
 Under the folder `configurations` you'll notice a file named `flux.prod.json`. This file contains IDs used in Discord for your bot, guild, roles, channels, etc. You may create a `flux.dev.json` file in the same folder by copying `flux.prod.json` to change all of the IDs and test everything in your own server. This is your personal development configuration and it will be ignored. Be careful not to modify the `flux.prod.json` file. Any pull requests modifying it without explicit permission in the focal issue of the PR will be closed without merging.
 
-* **serverGuild**<br>ID of your discord server
-* **moderatorRoleId**<br>ID of the moderator role in your server
-* **everyoneRoleId**<br>ID of the everyone role in your discord server
-* **DBmanager**<br>ID of a role. Anyone with this role will be able to use FRET's mod commands
-* **shareMusicChannel**<br>ID of the channel shareYourMusic.js passively runs in
-* **helpForumChannel**<br>ID of the channel where forum.js passively runs in can be invoked
-* **impersonateChannel**<br>ID of the channel that forwards messages to targeted channels
-* **weeklyGuideChannel**<br>ID of the channel where the weekly submission criteria are listed
-* **weeklyChannel**<br>ID of the channel for weekly submissions
+- **serverGuild**<br>ID of your discord server
+- **moderatorRoleId**<br>ID of the moderator role in your server
+- **everyoneRoleId**<br>ID of the everyone role in your discord server
+- **DBmanager**<br>ID of a role. Anyone with this role will be able to use FRET's mod commands
+- **shareMusicChannel**<br>ID of the channel shareYourMusic.js passively runs in
+- **helpForumChannel**<br>ID of the channel where forum.js passively runs in can be invoked
+- **impersonateChannel**<br>ID of the channel that forwards messages to targeted channels
+- **weeklyGuideChannel**<br>ID of the channel where the weekly submission criteria are listed
+- **weeklyChannel**<br>ID of the channel for weekly submissions
 
 ### Configuration Handler
+
 In the module defined in `commandHandler.js`, you'll notice a property named `isDebug`, this should be set to true for local development, and false when deploying. This determines which flux configuration is loaded at runtime.
 
 ### Customization
+
 Since this was a personal project, my variables will be different from what you would need. There are two files you may need to customize for this bot to work on your local machine or server. `config.json` is provided for you to make changes to the prefixes, names, colors and leveled-ranks.
 
-* **userPrefix**<br>The prefix used for user commands
-* **moderatorPrefix**<br>The prefix used for moderator commands
-* **botName**<br>The name the bot will refer to itself as
-* **...Color**<br>The colors of embeds depending on their usage 
-* **rank1...6**<br>Leveled forum rank names
-* **rank1Points...6Points**<br>Leveled forum rank point thresholds
-* **wRank1...3**<br>Temporary weekly submission rank names
-* **wRank1Streak...3Streak**<br>Temporary weekly submission rank streak thresholds
-* **wRankPerma**<br>Permanent "trophy" weekly submission rank name
-* **wRankPermaStreak**<br>Permanent "trophy" weekly submission rank streak threshold
+- **userPrefix**<br>The prefix used for user commands
+- **moderatorPrefix**<br>The prefix used for moderator commands
+- **botName**<br>The name the bot will refer to itself as
+- **...Color**<br>The colors of embeds depending on their usage
+- **rank1...6**<br>Leveled forum rank names
+- **rank1Points...6Points**<br>Leveled forum rank point thresholds
+- **wRank1...3**<br>Temporary weekly submission rank names
+- **wRank1Streak...3Streak**<br>Temporary weekly submission rank streak thresholds
+- **wRankPerma**<br>Permanent "trophy" weekly submission rank name
+- **wRankPermaStreak**<br>Permanent "trophy" weekly submission rank streak threshold
 
 ### Secrets
+
 FRET uses MongooseJS to store it's data in MongoDB as a JSON schema. You only need to provide a `secrets.json` (described below) your MongoDB database connection string to use the database, given that you've made one for free already. This code uses two tokens, "Token" and "Mongo", as described in `secrets-example.json`. Create a copy of this file and name it `secrets.json`, then, edit the fields:
 
-* **Token**<br>The token your applications bot will be using to sign into Discord.
-* **Mongo**<br>The string used to connect to your MongoDB database.
+- **Token**<br>The token your applications bot will be using to sign into Discord.
+- **Mongo**<br>The string used to connect to your MongoDB database.
 
 If you are to use this code in your public github repositories, do not share your `secrets.json` file. It will give other people access to your Discord bot and your database. Though, github will likely recognize this and warn you before anyone does.
 
@@ -224,13 +235,13 @@ See the [LICENSE](https://github.com/robchendev/FRET/blob/master/LICENSE) file f
 
 ## Author
 
-  - **Robert Chen** -
-    [robchendev](https://github.com/robchendev)
+- **Robert Chen** -
+  [robchendev](https://github.com/robchendev)
 
 ## Contributors
 
-  - **Taco (タコス)** -
-    [tacosontitan](https://github.com/tacosontitan)
+- **Taco (タコス)** -
+  [tacosontitan](https://github.com/tacosontitan)
 
 See also the list of
 [contributors](https://github.com/robchendev/FRET/contributors)
