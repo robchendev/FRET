@@ -1,6 +1,8 @@
 const Discord = require("discord.js");
 const configHandler = require(`../handlers/configurationHandler.js`);
+const { err } = require("../handlers/log");
 configHandler.initialize();
+const logger = require("../handlers/log");
 
 function isThread(msg) {
   return (
@@ -37,6 +39,7 @@ function pin(msg) {
             msg.reply(
               `This channel has too many pins. Unpin a pinned message using \`-pin\` before pinning a new one.`
             );
+            logger.err(`${msg.channel} has too many pins`);
           });
         }
       })
