@@ -43,6 +43,24 @@ bot.on("interactionCreate", async (interaction) =>
   clientHandler.processInteraction(bot, interaction)
 );
 
+// bot.on("interactionCreate", async (interaction) => {
+//   if (!interaction.isChatInputCommand()) return;
+//   console.log("interaction!");
+//   if (interaction.commandName === "bounty") {
+//     console.log("here!");
+//     await interaction.reply({
+//       content: "Bounty Interaction!",
+//       ephemeral: true,
+//     });
+//   }
+// });
+
+bot.on("threadCreate", function (thread) {
+  if (thread.parentId === configHandler.flux.helpForumChannel) {
+    bot.commands.get("forum").execute(thread);
+  }
+});
+
 bot.on("messageCreate", async (msg) => {
   // If user DMs, do nothing
   if (msg.channel.type == "dm") {
@@ -56,14 +74,6 @@ bot.on("messageCreate", async (msg) => {
       !msg.author.bot
     ) {
       bot.commands.get("shareYourMusic").execute(prefixMod, msg);
-    }
-
-    //Monitors #help-forum channel only and creates threads for it
-    else if (
-      msg.channel.id === configHandler.flux.helpForumChannel &&
-      !msg.author.bot
-    ) {
-      bot.commands.get("forum").execute(prefix, prefixMod, msg);
     }
 
     //Monitors competitions channel only and creates threads for it
@@ -113,12 +123,7 @@ bot.on("messageCreate", async (msg) => {
       switch (command) {
         case "thank":
         case "thanks":
-          if (usedThanksRecently.has(msg.author.id)) {
-            tools.cooldownReminder("thank", 1, msg);
-          } else {
-            bot.commands.get("thanks").execute(prefix, msg, args);
-            usedThanksRecently = tools.setCooldown(1, msg);
-          }
+          bot.commands.get("thanks").execute(prefix, msg, args);
           break;
         case "rankup":
           bot.commands.get("rankup").execute(msg);

@@ -1,27 +1,30 @@
 const Discord = require("discord.js");
+const { flux } = require("../handlers/configurationHandler.js");
 const configHandler = require(`../handlers/configurationHandler.js`);
+
+const pointsAdd = require("../models/addPoints.js");
+const { checkIfNeedInitialization } = require("../tools/functions.js");
+
 configHandler.initialize();
 
 var tools = require(`../tools/functions.js`);
 
 /**
- * Creates a thread using the original message's question.
- * @param {Message} msg - the original command message
+ * Sends a reminder to thank people within the thread
+ * @param {} thread - the original command thread
  */
-async function createThread(msg) {
-  // The bot crashes if the title is longer than 100 characters,
-  // this gives some headroom.
-  let threadTitle = msg.content.substring(3, 83);
-  if (msg.content > 83) {
-    threadTitle = threadTitle + "...";
-  }
-  const thread = await msg.startThread({
-    name: threadTitle,
-  });
+async function initializeThread(thread) {
+  sendReminder(thread);
+  askBounty(thread);
+}
+
+async function sendReminder(thread) {
   const embedMsg = new Discord.MessageEmbed()
     .setColor(configHandler.data.transparentColor)
     .setDescription(
-      `${msg.author}, make sure you thank the people who answer your question.`
+      `${thread.guild.members.cache.get(
+        thread.ownerId
+      )}, make sure you thank the people who answer your question.`
     )
     .addField(`\`-thanks <user>\``, "Thank one user", false)
     .addField(
@@ -30,105 +33,28 @@ async function createThread(msg) {
       false
     );
   thread.send({ embeds: [embedMsg] });
-  thread.send(`Answer ${msg.author}'s question on this thread.`);
 }
 
-/**
- * Sends embed message on how to use the command properly
- * @param {String} prefix - the prefix of the command
- * @param {Message} msg - the original command message
- */
-function incorrectUsage(prefix, msg) {
-  let time = 20;
-  const embedMsg = new Discord.MessageEmbed()
-    .setColor(configHandler.data.incorrectUsageColor)
-    .addField("Correct format", `\`${prefix}q <your question>\``, false);
-  msg.channel
-    .send(
-      `${msg.author}, your message will be deleted in ${time} seconds. Copy it and repost with the correct format.`
-    )
-    .then((sentMsg) => {
-      tools.deleteMsg(sentMsg, time);
-      tools.deleteMsg(msg, time);
-    })
-    .catch();
-  msg.channel
-    .send({ embeds: [embedMsg] })
-    .then((sentMsg) => {
-      tools.deleteMsg(sentMsg, time);
-    })
-    .catch();
-}
-
-/**
- * Sends embed message on how to use the command properly. Similar to
- * incorrectUsage, but invoked when user message has no arguments
- * @param {String} prefix - the prefix of the command
- * @param {Message} msg - the original command message
- */
-function noArgs(prefix, msg) {
-  let time = 10;
-  const embedMsg = new Discord.MessageEmbed()
-    .setColor(configHandler.data.incorrectUsageColor)
-    .addField("Correct format", `\`${prefix}q <your question>\``, false);
-  msg.channel
-    .send({ embeds: [embedMsg] })
-    .then((sentMsg) => {
-      tools.deleteMsg(sentMsg, time);
-      tools.deleteMsg(msg, time);
-    })
-    .catch();
+async function askBounty(thread) {
+  pointsAdd.findOne({ userid: `<@${thread.ownerId}>` }, (err, pointdata) => {
+    if (err) console.log(err);
+    if (!pointdata) {
+      tools.createPointdata(pointsAdd, thread.ownerId, 0, 0, 0);
+    } else {
+      if (pointdata.points) {
+        tools.checkIfNeedInitialization(pointdata);
+        // This is where the bounty prompt would go
+        // once slash commands are ready.
+      }
+    }
+  });
 }
 
 module.exports = {
   name: "forum",
   description:
-    "this passive command creates threads underneath messages starting with a -q.",
-  execute(prefix, prefixMod, msg) {
-    // Makes sure this command only runs outside of threads
-    if (
-      !(msg.channel.type == "GUILD_PUBLIC_THREAD") &&
-      !(msg.channel.type == "GUILD_PRIVATE_THREAD")
-    ) {
-      if (msg.content.startsWith(prefix)) {
-        //Splices via space (ie "-thanks @robert") and replaces newlines with space
-        const withoutPrefix = msg.content
-          .replace(/\n/g, " ")
-          .slice(prefix.length);
-        const split = withoutPrefix.split(/ +/);
-        const command = split[0];
-        const args = split.slice(1);
-
-        //if command is "-q"
-        if (command === "q") {
-          if (!args.length) noArgs(prefix, msg);
-          else createThread(msg);
-        }
-        //crude fix for now, dont want multiple error messages
-        //popping up for every command in helpforum
-        else if (
-          command === "thanks" ||
-          command === "rankup" ||
-          command === "points" ||
-          command === "help" ||
-          command === "contribute" ||
-          command === "w" ||
-          command === "thank" ||
-          command === "pin"
-        ) {
-          // do nothing
-        }
-
-        //command is something else, eg "-p"
-        else {
-          incorrectUsage(prefix, msg);
-        }
-      } else if (msg.content.startsWith(prefixMod)) {
-        //do nothing
-        return;
-      } else {
-        incorrectUsage(prefix, msg);
-      }
-    }
+    "this passive command listens for new Help Forum threads being created and sends a reminder in them",
+  execute(thread) {
+    initializeThread(thread);
   },
 };
