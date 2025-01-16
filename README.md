@@ -5,8 +5,7 @@
 [![License][license-shield]][license-link]
 [![Stars][stars-shield]][stars-link]
 
-FRET is a multipurpose Javascript Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment using threads, self-moderating channels and by managing databases to store and retrieve information. FRET makes use of Mongoose JS to store and retrieve data from a MongoDB database. The goal is to encourage an active and organized community help forum similar to StackOverflow but on Discord. FRET also manages a self-sufficient weekly submission system that grants roles based on the number of weeks in a row a user has participated in. To encourage discussion, users can reward points to each other for helping them on the forum, which can be used to grant roles. Moderator-specific commands to change data in the database on-demand are also included. FRET is currently self-hosted and used in a guitar community Discord server [Fingerstyle Central](https://discord.gg/wgyqBZK).
-
+FRET is a multipurpose Javascript Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment using threads, self-moderating channels and by managing databases to store and retrieve information. FRET makes use of Mongoose JS to store and retrieve data from a MongoDB database. The goal is to encourage an active and organized community help forum similar to StackOverflow but on Discord. FRET also manages a self-sufficient weekly submission system that grants roles based on the number of weeks in a row a user has participated in. To encourage discussion, users can reward points to each other for helping them on the forum, which can be used to grant roles. Moderator-specific commands to change data in the database on-demand are also included.
 ## Contributing
 
 Your contributions are very welcome and appreciated. Following are the things you can do to contribute to this project.
